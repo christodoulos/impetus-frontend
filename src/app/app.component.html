@@ -1,6 +1,15 @@
-lala
-<div class="row">
-  <div class="col-md-6">
-    <ngb-alert [type]="'primary'">lala</ngb-alert>
+<div class="wrapper">
+  <!-- left side bar -->
+  <app-topbar></app-topbar>
+  <app-left-side-bar></app-left-side-bar>
+  <div class="content-page">
+    <div class="content">
+      <!-- top bar -->
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <!-- footer -->
+    <app-footer></app-footer>
   </div>
 </div>
