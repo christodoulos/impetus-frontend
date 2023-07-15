@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { LeftSideBarComponent } from './layout/left-side-bar/left-side-bar.component';
@@ -21,46 +21,64 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit {
   title = 'impetus-ng-frontend';
 
-  layout = 'vertical';
-  layoutWidth = 'fluid';
-  sidebarTheme = 'dark';
-  sidebarType = 'fixed';
-  layoutColor = 'light';
+  dataBsTheme = 'light';
+  dataLayoutMode = 'fluid';
+  dataMenuColor = 'dark';
+  dataTopbarColor = 'light';
+  dataLayoutPosition = 'fixed';
+  dataSidenavSize = 'default';
 
   constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
-    // this.applyTheme();
+    this.applyTheme();
   }
 
-  ngAfterViewInit() {
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    if (window.innerWidth < 576) {
+      this.dataSidenavSize = 'full';
+    } else if (window.innerWidth >= 576 && window.innerWidth <= 768) {
+      this.dataSidenavSize = 'condensed';
+    } else if (window.innerWidth > 768) {
+      this.dataSidenavSize = 'default';
+    }
     this.applyTheme();
   }
 
   applyTheme() {
-    this.renderer.setAttribute(document.body, 'data-layout', this.layout);
     this.renderer.setAttribute(
-      document.body,
+      document.documentElement,
+      'data-bs-theme',
+      this.dataBsTheme
+    );
+    this.renderer.setAttribute(
+      document.documentElement,
       'data-layout-mode',
-      this.layoutWidth
+      this.dataLayoutMode
     );
     this.renderer.setAttribute(
-      document.body,
-      'data-layout-color',
-      this.layoutColor
+      document.documentElement,
+      'data-menu-color',
+      this.dataMenuColor
     );
     this.renderer.setAttribute(
-      document.body,
-      'data-leftbar-theme',
-      this.sidebarTheme
+      document.documentElement,
+      'data-topbar-color',
+      this.dataTopbarColor
     );
     this.renderer.setAttribute(
-      document.body,
-      'data-leftbar-compact-mode',
-      this.sidebarType
+      document.documentElement,
+      'data-layout-position',
+      this.dataLayoutPosition
+    );
+    this.renderer.setAttribute(
+      document.documentElement,
+      'data-sidenav-size',
+      this.dataSidenavSize
     );
   }
 }
