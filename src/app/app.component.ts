@@ -22,8 +22,6 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'impetus-ng-frontend';
-
   dataBsTheme = 'light';
   dataLayoutMode = 'fluid';
   dataMenuColor = 'dark';
@@ -39,14 +37,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    if (window.innerWidth < 576) {
-      this.dataSidenavSize = 'full';
-    } else if (window.innerWidth >= 576 && window.innerWidth <= 768) {
-      this.dataSidenavSize = 'condensed';
-    } else if (window.innerWidth > 768) {
-      this.dataSidenavSize = 'default';
-    }
-    this.applyTheme();
+    this.setSidenavSize();
   }
 
   applyTheme() {
@@ -75,6 +66,17 @@ export class AppComponent implements OnInit {
       'data-layout-position',
       this.dataLayoutPosition
     );
+    this.setSidenavSize();
+  }
+
+  setSidenavSize() {
+    if (window.innerWidth < 576) {
+      this.dataSidenavSize = 'full';
+    } else if (window.innerWidth >= 576 && window.innerWidth <= 768) {
+      this.dataSidenavSize = 'condensed';
+    } else if (window.innerWidth > 768) {
+      this.dataSidenavSize = 'default';
+    }
     this.renderer.setAttribute(
       document.documentElement,
       'data-sidenav-size',

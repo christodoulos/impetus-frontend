@@ -1,5 +1,5 @@
-<div class="leftside-menu">
-  <a routerLink="/" class="logo text-center logo-light">
+<div class="leftside-menu menuitem-active">
+  <a routerLink="/" class="logo logo-light">
     <span class="logo-lg">
       <img src="assets/images/uwmh-white-logo.png" alt="" />
     </span>
@@ -7,6 +7,10 @@
       <img src="assets/images/uwmh-white-logo-sm.png" alt="" />
     </span>
   </a>
+
+  <div (click)="closeSidebar()" class="button-close-fullsidebar">
+    <i class="ri-close-fill align-middle"></i>
+  </div>
 
   <ngx-simplebar class="h-100">
     <div id="leftside-menu-container">

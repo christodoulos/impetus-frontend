@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { MenuItem } from '../models/menu.model';
@@ -18,10 +18,19 @@ export class LeftSideBarComponent implements AfterViewInit {
   activeMenuItems: string[] = [];
   menuItems: MenuItem[] = MENU;
 
+  constructor(private renderer: Renderer2) {}
+
   ngAfterViewInit(): void {
     setTimeout(() => {
       this._activateMenu();
     });
+  }
+
+  closeSidebar() {
+    const htmlTag = document.getElementsByTagName('html')[0];
+    if (htmlTag.classList.contains('sidebar-enable')) {
+      this.renderer.removeClass(htmlTag, 'sidebar-enable');
+    }
   }
 
   /**

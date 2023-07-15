@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,16 +9,21 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./topbar.component.scss'],
 })
 export class TopbarComponent {
-  @Output() mobileMenuButtonClicked = new EventEmitter();
+  constructor(private renderer: Renderer2) {}
 
-  toggleSidebarWidth(): void {
-    document.body.classList.toggle('sidebar-enable');
-    if (
-      document.body.hasAttribute('data-leftbar-compact-mode') &&
-      document.body.getAttribute('data-leftbar-compact-mode') === 'condensed'
-    ) {
-      document.body.setAttribute('data-leftbar-compact-mode', 'fixed');
+  onButtonClick() {
+    this.sidebarToggle();
+  }
+
+  sidebarToggle() {
+    const htmlTag = document.getElementsByTagName('html')[0];
+    const bodyTag = document.getElementsByTagName('body')[0];
+    if (htmlTag.classList.contains('sidebar-enable')) {
+      this.renderer.removeClass(bodyTag, 'overflow-hidden');
+      this.renderer.removeClass(htmlTag, 'sidebar-enable');
+    } else {
+      this.renderer.addClass(htmlTag, 'sidebar-enable');
+      this.renderer.addClass(bodyTag, 'overflow-hidden');
     }
-    document.body.setAttribute('data-leftbar-compact-mode', 'condensed');
   }
 }
