@@ -5,6 +5,7 @@ import { LeftSideBarComponent } from './layout/left-side-bar/left-side-bar.compo
 import { FooterComponent } from './layout/footer/footer.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { MapComponent } from './map/map.component';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
     LeftSideBarComponent,
     FooterComponent,
     TopbarComponent,
+    MapComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

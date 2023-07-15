@@ -1,0 +1,15 @@
+<h4>Live Meteorological Heatmaps</h4>
+
+<p>
+  We demonstrate the digital twin notion of consolidating several online metrics
+  into a “live heatmap.” Our “sensors” are practically scrapped data from many
+  web pages that display these metrics in isolation.
+</p>
+
+<form [formGroup]="form">
+  <ui-select
+    [label]="'Select a metric'"
+    [selections]="metrics"
+    formControlName="metric"
+  ></ui-select>
+</form>

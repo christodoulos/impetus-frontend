@@ -34,7 +34,8 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/assets/scss/icons.scss",
-              "src/assets/scss/app-saas.scss"
+              "src/assets/scss/app-saas.scss",
+              "src/styles.scss"
             ],
             "scripts": []
           },
