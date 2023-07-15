@@ -24,8 +24,8 @@
             right: 3px;
 
             b {
-                border-color: var(--#{$prefix}border-color) transparent transparent transparent;
-                border-width: 6px 6px 0 6px;
+                border-color: var(--#{$prefix}gray-500) transparent transparent transparent;
+                border-width: 5px 5px 0 5px;
             }
         }
     }
@@ -35,8 +35,8 @@
     .select2-selection--single {
         .select2-selection__arrow {
             b {
-                border-color: transparent transparent var(--#{$prefix}border-color) transparent !important;
-                border-width: 0 6px 6px 6px !important;
+                border-color: transparent transparent var(--#{$prefix}gray-500) transparent !important;
+                border-width: 0 5px 5px 5px !important;
             }
         }
     }

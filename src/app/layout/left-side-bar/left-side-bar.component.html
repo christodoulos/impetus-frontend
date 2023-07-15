@@ -1,1 +1,159 @@
-<p>left-side-bar works!</p>
+<div class="leftside-menu">
+  <a routerLink="/" class="logo text-center logo-dark mt-2 mb-2">
+    <span class="logo-lg">
+      <img src="assets/images/uwmh-blue-logo.png" alt="" height="76" />
+    </span>
+    <span class="logo-sm">
+      <img src="assets/images/uwmh-blue-logo-sm.png" alt="" height="16" />
+    </span>
+  </a>
+
+  <ngx-simplebar class="h-100">
+    <div id="leftside-menu-container">
+      <!-- Sidebar Start-->
+      <ul class="side-nav">
+        <ng-container *ngFor="let menu of menuItems; let i = index">
+          <li *ngIf="menu.isTitle" class="side-nav-title side-nav-item">
+            {{ menu.label }}
+          </li>
+
+          <ng-container *ngIf="!menu.isTitle">
+            <!-- menu item without any child -->
+            <ng-container *ngIf="!hasSubmenu(menu)">
+              <ng-container
+                *ngTemplateOutlet="
+                  MenuItem;
+                  context: {
+                    menu: menu,
+                    className: 'side-nav-item',
+                    linkClassName: 'side-nav-link side-nav-link-ref'
+                  }
+                "
+              >
+              </ng-container>
+            </ng-container>
+
+            <!-- menu item with child -->
+            <ng-container *ngIf="hasSubmenu(menu)">
+              <ng-container
+                *ngTemplateOutlet="
+                  MenuItemWithChildren;
+                  context: {
+                    menu: menu,
+                    linkClassName: 'side-nav-link',
+                    subMenuClassNames: 'side-nav-second-level'
+                  }
+                "
+              >
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ul>
+      <!-- Sidebar End -->
+
+      <div class="clearfix"></div>
+    </div>
+  </ngx-simplebar>
+</div>
+
+<!-- Reusable Templates -->
+<ng-template
+  #MenuItemWithChildren
+  let-menu="menu"
+  let-linkClassName="linkClassName"
+  let-subMenuClassNames="subMenuClassNames"
+>
+  <li
+    class="side-nav-item"
+    [ngClass]="{ 'menuitem-active': activeMenuItems.includes(menu.key) }"
+  >
+    <a
+      href="javascript: void(0)"
+      class="side-nav-link-ref {{ linkClassName }}"
+      (click)="toggleMenuItem(menu, collapse)"
+      [attr.aria-expanded]="!menu.collapsed"
+      [attr.data-menu-key]="menu.key"
+    >
+      <i [class]="menu.icon" *ngIf="menu.icon"></i>
+      <span
+        class="badge bg-{{ menu.badge.variant }} float-end"
+        *ngIf="menu.badge"
+        >{{ menu.badge.text }}</span
+      >
+      <span> {{ menu.label }}</span>
+      <span class="menu-arrow" *ngIf="!menu.badge"></span>
+    </a>
+
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="menu.collapsed">
+      <ul class="{{ subMenuClassNames }}">
+        <ng-container *ngFor="let child of menu.children">
+          <ng-container *ngIf="hasSubmenu(child)">
+            <ng-container
+              *ngTemplateOutlet="
+                MenuItemWithChildren;
+                context: {
+                  menu: child,
+                  linkClassName: 'side-nav-link-ref',
+                  subMenuClassNames: 'side-nav-third-level'
+                }
+              "
+            >
+            </ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="!hasSubmenu(child)">
+            <ng-container
+              *ngTemplateOutlet="
+                MenuItem;
+                context: {
+                  menu: child,
+                  className: '',
+                  linkClassName: 'side-nav-link-ref'
+                }
+              "
+            >
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ul>
+    </div>
+  </li>
+</ng-template>
+
+<ng-template
+  #MenuItem
+  let-menu="menu"
+  let-className="className"
+  let-linkClassName="linkClassName"
+>
+  <li
+    [class]="className"
+    [ngClass]="{ 'menuitem-active': activeMenuItems.includes(menu.key) }"
+  >
+    <ng-container
+      *ngTemplateOutlet="
+        MenuItemLink;
+        context: { menu: menu, className: linkClassName }
+      "
+    >
+    </ng-container>
+  </li>
+</ng-template>
+
+<ng-template #MenuItemLink let-menu="menu" let-className="className">
+  <a
+    [routerLink]="menu.link"
+    [class]="className"
+    [ngClass]="{ active: activeMenuItems.includes(menu.key) }"
+    [attr.data-menu-key]="menu.key"
+  >
+    <i [class]="menu.icon" *ngIf="menu.icon"></i>
+    <span
+      class="badge bg-{{ menu.badge.variant }} rounded float-end"
+      *ngIf="menu.badge"
+      >{{ menu.badge.text }}</span
+    >
+    <span> {{ menu.label }}</span>
+  </a>
+</ng-template>

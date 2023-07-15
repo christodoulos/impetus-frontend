@@ -119,15 +119,19 @@
             position: relative;
             z-index: 1;
         }
+        &::after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            background-color: rgba($dark, 0.1);
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            border-radius: $btn-border-radius 0 0 $btn-border-radius;
+            border: none;
+            margin-left: 0;
+        }
     }
-    &::after {
-        content: "";
-        position: absolute;
-        background-color: rgba($dark, 0.08);
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        border-radius: $btn-border-radius 0 0 $btn-border-radius;
-    }
+    
 }

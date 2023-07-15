@@ -28,6 +28,11 @@
                 .form-control {
                     color: $topbar-item-color;
                     background-color: $topbar-search-bg;
+
+                    &::placeholder {
+                        color: $topbar-item-color;
+                        opacity: 0.5;
+                    }
                 }
 
                 span.search-icon {

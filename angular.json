@@ -24,6 +24,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/impetus-ng-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -33,10 +34,9 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/assets/scss/icons.scss",
-              "src/assets/scss/app-saas.scss",
-              "src/styles.scss"
+              "src/assets/scss/app-saas.scss"
             ],
-            "scripts": []
+            "scripts": ["src/assets/js/hyper-config.js"]
           },
           "configurations": {
             "production": {

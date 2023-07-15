@@ -1313,7 +1313,7 @@ $pagination-color:                  var(--#{$prefix}tertiary-color);
 $pagination-bg:                     var(--#{$prefix}secondary-bg);
 $pagination-border-radius:          var(--#{$prefix}border-radius);
 $pagination-border-width:           var(--#{$prefix}border-width);
-$pagination-margin-start:           calc($pagination-border-width * -1); // stylelint-disable-line function-disallowed-list
+$pagination-margin-start:           calc(#{$pagination-border-width} * -1); // stylelint-disable-line function-disallowed-list
 $pagination-border-color:           var(--#{$prefix}border-color);
 
 $pagination-focus-color:            var(--#{$prefix}link-hover-color);

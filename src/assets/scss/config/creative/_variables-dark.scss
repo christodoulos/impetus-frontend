@@ -48,7 +48,7 @@ $body-tertiary-bg-dark:             #404954;
 $body-emphasis-color-dark:          #dee2e6;
 $border-color-dark:                 #464f5b;
 $border-color-translucent-dark:     #8391a2;
-$headings-color-dark:               inherit;
+$headings-color-dark:               $body-color-dark;
 $link-color-dark:                   tint-color($primary, 40%);
 $link-hover-color-dark:             shift-color($link-color-dark, -$link-shade-percentage);
 $code-color-dark:                   tint-color($code-color, 40%);

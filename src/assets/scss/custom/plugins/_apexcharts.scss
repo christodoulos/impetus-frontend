@@ -15,7 +15,9 @@
 }
 
 .apexcharts-tooltip-title,
-.apexcharts-tooltip-text {
+.apexcharts-tooltip-text,
+.apexcharts-xaxistooltip-text,
+.apexcharts-datalabels text {
     font-family: $font-family-base  !important;
 }
 
@@ -50,6 +52,10 @@
     stroke: var(--#{$prefix}border-color-custom);
 }
 
+.apexcharts-xaxis-tick {
+    stroke: var(--#{$prefix}border-color);
+}
+
 .apexcharts-legend-text {
     color: var(--#{$prefix}tertiary-color) !important;
     font-family: $font-family-base  !important;
@@ -60,6 +66,7 @@
 .apexcharts-legend-marker {
     vertical-align: middle;
     margin-right: 5px !important;
+    top: -1px !important;
 }
 
 .apexcharts-pie-label {
@@ -95,6 +102,12 @@
     }
 }
 
+.apexcharts-grid-borders {
+    .apexcharts-gridline + line {
+        stroke: var(--#{$prefix}border-color);
+    }
+}
+
 .apex-toolbar {
     .btn-light.active {
         background-color: var(--#{$prefix}primary);
@@ -113,11 +126,6 @@
 
 .apexcharts-xaxistooltip-bottom:before {
     border-bottom-color: $dropdown-border-color  !important;
-}
-
-.apexcharts-xaxistooltip-text,
-.apexcharts-datalabels text {
-    font-family: $font-family-base  !important;
 }
 
 .apexcharts-datalabel-value {
@@ -166,4 +174,15 @@
     rect {
         fill: none;
     }
+}
+
+.apex-charts .apexcharts-heatmap-series rect, 
+.apex-charts .apexcharts-treemap rect,
+.apex-charts .apexcharts-bar-series path, 
+.apex-charts .apexcharts-pie-series path {
+    stroke: var(--#{$prefix}body-bg);
+}
+
+.apexcharts-pie circle, .apexcharts-pie line {
+    stroke: var(--#{$prefix}border-color);
 }
