@@ -5,7 +5,7 @@ import { LeftSideBarComponent } from './layout/left-side-bar/left-side-bar.compo
 import { FooterComponent } from './layout/footer/footer.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-import { MapComponent } from './map/map.component';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +18,8 @@ import { MapComponent } from './map/map.component';
     LeftSideBarComponent,
     FooterComponent,
     TopbarComponent,
-    MapComponent,
   ],
+
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -31,10 +31,21 @@ export class AppComponent implements OnInit {
   dataLayoutPosition = 'fixed';
   dataSidenavSize = 'default';
 
-  constructor(private renderer: Renderer2) {}
+  user: SocialUser | undefined;
+  loggedIn = false;
+
+  constructor(
+    private renderer: Renderer2,
+    private authService: SocialAuthService
+  ) {}
 
   ngOnInit() {
     this.applyTheme();
+    this.authService.authState.subscribe((user) => {
+      console.log(user);
+      this.user = user;
+      this.loggedIn = user != null;
+    });
   }
 
   @HostListener('window:resize', ['$event'])

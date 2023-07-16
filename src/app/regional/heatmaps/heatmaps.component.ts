@@ -135,7 +135,7 @@ export class HeatmapsComponent implements OnInit, AfterViewInit {
       id: 'attica_boundary',
       type: 'line',
       source: 'attica_boundary_source',
-      paint: { 'line-color': '#000000', 'line-width': 3 },
+      paint: { 'line-color': '#000000', 'line-width': 4 },
     });
   }
 }
