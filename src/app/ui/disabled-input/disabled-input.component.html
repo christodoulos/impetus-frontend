@@ -1,0 +1,19 @@
+<div class="mb-3">
+  <label for="example-disable" class="form-label">{{ label }}</label>
+  <input
+    type="text"
+    class="form-control"
+    id="example-disable"
+    disabled=""
+    [value]="value | date : 'MMMM d y h:mm'"
+    *ngIf="isDate(value)"
+  />
+  <input
+    type="text"
+    class="form-control"
+    id="example-disable"
+    disabled=""
+    [value]="value"
+    *ngIf="!isDate(value)"
+  />
+</div>

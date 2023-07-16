@@ -6,10 +6,22 @@
   web pages that display these metrics in isolation.
 </p>
 
-<form [formGroup]="form">
-  <ui-select
-    [label]="'Select a metric'"
-    [selections]="metrics"
-    formControlName="metric"
-  ></ui-select>
-</form>
+<div class="row">
+  <div class="col">
+    <form [formGroup]="form">
+      <ui-select
+        [label]="'Select a metric'"
+        [selections]="metrics"
+        formControlName="metric"
+      ></ui-select>
+    </form>
+  </div>
+  <div class="col" *ngIf="timeOfObservation">
+    <ui-disabled-input
+      [label]="'Time of observation'"
+      [value]="timeOfObservation"
+    ></ui-disabled-input>
+  </div>
+</div>
+
+<app-map #map></app-map>
