@@ -50,16 +50,25 @@
     ></span>
 
     <ul class="topbar-menu d-flex align-items-center gap-3">
-      <li class="d-none d-md-inline-block">
+      <!-- <li class="d-none d-md-inline-block">
         <a class="nav-link" href="" data-toggle="fullscreen">
           <i class="ri-fullscreen-line font-22"></i>
         </a>
+      </li> -->
+
+      <li *ngIf="!(loggedIn$ | async)">
+        <a class="nav-link"
+          ><asl-google-signin-button
+            type="icon"
+            size="large"
+          ></asl-google-signin-button
+        ></a>
       </li>
 
-      <li class="dropdown">
+      <li ngbDropdown *ngIf="loggedIn$ | async">
         <a
+          ngbDropdownToggle
           class="nav-link dropdown-toggle arrow-none nav-user px-2"
-          data-bs-toggle="dropdown-"
           href="#"
           role="button"
           aria-haspopup="false"
@@ -67,18 +76,20 @@
         >
           <span class="account-user-avatar">
             <img
-              src="/assets/images/avatar-1.jpg"
+              *ngIf="photoUrl$ | async as photoUrl"
+              [src]="photoUrl"
               alt="user-image"
               width="32"
               class="rounded-circle"
             />
           </span>
           <span class="d-lg-flex flex-column gap-1 d-none">
-            <h5 class="my-0">John Doe</h5>
-            <h6 class="my-0 fw-normal">Beta Testing</h6>
+            <h5 class="my-0">{{ name$ | async }}</h5>
+            <h6 class="my-0 fw-normal">{{ email$ | async }}</h6>
           </span>
         </a>
         <div
+          ngbDropdownMenu
           class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown"
         >
           <!-- item-->
@@ -87,31 +98,31 @@
           </div>
 
           <!-- item-->
-          <a href="javascript:void(0);" class="dropdown-item">
+          <a href="javascript:void(0);" ngbDropdownItem>
             <i class="mdi mdi-account-circle me-1"></i>
             <span>My Account</span>
           </a>
 
           <!-- item-->
-          <a href="javascript:void(0);" class="dropdown-item">
+          <a href="javascript:void(0);" ngbDropdownItem>
             <i class="mdi mdi-account-edit me-1"></i>
             <span>Settings</span>
           </a>
 
           <!-- item-->
-          <a href="javascript:void(0);" class="dropdown-item">
+          <a href="javascript:void(0);" ngbDropdownItem>
             <i class="mdi mdi-lifebuoy me-1"></i>
             <span>Support</span>
           </a>
 
           <!-- item-->
-          <a href="javascript:void(0);" class="dropdown-item">
+          <a href="javascript:void(0);" ngbDropdownItem>
             <i class="mdi mdi-lock-outline me-1"></i>
             <span>Lock Screen</span>
           </a>
 
           <!-- item-->
-          <a href="javascript:void(0);" class="dropdown-item">
+          <a (click)="signOut()" href="javascript:void(0);" ngbDropdownItem>
             <i class="mdi mdi-logout me-1"></i>
             <span>Logout</span>
           </a>

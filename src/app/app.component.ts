@@ -6,6 +6,10 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { Store } from '@ngrx/store';
+
+import { login, logout } from './state/auth';
+import { AppState } from './interfaces/appstate';
 
 @Component({
   selector: 'app-root',
@@ -36,15 +40,16 @@ export class AppComponent implements OnInit {
 
   constructor(
     private renderer: Renderer2,
-    private authService: SocialAuthService
+    private authService: SocialAuthService,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit() {
     this.applyTheme();
     this.authService.authState.subscribe((user) => {
-      console.log(user);
-      this.user = user;
-      this.loggedIn = user != null;
+      if (user) {
+        this.store.dispatch(login({ user }));
+      }
     });
   }
 
