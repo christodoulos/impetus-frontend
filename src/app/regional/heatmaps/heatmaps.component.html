@@ -17,10 +17,11 @@
     </form>
   </div>
   <div class="col" *ngIf="timeOfObservation">
-    <ui-disabled-input
+    <ui-input
       [label]="'Time of observation'"
       [value]="timeOfObservation"
-    ></ui-disabled-input>
+      [disabled]="true"
+    ></ui-input>
   </div>
 </div>
 

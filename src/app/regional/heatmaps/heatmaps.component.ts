@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { HeatmapsService } from './heatmaps.service';
 import { DisabledInputComponent } from 'src/app/ui/disabled-input/disabled-input.component';
+import { InputComponent } from 'src/app/ui/input/input.component';
 import { MapComponent } from 'src/app/map/map.component';
 
 import * as interpolateheatmaplayer from 'interpolateheatmaplayer';
@@ -23,6 +24,7 @@ import { Feature, FeatureCollection } from 'src/app/interfaces/geojson';
     ReactiveFormsModule,
     NgbAlertModule,
     SelectComponent,
+    InputComponent,
     DisabledInputComponent,
     MapComponent,
   ],

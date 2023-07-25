@@ -44,6 +44,8 @@ export class TopbarComponent {
     }
   }
 
+  signIn(): void {}
+
   signOut(): void {
     this.authService.signOut();
     this.store.dispatch(logout());

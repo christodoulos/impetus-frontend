@@ -8,8 +8,9 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Store } from '@ngrx/store';
 
-import { login, logout } from './state/auth';
+import { login } from './state/auth';
 import { AppState } from './interfaces/appstate';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -41,13 +42,21 @@ export class AppComponent implements OnInit {
   constructor(
     private renderer: Renderer2,
     private authService: SocialAuthService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
     this.applyTheme();
     this.authService.authState.subscribe((user) => {
       if (user) {
+        console.log(user);
+        const { idToken } = user;
+        this.http
+          .post('http://localhost:3456/api/auth/google-login', { idToken })
+          .subscribe((res) => {
+            console.log(res);
+          });
         this.store.dispatch(login({ user }));
       }
     });

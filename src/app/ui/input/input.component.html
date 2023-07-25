@@ -1,0 +1,10 @@
+<div class="mb-3">
+  <label for="simpleinput" class="form-label">{{ label }}</label>
+  <input
+    type="text"
+    id="simpleinput"
+    class="form-control"
+    [value]="isDate(value) ? (value | date : 'MMMM d y h:mm') : value"
+    [disabled]="disabled"
+  />
+</div>
