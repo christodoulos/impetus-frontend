@@ -44,4 +44,12 @@ export const MENU: MenuItem[] = [
     link: '/regional-services/meteorological-heatmaps',
     icon: 'uil-layer-group',
   },
+  // European Services
+  { key: 'european_services', label: 'European Services', isTitle: true },
+  {
+    key: 'nuts_explorer',
+    label: 'NUTS Explorer',
+    link: '/european-services/nuts-explorer',
+    icon: 'ri-earth-line',
+  },
 ];

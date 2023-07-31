@@ -34,6 +34,7 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() label = 'Select Something';
   @Input() prompt = '';
   @Input() selections: { key: string; value: string }[] = [];
+  @Input() hasNull = false;
   @Input() formControlName = '';
   @ViewChild(FormControlDirective) formControlDirective:
     | FormControlDirective

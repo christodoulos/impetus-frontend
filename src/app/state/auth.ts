@@ -19,13 +19,13 @@ export const login = createAction(
 );
 export const logout = createAction('[Auth] Logout');
 
-export const initialState: AuthState = {
+export const authInitialState: AuthState = {
   loggedIn: false,
   user: null,
 };
 
 export const authReducer = createReducer(
-  initialState,
+  authInitialState,
   on(login, (state, { user }) => ({ loggedIn: true, user })),
   on(logout, (state) => ({ loggedIn: false, user: null }))
 );

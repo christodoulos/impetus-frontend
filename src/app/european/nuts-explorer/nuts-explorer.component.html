@@ -1,0 +1,16 @@
+<h4>NUTS Explorer</h4>
+
+<div class="row">
+  <div class="col-5">
+    <form [formGroup]="nutsForm">
+      <ui-select
+        [label]="'Select NUTS Level'"
+        [selections]="nutsLevels"
+        formControlName="nutsLevel"
+      ></ui-select>
+    </form>
+  </div>
+  <div class="col-7"></div>
+</div>
+
+<!-- <app-map #map></app-map> -->

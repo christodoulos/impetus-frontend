@@ -9,7 +9,8 @@ import {
 } from '@abacritt/angularx-social-login';
 
 import { provideStore } from '@ngrx/store';
-import { authReducer } from './state/auth';
+import { provideEffects } from '@ngrx/effects';
+import { authReducer, nutsReducer, NutsEffects } from './state';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
@@ -33,7 +34,11 @@ export const appConfig: ApplicationConfig = {
         },
       } as SocialAuthServiceConfig,
     },
-    provideStore({ auth: authReducer }),
+    provideStore({
+      auth: authReducer,
+      nuts: nutsReducer,
+    }),
+    provideEffects([NutsEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       // logOnly: environment.production, // Restrict extension to log-only mode

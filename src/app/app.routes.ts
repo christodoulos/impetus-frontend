@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { HeatmapsComponent } from './regional/heatmaps/heatmaps.component';
 
 export const routes: Routes = [
   {
@@ -7,6 +6,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./regional/heatmaps/heatmaps.component').then(
         (m) => m.HeatmapsComponent
+      ),
+  },
+  {
+    path: 'european-services/nuts-explorer',
+    loadComponent: () =>
+      import('./european/nuts-explorer/nuts-explorer.component').then(
+        (m) => m.NutsExplorerComponent
       ),
   },
 ];
