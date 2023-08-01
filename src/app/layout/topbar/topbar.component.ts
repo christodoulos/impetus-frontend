@@ -6,8 +6,14 @@ import {
 } from '@abacritt/angularx-social-login';
 
 import { Store } from '@ngrx/store';
-import { AppState } from '../../interfaces/appstate';
-import { email, loggedIn, name, photoUrl, logout } from 'src/app/state/auth';
+import {
+  AppState,
+  email,
+  loggedIn,
+  name,
+  photoUrl,
+  logout,
+} from 'src/app/state';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

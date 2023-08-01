@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { SelectComponent } from 'src/app/ui/select/select.component';
 import { Store } from '@ngrx/store';
-import { NutsState, update } from 'src/app/state';
+import { AppState, update, nutsIsLoading } from 'src/app/state';
 
 @Component({
   selector: 'app-nuts-explorer',
@@ -29,14 +29,18 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
   nutsForm = new FormGroup({
     nutsLevel: new FormControl('', Validators.required),
   });
+  isLoading$ = this.store.select(nutsIsLoading);
 
-  constructor(private store: Store<NutsState>) {}
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.nutsForm.controls.nutsLevel.valueChanges.subscribe((value) => {
+      this.store.dispatch(update({ level: value ?? 'nuts0' }));
       console.log(value);
     });
-    this.store.dispatch(update({ level: 'nuts0' }));
+    this.isLoading$.subscribe((isLoading) => {
+      console.log('isLoading', isLoading);
+    });
   }
 
   ngAfterViewInit(): void {

@@ -6,7 +6,7 @@ import {
   on,
   createSelector,
 } from '@ngrx/store';
-import { AppState } from '../interfaces/appstate';
+import { AppState } from 'src/app/state';
 
 export interface AuthState {
   loggedIn: boolean;

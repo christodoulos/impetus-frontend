@@ -8,9 +8,8 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Store } from '@ngrx/store';
 
-import { login } from './state/auth';
-import { AppState } from './interfaces/appstate';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AppState, login } from './state';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
