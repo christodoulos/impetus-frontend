@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as mapboxgl from 'mapbox-gl';
+import { MapLayerEventType } from 'mapbox-gl';
 
 @Component({
   selector: 'app-map',
@@ -11,7 +12,7 @@ import * as mapboxgl from 'mapbox-gl';
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
   @Input() mapId = 'map';
-  private map!: mapboxgl.Map;
+  map!: mapboxgl.Map;
 
   ngAfterViewInit(): void {
     this.initializeMap();
@@ -49,5 +50,30 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   fitBounds(bounds: mapboxgl.LngLatBoundsLike) {
     this.map.fitBounds(bounds);
+  }
+
+  on(
+    event: keyof MapLayerEventType,
+    layer: string,
+    listener: (e: any) => void
+  ) {
+    this.map.on(event, layer, listener);
+  }
+
+  getSource(id: string) {
+    return this.map.getSource(id);
+  }
+
+  setFeatureState(
+    feature:
+      | mapboxgl.MapboxGeoJSONFeature
+      | { source: string; id: string | number; sourceLayer?: string },
+    state: any
+  ) {
+    this.map.setFeatureState(feature, state);
+  }
+
+  setFilter(layerId: string, filter: any[]) {
+    this.map.setFilter(layerId, filter);
   }
 }

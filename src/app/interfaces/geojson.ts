@@ -1,3 +1,8 @@
+import {
+  Feature as GeoJSONFeature,
+  FeatureCollection as GeoJSONFeatureCollection,
+} from 'geojson';
+
 export enum GeometryType {
   Point = 'Point',
   LineString = 'LineString',
@@ -14,16 +19,18 @@ export interface Geometry {
   coordinates: any[];
 }
 
-export interface Feature {
+export interface Feature extends GeoJSONFeature {
+  _id: string;
+  id?: string;
   type: 'Feature';
   geometry: Geometry;
-  id?: string;
-  properties?: Record<string, any>;
+  properties: Record<string, any>;
 }
 
-export interface FeatureCollection {
+export interface FeatureCollection extends GeoJSONFeatureCollection {
   type: 'FeatureCollection';
   features: Feature[];
-  id?: string;
-  properties?: Record<string, any>;
+  // id: string;
+  // _id: string;
+  properties: Record<string, any>;
 }

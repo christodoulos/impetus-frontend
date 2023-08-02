@@ -8,7 +8,7 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Store } from '@ngrx/store';
 
-import { AppState, login } from './state';
+import { AppState, login, nutsUpdate } from './state';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -46,6 +46,10 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.store.dispatch(nutsUpdate({ level: 'nuts0' }));
+    this.store.dispatch(nutsUpdate({ level: 'nuts1' }));
+    this.store.dispatch(nutsUpdate({ level: 'nuts2' }));
+    this.store.dispatch(nutsUpdate({ level: 'nuts3' }));
     this.applyTheme();
     this.authService.authState.subscribe((user) => {
       if (user) {

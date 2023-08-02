@@ -8,7 +8,7 @@ import {
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FeatureCollection } from '../interfaces/geojson';
 import { Injectable } from '@angular/core';
-import { exhaustMap, map } from 'rxjs';
+import { exhaustMap, mergeMap, map } from 'rxjs';
 import { GeoJsonService } from './geojson.service';
 import { AppState } from 'src/app/state';
 
@@ -20,9 +20,12 @@ export interface NutsState {
   nuts3: FeatureCollection | null;
 }
 
-export const update = createAction('[Nuts] Update', props<{ level: string }>());
+export const nutsUpdate = createAction(
+  '[Nuts] Update',
+  props<{ level: string }>()
+);
 
-export const updateSuccess = createAction(
+export const nutsUpdateSuccess = createAction(
   '[Nuts] Update Success',
   props<{ level: string; featureCollection: FeatureCollection }>()
 );
@@ -37,11 +40,11 @@ export const nutsInitialState: NutsState = {
 
 export const nutsReducer = createReducer(
   nutsInitialState,
-  on(update, (state) => ({
+  on(nutsUpdate, (state) => ({
     ...state,
     isLoading: true,
   })),
-  on(updateSuccess, (state, action) => ({
+  on(nutsUpdateSuccess, (state, action) => ({
     ...state,
     [action.level]: action.featureCollection,
     isLoading: false,
@@ -85,15 +88,23 @@ export class NutsEffects {
 
   loadNuts$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(update),
-      exhaustMap((action) =>
+      ofType(nutsUpdate),
+      mergeMap((action) =>
         this.service.getFeatureCollection(action.level).pipe(
-          map((featureCollection) =>
-            updateSuccess({
+          map((featureCollection) => {
+            if (featureCollection) {
+              featureCollection.features = featureCollection.features.map(
+                (feature) => {
+                  feature.id = feature._id;
+                  return feature;
+                }
+              );
+            }
+            return nutsUpdateSuccess({
               level: action.level,
               featureCollection,
-            })
-          )
+            });
+          })
         )
       )
     )
