@@ -10,6 +10,8 @@ import {
 import { SelectComponent } from 'src/app/ui/select/select.component';
 import { Store } from '@ngrx/store';
 import { AppState, nutsIsLoading } from 'src/app/state';
+import { Observable, Subscription } from 'rxjs';
+import { FeatureCollection } from 'src/app/interfaces/geojson';
 
 @Component({
   selector: 'app-nuts-explorer',
@@ -36,12 +38,32 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
   nuts3$ = this.store.select((state) => state.nuts.nuts3);
   hoveredPolygonId = '';
   nutsProperties = null;
+  subscription: Subscription | undefined;
 
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.nutsForm.controls.nutsLevel.valueChanges.subscribe((value) => {
-      console.log(value);
+      this.subscription?.unsubscribe();
+      this.map.removeLayer('nuts-fill');
+      this.map.removeLayer('nuts-borders');
+      this.map.removeSource('nuts-source');
+      switch (value) {
+        case 'nuts0':
+          this.onNutsLevelChange(this.nuts0$);
+          break;
+        case 'nuts1':
+          this.onNutsLevelChange(this.nuts1$);
+          break;
+        case 'nuts2':
+          this.onNutsLevelChange(this.nuts2$);
+          break;
+        case 'nuts3':
+          this.onNutsLevelChange(this.nuts3$);
+          break;
+        default:
+          break;
+      }
     });
   }
 
@@ -50,20 +72,23 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
       -26.39211076038066, 33.85666623943277, 46.06351684677202,
       71.45984928826147,
     ]);
+    this.onNutsLevelChange(this.nuts0$);
+  }
 
-    this.nuts3$.subscribe((data) => {
+  onNutsLevelChange(nuts$: Observable<FeatureCollection | null>) {
+    this.subscription = nuts$?.subscribe((data) => {
       if (data) {
         console.log(data.features);
-        this.map.addSource('nuts0-source', {
+        this.map.addSource('nuts-source', {
           type: 'geojson',
           data,
           generateId: true,
         });
 
         this.map.addLayer({
-          id: 'nuts0-fill',
+          id: 'nuts-fill',
           type: 'fill',
-          source: 'nuts0-source',
+          source: 'nuts-source',
           // layout: {},
           paint: {
             'fill-color': '#627BC1',
@@ -77,9 +102,9 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
         });
 
         this.map.addLayer({
-          id: 'nuts0-borders',
+          id: 'nuts-borders',
           type: 'line',
-          source: 'nuts0-source',
+          source: 'nuts-source',
           // layout: {},
           paint: {
             'line-color': '#627BC1',
@@ -87,12 +112,12 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
           },
         });
 
-        this.map.on('mousemove', 'nuts0-fill', (e) => {
+        this.map.on('mousemove', 'nuts-fill', (e) => {
           console.log(e.features);
           if (e.features && e.features.length > 0) {
             if (this.hoveredPolygonId !== '') {
               this.map.setFeatureState(
-                { source: 'nuts0-source', id: this.hoveredPolygonId },
+                { source: 'nuts-source', id: this.hoveredPolygonId },
                 { hover: false }
               );
             }
@@ -100,16 +125,16 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
             this.hoveredPolygonId = e.features[0].id as string;
             this.nutsProperties = e.features[0].properties;
             this.map.setFeatureState(
-              { source: 'nuts0-source', id: this.hoveredPolygonId },
+              { source: 'nuts-source', id: this.hoveredPolygonId },
               { hover: true }
             );
           }
         });
 
-        this.map.on('mouseleave', 'nuts0-fill', () => {
+        this.map.on('mouseleave', 'nuts-fill', () => {
           if (this.hoveredPolygonId !== '') {
             this.map.setFeatureState(
-              { source: 'nuts0-source', id: this.hoveredPolygonId },
+              { source: 'nuts-source', id: this.hoveredPolygonId },
               { hover: false }
             );
           }
