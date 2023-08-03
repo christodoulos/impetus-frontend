@@ -19,3 +19,14 @@
 </div>
 
 <app-map #map></app-map>
+
+<div *ngIf="nutsProperties">
+  <h4>NUTS Properties</h4>
+
+  <table>
+    <tr *ngFor="let prop of nutsProperties | keyvalue">
+      <td class="fw-bolder">{{ prop.key }}</td>
+      <td>{{ prop.value }}</td>
+    </tr>
+  </table>
+</div>

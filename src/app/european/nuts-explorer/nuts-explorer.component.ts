@@ -10,7 +10,6 @@ import {
 import { SelectComponent } from 'src/app/ui/select/select.component';
 import { Store } from '@ngrx/store';
 import { AppState, nutsIsLoading } from 'src/app/state';
-import * as mapboxgl from 'mapbox-gl';
 
 @Component({
   selector: 'app-nuts-explorer',
@@ -36,6 +35,7 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
   nuts2$ = this.store.select((state) => state.nuts.nuts2);
   nuts3$ = this.store.select((state) => state.nuts.nuts3);
   hoveredPolygonId = '';
+  nutsProperties = null;
 
   constructor(private store: Store<AppState>) {}
 
@@ -98,6 +98,7 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
             }
 
             this.hoveredPolygonId = e.features[0].id as string;
+            this.nutsProperties = e.features[0].properties;
             this.map.setFeatureState(
               { source: 'nuts0-source', id: this.hoveredPolygonId },
               { hover: true }
@@ -113,6 +114,7 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
             );
           }
           this.hoveredPolygonId = '';
+          this.nutsProperties = null;
         });
       }
     });
