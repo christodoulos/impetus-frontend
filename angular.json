@@ -33,11 +33,15 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "src/assets/vendor/jstree/themes/default/style.min.css",
               "src/assets/scss/icons.scss",
               "src/assets/scss/app-saas.scss",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jstree/dist/jstree.min.js"
+            ]
           },
           "configurations": {
             "production": {
