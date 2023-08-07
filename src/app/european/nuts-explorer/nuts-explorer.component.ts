@@ -12,11 +12,18 @@ import { Store } from '@ngrx/store';
 import { AppState, nutsIsLoading } from 'src/app/state';
 import { Observable, Subscription } from 'rxjs';
 import { FeatureCollection } from 'src/app/interfaces/geojson';
+import { EurostatExplorerComponent } from 'src/app/ui/eurostat-explorer/eurostat-explorer.component';
 
 @Component({
   selector: 'app-nuts-explorer',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SelectComponent, MapComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    SelectComponent,
+    MapComponent,
+    EurostatExplorerComponent,
+  ],
   templateUrl: './nuts-explorer.component.html',
   styleUrls: ['./nuts-explorer.component.scss'],
 })

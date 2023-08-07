@@ -10,7 +10,6 @@ import { Store } from '@ngrx/store';
 
 import { AppState, login, nutsUpdate } from './state';
 import { HttpClient } from '@angular/common/http';
-import { TreeComponent } from './ui/tree/tree.component';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +22,6 @@ import { TreeComponent } from './ui/tree/tree.component';
     LeftSideBarComponent,
     FooterComponent,
     TopbarComponent,
-    TreeComponent,
   ],
 
   templateUrl: './app.component.html',
@@ -114,9 +112,5 @@ export class AppComponent implements OnInit {
       'data-sidenav-size',
       this.dataSidenavSize
     );
-  }
-
-  onSelection(selection: string) {
-    console.log('Selection:', selection);
   }
 }

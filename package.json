@@ -27,6 +27,7 @@
     "bootstrap": "^5.2.3",
     "interpolateheatmaplayer": "github:Rylern/InterpolateHeatmapLayer",
     "jquery": "^3.7.0",
+    "jsonstat-euro": "^2.1.1",
     "jstree": "^3.3.15",
     "lodash-es": "^4.17.21",
     "mapbox-gl": "^2.15.0",
