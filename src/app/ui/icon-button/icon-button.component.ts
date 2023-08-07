@@ -10,4 +10,5 @@ import { CommonModule } from '@angular/common';
 })
 export class IconButtonComponent {
   @Input() icon = 'ri-question-line';
+  @Input() tooltip = '';
 }
