@@ -3,8 +3,6 @@
     {{ info.label }}
   </div>
   <div class="row">
-    <ng-container *ngFor="let category of info.category">
-      <span>{{ category }}</span>
-    </ng-container>
+    <pill-set [pills]="info.category"></pill-set>
   </div>
 </ng-container>
