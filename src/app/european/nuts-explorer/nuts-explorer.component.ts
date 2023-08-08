@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 import { AppState, nutsIsLoading } from 'src/app/state';
 import { Observable, Subscription } from 'rxjs';
 import { FeatureCollection } from 'src/app/interfaces/geojson';
-import { EurostatExplorerComponent } from 'src/app/ui/eurostat-explorer/eurostat-explorer.component';
+import { EurostatTreeComponent } from 'src/app/eurostat/eurostat-tree/eurostat-tree.component';
 
 @Component({
   selector: 'app-nuts-explorer',
@@ -22,7 +22,7 @@ import { EurostatExplorerComponent } from 'src/app/ui/eurostat-explorer/eurostat
     ReactiveFormsModule,
     SelectComponent,
     MapComponent,
-    EurostatExplorerComponent,
+    EurostatTreeComponent,
   ],
   templateUrl: './nuts-explorer.component.html',
   styleUrls: ['./nuts-explorer.component.scss'],
@@ -75,11 +75,11 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.map.fitBounds([
-      -26.39211076038066, 33.85666623943277, 46.06351684677202,
-      71.45984928826147,
-    ]);
-    this.onNutsLevelChange(this.nuts0$);
+    // this.map.fitBounds([
+    //   -26.39211076038066, 33.85666623943277, 46.06351684677202,
+    //   71.45984928826147,
+    // ]);
+    // this.onNutsLevelChange(this.nuts0$);
   }
 
   onNutsLevelChange(nuts$: Observable<FeatureCollection | null>) {

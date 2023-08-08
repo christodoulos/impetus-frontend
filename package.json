@@ -28,6 +28,8 @@
     "interpolateheatmaplayer": "github:Rylern/InterpolateHeatmapLayer",
     "jquery": "^3.7.0",
     "jsonstat-euro": "^2.1.1",
+    "jsonstat-suite": "^3.5.0",
+    "jsonstat-toolkit": "^1.4.2",
     "jstree": "^3.3.15",
     "lodash-es": "^4.17.21",
     "mapbox-gl": "^2.15.0",
