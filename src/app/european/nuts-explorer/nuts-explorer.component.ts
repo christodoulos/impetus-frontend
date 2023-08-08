@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 import { AppState, nutsIsLoading } from 'src/app/state';
 import { Observable, Subscription } from 'rxjs';
 import { FeatureCollection } from 'src/app/interfaces/geojson';
-import { EurostatTreeComponent } from 'src/app/eurostat/eurostat-tree/eurostat-tree.component';
+import { EurostatToolComponent } from 'src/app/eurostat/eurostat-tool/eurostat-tool.component';
 
 @Component({
   selector: 'app-nuts-explorer',
@@ -22,7 +22,7 @@ import { EurostatTreeComponent } from 'src/app/eurostat/eurostat-tree/eurostat-t
     ReactiveFormsModule,
     SelectComponent,
     MapComponent,
-    EurostatTreeComponent,
+    EurostatToolComponent,
   ],
   templateUrl: './nuts-explorer.component.html',
   styleUrls: ['./nuts-explorer.component.scss'],
