@@ -1,0 +1,48 @@
+<div class="accordion" id="accordionPillSet">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+      <button
+        class="accordion-button"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#panelsStayOpen-collapseOne"
+        aria-expanded="true"
+        aria-controls="panelsStayOpen-collapseOne"
+      >
+        {{ first?.label }}
+      </button>
+    </h2>
+    <div
+      id="panelsStayOpen-collapseOne"
+      class="accordion-collapse collapse show"
+      aria-labelledby="panelsStayOpen-headingOne"
+    >
+      <div class="accordion-body">
+        <pill-set [pills]="first?.category ?? []"></pill-set>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let item of rest; let i = index" class="accordion-item">
+    <h2 class="accordion-header" [id]="'accordion-header-' + i">
+      <button
+        class="accordion-button collapsed"
+        type="button"
+        data-bs-toggle="collapse"
+        aria-expanded="false"
+        [attr.data-bs-target]="'#accordion-collapse-' + i"
+        [attr.aria-controls]="'accordion-collapse-' + i"
+      >
+        {{ item?.label }}
+      </button>
+    </h2>
+    <div
+      [id]="'accordion-collapse-' + i"
+      class="accordion-collapse collapse"
+      [attr.aria-labelledby]="'accordion-header-' + i"
+    >
+      <div class="accordion-body">
+        <pill-set [pills]="item?.category ?? []"></pill-set>
+      </div>
+    </div>
+  </div>
+</div>

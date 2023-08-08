@@ -1,8 +1,13 @@
-<ng-container *ngFor="let info of datasetInfo">
+<!-- <ng-container *ngFor="let info of datasetInfo">
   <div class="row">
     {{ info.label }}
   </div>
   <div class="row">
     <pill-set [pills]="info.category"></pill-set>
   </div>
-</ng-container>
+</ng-container> -->
+
+<accordion-pill-sets
+  *ngIf="datasetInfo"
+  [data]="datasetInfo"
+></accordion-pill-sets>
