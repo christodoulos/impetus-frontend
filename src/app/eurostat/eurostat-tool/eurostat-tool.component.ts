@@ -21,18 +21,18 @@ export class EurostatToolComponent {
 
     const ds = info;
     const dimensions = ds.id;
-    console.log('Dimensions:', dimensions);
 
-    for (const dimension of dimensions) {
-      console.log('Dimension:', dimension);
-      const dimensionObj = ds.Dimension(dimension);
-      console.log('Dimension object:', dimensionObj);
-      console.log('Dimension label:', dimensionObj.label);
-      const dimensionCategories = dimensionObj
-        .Category()
-        .map((category: any) => category.label);
-      console.log('Dimension categories:', dimensionCategories);
-    }
+    // console.log('Dimensions:', dimensions);
+    // for (const dimension of dimensions) {
+    //   console.log('Dimension:', dimension);
+    //   const dimensionObj = ds.Dimension(dimension);
+    //   console.log('Dimension object:', dimensionObj);
+    //   console.log('Dimension label:', dimensionObj.label);
+    //   const dimensionCategories = dimensionObj
+    //     .Category()
+    //     .map((category: any) => category.label);
+    //   console.log('Dimension categories:', dimensionCategories);
+    // }
 
     this.datasetInfo = this.getDatasetInfo(info);
   }
