@@ -1,4 +1,5 @@
 export interface EurostatDimension {
+  id: string;
   label: string;
   categories: string[];
 }

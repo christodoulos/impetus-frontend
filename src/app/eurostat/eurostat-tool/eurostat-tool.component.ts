@@ -51,6 +51,7 @@ export class EurostatToolComponent {
         .Category()
         .map((category: any) => category.label);
       dimensions.push({
+        id: dimension,
         label: dimensionObj.label,
         categories: dimensionCategories,
       });

@@ -20,6 +20,7 @@ export class PillComponent {
   @Input() style: string =
     'btn btn-sm btn-outline-secondary rounded-pill me-1 mt-1';
   @Output() selection = new EventEmitter<string>();
+  @Output() deselection = new EventEmitter<string>();
   selected: boolean = false;
 
   onClick() {
@@ -29,6 +30,8 @@ export class PillComponent {
       : 'btn btn-sm btn-outline-secondary rounded-pill me-1 mt-1';
     if (this.selected) {
       this.selection.emit(this.text);
+    } else {
+      this.deselection.emit(this.text);
     }
   }
 }
