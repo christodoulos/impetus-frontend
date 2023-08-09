@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EurostatTreeComponent } from '../eurostat-tree/eurostat-tree.component';
 import { EurostatDatasetComponent } from '../eurostat-dataset/eurostat-dataset.component';
-import { EurostatDataset } from '../eurostat-interfaces';
+import { EurostatDimension, EurostatDataset } from '../eurostat-interfaces';
 
 @Component({
   selector: 'eurostat-tool',
@@ -12,15 +12,29 @@ import { EurostatDataset } from '../eurostat-interfaces';
   styleUrls: ['./eurostat-tool.component.scss'],
 })
 export class EurostatToolComponent {
-  // datasetInfo: EurostatDataset[] | undefined;
   datasetInfo: EurostatDataset | undefined;
   dimensions: any;
   loading = false;
-  // onInfo(info: EurostatDataset[]) {
+
   onInfo(info: any) {
     console.log('EurostatToolComponent', info);
+
+    const ds = info;
+    const dimensions = ds.id;
+    console.log('Dimensions:', dimensions);
+
+    for (const dimension of dimensions) {
+      console.log('Dimension:', dimension);
+      const dimensionObj = ds.Dimension(dimension);
+      console.log('Dimension object:', dimensionObj);
+      console.log('Dimension label:', dimensionObj.label);
+      const dimensionCategories = dimensionObj
+        .Category()
+        .map((category: any) => category.label);
+      console.log('Dimension categories:', dimensionCategories);
+    }
+
     this.datasetInfo = this.getDatasetInfo(info);
-    console.log(Object.entries(this.datasetInfo.dimension));
   }
 
   onLoading(loading: boolean) {
@@ -28,8 +42,20 @@ export class EurostatToolComponent {
   }
 
   getDatasetInfo(info: any) {
-    const { iclass, label, source, updated, dimension } = info;
-    this.dimensions = dimension;
-    return { iclass, label, source, updated, dimension };
+    const { id, label, source, updated, n } = info;
+
+    const dimensions: EurostatDimension[] = [];
+    for (const dimension of id) {
+      const dimensionObj = info.Dimension(dimension);
+      const dimensionCategories = dimensionObj
+        .Category()
+        .map((category: any) => category.label);
+      dimensions.push({
+        label: dimensionObj.label,
+        categories: dimensionCategories,
+      });
+    }
+
+    return { label, source, updated, n, dimensions };
   }
 }

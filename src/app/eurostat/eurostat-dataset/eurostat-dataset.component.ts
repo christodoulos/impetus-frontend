@@ -19,16 +19,17 @@ export class EurostatDatasetComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const data: any[] = [];
     if (changes['datasetInfo']) {
-      console.log(
-        'EurostatDatasetComponent (Before Object Entries)',
-        this.datasetInfo?.dimension
-      );
-      this.data = Object.entries(this.datasetInfo?.dimension);
-      const lala = this.data.map((d: any) => {
-        return d[1];
-      });
-      this.data = lala;
-      console.log('EurostatDatasetComponent', this.data);
+      //   console.log(
+      //     'EurostatDatasetComponent (Before Object Entries)',
+      //     this.datasetInfo?.dimension
+      //   );
+      //   this.data = Object.entries(this.datasetInfo?.dimension);
+      //   const lala = this.data.map((d: any) => {
+      //     return d[1];
+      //   });
+      //   this.data = lala;
+      //   console.log('EurostatDatasetComponent', this.data);
+      console.log('EurostatDatasetComponent', this.datasetInfo);
     }
   }
 

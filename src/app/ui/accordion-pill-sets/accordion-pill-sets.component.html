@@ -18,7 +18,7 @@
       aria-labelledby="panelsStayOpen-headingOne"
     >
       <div class="accordion-body">
-        <pill-set [pills]="first?.category ?? []"></pill-set>
+        <pill-set [pills]="first?.categories ?? []"></pill-set>
       </div>
     </div>
   </div>
@@ -41,7 +41,7 @@
       [attr.aria-labelledby]="'accordion-header-' + i"
     >
       <div class="accordion-body">
-        <pill-set [pills]="item?.category ?? []"></pill-set>
+        <pill-set [pills]="item?.categories ?? []"></pill-set>
       </div>
     </div>
   </div>
