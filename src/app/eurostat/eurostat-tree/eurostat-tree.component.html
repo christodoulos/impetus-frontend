@@ -1,1 +1,18 @@
-<app-tree [title]="title" (selection)="onSelection($event)"></app-tree>
+<div class="card border-secondary border">
+  <div class="card-body">
+    <div class="card-widgets">
+      <a
+        data-bs-toggle="collapse"
+        href="#treeContainer"
+        role="button"
+        aria-expanded="false"
+        aria-controls="treeContainer"
+        ><i class="mdi mdi-minus"></i
+      ></a>
+    </div>
+    <h5 class="card-title">EUROSTAT Dataset Explorer</h5>
+    <div #treeContainer id="treeContainer" class="collapse show">
+      <app-tree (selection)="onSelection($event)"></app-tree>
+    </div>
+  </div>
+</div>

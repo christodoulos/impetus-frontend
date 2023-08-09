@@ -1,8 +1,15 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeComponent } from 'src/app/ui/tree/tree.component';
 import { EurostatService } from '../eurostat.service';
-import { EurostatDataset } from '../eurostat-interfaces';
+
+declare var $: any;
 
 @Component({
   selector: 'eurostat-tree',
@@ -13,12 +20,22 @@ import { EurostatDataset } from '../eurostat-interfaces';
 })
 export class EurostatTreeComponent {
   title = 'EUROSTAT Dataset Explorer';
-  @Output() info = new EventEmitter<EurostatDataset[]>();
+  @ViewChild('treeContainer') treeContainer!: ElementRef;
+  @Output() info = new EventEmitter<any>();
+  @Output() loading = new EventEmitter<boolean>();
+  treeDiv: HTMLDivElement | undefined;
 
   constructor(private service: EurostatService) {}
 
   async onSelection(selection: string) {
+    this.loading.emit(true);
     const info = await this.service.getDataset(selection);
     this.info.emit(info);
+    this.loading.emit(false);
+    this.collapseCard();
+  }
+
+  collapseCard() {
+    $('#treeContainer').collapse('hide');
   }
 }

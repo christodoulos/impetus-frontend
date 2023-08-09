@@ -1,4 +1,9 @@
 export interface EurostatDataset {
+  // label: string;
+  // category: string[];
+  iclass: string;
   label: string;
-  category: string[];
+  source: string;
+  updated: string;
+  dimension?: any;
 }

@@ -1,2 +1,11 @@
-<eurostat-tree (info)="onInfo($event)"></eurostat-tree>
-<eurostat-dataset [datasetInfo]="datasetInfo"></eurostat-dataset>
+<eurostat-tree
+  (info)="onInfo($event)"
+  (loading)="onLoading($event)"
+></eurostat-tree>
+<div class="spinner-grow" role="status" *ngIf="loading">
+  <span class="visually-hidden">Loading...</span>
+</div>
+<eurostat-dataset
+  *ngIf="datasetInfo"
+  [datasetInfo]="datasetInfo"
+></eurostat-dataset>

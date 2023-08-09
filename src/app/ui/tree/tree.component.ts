@@ -12,9 +12,7 @@ declare var $: any;
   styleUrls: ['./tree.component.scss'],
 })
 export class TreeComponent implements OnInit {
-  @Input() title = 'Tree Explorer';
   @Output() selection = new EventEmitter<string>();
-  hideTree = false;
 
   ngOnInit(): void {
     $(() => {
@@ -24,6 +22,7 @@ export class TreeComponent implements OnInit {
             data,
             themes: {
               responsive: false,
+              ellipsis: true,
             },
           },
           types: {
@@ -40,7 +39,7 @@ export class TreeComponent implements OnInit {
 
       $('#jstree').on('select_node.jstree', (e: any, data: any) => {
         if (data.instance.is_leaf(data.node)) {
-          this.collapse();
+          // this.collapse();
           this.selection.emit(data.node.text);
         }
       });

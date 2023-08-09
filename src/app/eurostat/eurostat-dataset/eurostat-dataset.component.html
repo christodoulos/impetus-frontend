@@ -7,7 +7,19 @@
   </div>
 </ng-container> -->
 
-<accordion-pill-sets
-  *ngIf="datasetInfo"
-  [data]="datasetInfo"
-></accordion-pill-sets>
+<div class="card border-secondary border">
+  <div class="card-body">
+    <h5 class="card-title">{{ datasetInfo?.label }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+      Source: {{ datasetInfo?.source }}
+    </h6>
+    <p class="card-text">
+      Please refine your search by selecting one or more of the following:
+    </p>
+    <accordion-pill-sets [data]="data"></accordion-pill-sets>
+  </div>
+  <!-- end card-body-->
+  <div class="card-footer border-top border-light text-muted">
+    Dataset updated at {{ datasetInfo?.updated | date }}
+  </div>
+</div>
