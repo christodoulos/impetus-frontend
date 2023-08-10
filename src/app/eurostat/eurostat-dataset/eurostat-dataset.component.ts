@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EurostatDataset } from '../eurostat-interfaces';
+import { EurostatDataset, EurostatDimension } from '../eurostat-interfaces';
 import { PillSetComponent } from 'src/app/ui/pill-set/pill-set.component';
 import { EurostatPillSetsComponent } from '../eurostat-pill-sets/eurostat-pill-sets.component';
 
@@ -14,5 +14,7 @@ import { EurostatPillSetsComponent } from '../eurostat-pill-sets/eurostat-pill-s
 export class EurostatDatasetComponent {
   @Input() datasetInfo: EurostatDataset | undefined;
 
-  constructor() {}
+  onSelections(selections: EurostatDimension[]) {
+    console.log('EurostatDatasetComponent', selections);
+  }
 }

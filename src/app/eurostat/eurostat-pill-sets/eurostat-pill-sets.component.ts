@@ -1,6 +1,14 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PillSetComponent } from '../../ui/pill-set/pill-set.component';
+import { PillSetComponent } from 'src/app/ui/pill-set/pill-set.component';
+import { EurostatDimension } from '../eurostat-interfaces';
 
 @Component({
   selector: 'eurostat-pill-sets',
@@ -10,12 +18,12 @@ import { PillSetComponent } from '../../ui/pill-set/pill-set.component';
   styleUrls: ['./eurostat-pill-sets.component.scss'],
 })
 export class EurostatPillSetsComponent implements OnChanges {
-  @Input() data:
-    | { id: string; label: string; categories: string[] }[]
-    | undefined;
+  @Input() data: EurostatDimension[] | undefined;
+  @Output() selections = new EventEmitter<EurostatDimension[]>();
+  currentSelections: EurostatDimension[] = [];
 
-  first: { id: string; label: string; categories: string[] } | undefined;
-  rest: { id: string; label: string; categories: string[] }[] | undefined;
+  first: EurostatDimension | undefined;
+  rest: EurostatDimension[] | undefined;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
@@ -27,5 +35,7 @@ export class EurostatPillSetsComponent implements OnChanges {
 
   onPillSelections(selections: any) {
     console.log('EurostatPillSetsComponent', selections);
+    this.currentSelections.push(selections);
+    this.selections.emit(this.currentSelections);
   }
 }
