@@ -1,5 +1,5 @@
 import { AuthState } from './auth';
-import { EurostatMetadataState } from '../eurostat/eurostat-state';
+import { MetadataState as EurostatMetadataState } from '../eurostat/eurostat-state';
 import { NutsState } from './nuts';
 
 export interface AppState {

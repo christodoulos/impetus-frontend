@@ -14,7 +14,7 @@ import {
   authReducer,
   nutsReducer,
   NutsEffects,
-  eurostatDatasetReducer,
+  MetadataReducer as eurostatMetadataReducer,
 } from './state';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
@@ -42,7 +42,7 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       auth: authReducer,
       nuts: nutsReducer,
-      'eurostat-metadata': eurostatDatasetReducer,
+      'eurostat-metadata': eurostatMetadataReducer,
     }),
     provideEffects([NutsEffects]),
     provideStoreDevtools({

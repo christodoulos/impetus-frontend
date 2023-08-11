@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { TreeComponent } from 'src/app/ui/tree/tree.component';
 import { EurostatService } from '../eurostat.service';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/state';
+import { AppState, Metadata } from 'src/app/state';
 
 declare var $: any;
 
@@ -33,15 +33,19 @@ export class EurostatTreeComponent {
   ) {}
 
   async onSelection(selection: string) {
+    this.collapseCard();
     this.loading.emit(true);
-    const info = await this.service.getDataset(selection);
+    const info: Metadata = await this.service.getDataset(selection);
     this.store.dispatch({
       type: '[Eurostat Dataset] Add Dataset',
       dataset: info,
     });
+    this.store.dispatch({
+      type: '[Eurostat Dataset] Select Dataset',
+      id: info.extension.id,
+    });
     this.info.emit(info);
     this.loading.emit(false);
-    this.collapseCard();
   }
 
   collapseCard() {

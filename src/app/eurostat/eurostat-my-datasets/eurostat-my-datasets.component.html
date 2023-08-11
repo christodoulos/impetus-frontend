@@ -1,0 +1,13 @@
+<div class="card border-secondary border" *ngIf="(myDatasets$ | async)?.length">
+  <div class="card-body">
+    <h5 class="card-title">My Datasets</h5>
+
+    <p class="card-text">
+      <pill-set
+        [pills]="(myDatasets$ | async) ?? []"
+        [preselectedPills]="[selectedId ?? '']"
+        (pillSelections)="onPillSelection($event)"
+      ></pill-set>
+    </p>
+  </div>
+</div>

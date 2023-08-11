@@ -15,12 +15,12 @@ export interface Extension {
   version: string;
 }
 
-export interface EurostatCategory {
+export interface Category {
   index: { [key: string]: number };
   label: { [key: string]: string };
 }
 
-export interface EurostatMetadata {
+export interface Metadata {
   class: string;
   extension: Extension;
   id: string[];
@@ -30,14 +30,14 @@ export interface EurostatMetadata {
   size: number[];
   source: string;
   updated: Date;
-  dimension: { [key: string]: EurostatCategory };
+  dimension: { [key: string]: Category };
 }
 
-export interface EurostatMetadataState extends EntityState<EurostatMetadata> {
+export interface MetadataState extends EntityState<Metadata> {
   selectedId: string | null;
 }
 
-export const eurostatMetadataInitialState: EurostatMetadataState = {
+export const MetadataInitialState: MetadataState = {
   ids: [],
   entities: {},
   selectedId: null,
@@ -45,27 +45,27 @@ export const eurostatMetadataInitialState: EurostatMetadataState = {
 
 // Eurostat Actions
 
-export const addEurostatMetadata = createAction(
+export const addMetadata = createAction(
   '[Eurostat Dataset] Add Dataset',
-  props<{ dataset: EurostatMetadata }>()
+  props<{ dataset: Metadata }>()
 );
 
-export const selectEurostatMetadata = createAction(
+export const selectMetadata = createAction(
   '[Eurostat Dataset] Select Dataset',
   props<{ id: string }>()
 );
 
-export const eurostatMetadataAdapter = createEntityAdapter<EurostatMetadata>({
-  selectId: (metadata: EurostatMetadata) => metadata.extension.id,
+export const MetadataAdapter = createEntityAdapter<Metadata>({
+  selectId: (metadata: Metadata) => metadata.extension.id,
   // sortComparer: (a, b) => b.updated.getTime() - a.updated.getTime(),
 });
 
-export const eurostatDatasetReducer = createReducer(
-  eurostatMetadataInitialState,
-  on(addEurostatMetadata, (state, action) =>
-    eurostatMetadataAdapter.addOne(action.dataset, state)
+export const MetadataReducer = createReducer(
+  MetadataInitialState,
+  on(addMetadata, (state, action) =>
+    MetadataAdapter.addOne(action.dataset, state)
   ),
-  on(selectEurostatMetadata, (state, action) => ({
+  on(selectMetadata, (state, action) => ({
     ...state,
     selectedId: action.id,
   }))
@@ -73,16 +73,31 @@ export const eurostatDatasetReducer = createReducer(
 
 // Eurostat Selectors
 
-export const selectEurostatMetadataState = (state: AppState) =>
+export const selectMetadataState = (state: AppState) =>
   state['eurostat-metadata'];
 
-export const selectCurrentDatasetId = createSelector(
-  selectEurostatMetadataState,
-  (state: EurostatMetadataState) => state.selectedId
+export const selectAllMetadataIds = createSelector(
+  selectMetadataState,
+  MetadataAdapter.getSelectors().selectIds
 );
 
-export const selectCurrentDataset = createSelector(
-  selectEurostatMetadataState,
-  selectCurrentDatasetId,
-  (state: EurostatMetadataState, id: string | null) => state.entities[id ?? '']
+export const selectCurrentMetadataId = createSelector(
+  selectMetadataState,
+  (state: MetadataState) => state.selectedId
+);
+
+export const selectCurrentMetadata = createSelector(
+  selectMetadataState,
+  selectCurrentMetadataId,
+  (state: MetadataState, id: string | null) => state.entities[id ?? '']
+);
+
+export const selectAllMetadataIdAndLabel = createSelector(
+  selectMetadataState,
+  (state: MetadataState) => {
+    return state.ids.map((id) => ({
+      id: state.entities[id]?.extension.id,
+      label: state.entities[id]?.label,
+    }));
+  }
 );

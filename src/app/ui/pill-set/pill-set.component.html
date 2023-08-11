@@ -1,6 +1,6 @@
 <pill
   *ngFor="let p of pills"
-  [text]="p"
-  (selection)="onSelection($event)"
-  (deselection)="onDeselection($event)"
+  [pill]="p"
+  [isSelected]="inPreselected(p)"
+  (selected)="onSelected($event)"
 ></pill>

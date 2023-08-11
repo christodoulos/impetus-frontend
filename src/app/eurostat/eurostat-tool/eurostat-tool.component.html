@@ -5,6 +5,9 @@
 <div class="spinner-grow" role="status" *ngIf="loading">
   <span class="visually-hidden">Loading...</span>
 </div>
+
+<eurostat-my-datasets></eurostat-my-datasets>
+
 <eurostat-dataset
   *ngIf="datasetInfo"
   [datasetInfo]="datasetInfo"

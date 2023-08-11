@@ -1,3 +1,12 @@
-<button type="button" [ngClass]="style" (click)="onClick()">
-  {{ text }}
+<button
+  type="button"
+  class="{{
+    isSelected
+      ? 'btn btn-sm btn-secondary rounded-pill me-1 mt-1'
+      : 'btn btn-sm btn-outline-secondary rounded-pill me-1 mt-1'
+  }}"
+  (click)="onClick()"
+  [title]="pill.tooltip"
+>
+  {{ pill.id }}
 </button>

@@ -1,16 +1,14 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PillComponent } from '../pill/pill.component';
-
-export interface PillMetadata {
-  id: string;
-  label: string;
-}
-
-export interface PillSetSelections {
-  metadata: PillMetadata;
-  pills: string[];
-}
+import { PillComponent, Pill } from '../pill/pill.component';
 
 @Component({
   selector: 'pill-set',
@@ -19,25 +17,45 @@ export interface PillSetSelections {
   templateUrl: './pill-set.component.html',
   styleUrls: ['./pill-set.component.scss'],
 })
-export class PillSetComponent {
-  @Input() metadata: PillMetadata = { id: 'pillsetId', label: 'pillsetLabel' };
-  @Input() pills: string[] = [];
-  @Output() pillSelections = new EventEmitter<PillSetSelections>();
+export class PillSetComponent implements OnInit {
+  @ViewChildren(PillComponent) pillComponents!: QueryList<PillComponent>;
+  @Input() pills: Pill[] = [];
+  @Input() preselectedPills: string[] = [];
+  @Input() multiple = false;
+  @Output() pillSelections = new EventEmitter<Pill[]>();
   selectedPills: string[] = [];
 
-  onSelection(pill: string) {
-    this.selectedPills.push(pill);
-    this.pillSelections.emit({
-      metadata: this.metadata,
-      pills: this.selectedPills,
+  ngOnInit() {}
+
+  updatePillSelections() {
+    this.pillComponents.forEach((pillComponent) => {
+      pillComponent.isSelected = this.selectedPills.includes(
+        pillComponent.pill.id ?? ''
+      );
     });
   }
 
-  onDeselection(pill: string) {
-    this.selectedPills = this.selectedPills.filter((p) => p !== pill);
-    this.pillSelections.emit({
-      metadata: this.metadata,
-      pills: this.selectedPills,
-    });
+  onSelected($event: { isSelected: boolean; id: string }) {
+    if (!this.multiple) {
+      this.selectedPills = [];
+    }
+
+    if ($event.isSelected) {
+      this.selectedPills.push($event.id);
+    } else {
+      this.selectedPills = this.selectedPills.filter((p) => p !== $event.id);
+    }
+
+    this.updatePillSelections();
+
+    if ($event.isSelected)
+      this.pillSelections.emit(
+        this.pills.filter((p) => this.selectedPills.includes(p.id ?? ''))
+      );
+  }
+
+  inPreselected(pill: Pill) {
+    if (pill) return this.preselectedPills.includes(pill.id ?? '');
+    else return false;
   }
 }

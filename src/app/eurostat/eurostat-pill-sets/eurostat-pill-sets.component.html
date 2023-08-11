@@ -18,11 +18,11 @@
       aria-labelledby="panelsStayOpen-headingOne"
     >
       <div class="accordion-body">
-        <pill-set
+        <!-- <pill-set
           [metadata]="{ id: first?.id ?? '', label: first?.label ?? '' }"
           [pills]="first?.categories?.sort() ?? []"
           (pillSelections)="onPillSelections($event)"
-        ></pill-set>
+        ></pill-set> -->
       </div>
     </div>
   </div>
@@ -45,11 +45,11 @@
       [attr.aria-labelledby]="'accordion-header-' + i"
     >
       <div class="accordion-body">
-        <pill-set
+        <!-- <pill-set
           [metadata]="{ id: item?.id ?? '', label: item?.label ?? '' }"
           [pills]="item?.categories?.sort() ?? []"
           (pillSelections)="onPillSelections($event)"
-        ></pill-set>
+        ></pill-set> -->
       </div>
     </div>
   </div>
