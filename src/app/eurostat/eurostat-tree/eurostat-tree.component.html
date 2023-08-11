@@ -12,7 +12,10 @@
     </div>
     <h5 class="card-title">EUROSTAT Dataset Explorer</h5>
     <div #treeContainer id="treeContainer" class="collapse show">
-      <app-tree (selection)="onSelection($event)"></app-tree>
+      <app-tree
+        [jsonFile]="'/assets/eurostat.json'"
+        (selection)="onSelection($event)"
+      ></app-tree>
     </div>
   </div>
 </div>

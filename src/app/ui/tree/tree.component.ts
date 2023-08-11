@@ -12,11 +12,12 @@ declare var $: any;
   styleUrls: ['./tree.component.scss'],
 })
 export class TreeComponent implements OnInit {
+  @Input() jsonFile: string | undefined;
   @Output() selection = new EventEmitter<string>();
 
   ngOnInit(): void {
     $(() => {
-      $.getJSON('/assets/eurostat.json', function (data: any) {
+      $.getJSON(this.jsonFile, function (data: any) {
         $('#jstree').jstree({
           core: {
             data,
