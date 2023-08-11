@@ -20,6 +20,8 @@ export interface NutsState {
   nuts3: FeatureCollection | null;
 }
 
+// nuts actions
+
 export const nutsUpdate = createAction(
   '[Nuts] Update',
   props<{ level: string }>()
