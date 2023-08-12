@@ -8,7 +8,6 @@
 
 <eurostat-my-datasets></eurostat-my-datasets>
 
-<eurostat-dataset
-  *ngIf="datasetInfo"
-  [datasetInfo]="datasetInfo"
-></eurostat-dataset>
+<eurostat-query-tool
+  *ngIf="selectCurrentMetadataId$ | async"
+></eurostat-query-tool>

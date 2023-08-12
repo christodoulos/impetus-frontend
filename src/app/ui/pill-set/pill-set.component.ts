@@ -2,7 +2,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   QueryList,
   ViewChildren,
@@ -17,15 +16,13 @@ import { PillComponent, Pill } from '../pill/pill.component';
   templateUrl: './pill-set.component.html',
   styleUrls: ['./pill-set.component.scss'],
 })
-export class PillSetComponent implements OnInit {
+export class PillSetComponent {
   @ViewChildren(PillComponent) pillComponents!: QueryList<PillComponent>;
   @Input() pills: Pill[] = [];
   @Input() preselectedPills: string[] = [];
   @Input() multiple = false;
   @Output() pillSelections = new EventEmitter<Pill[]>();
   selectedPills: string[] = [];
-
-  ngOnInit() {}
 
   updatePillSelections() {
     this.pillComponents.forEach((pillComponent) => {
@@ -36,6 +33,7 @@ export class PillSetComponent implements OnInit {
   }
 
   onSelected($event: { isSelected: boolean; id: string }) {
+    console.log('PillSetComponent', $event);
     if (!this.multiple) {
       this.selectedPills = [];
     }

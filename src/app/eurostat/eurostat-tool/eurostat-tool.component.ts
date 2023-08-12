@@ -4,9 +4,14 @@ import { EurostatTreeComponent } from '../eurostat-tree/eurostat-tree.component'
 import { EurostatDatasetComponent } from '../eurostat-dataset/eurostat-dataset.component';
 import { EurostatDimension, EurostatDataset } from '../eurostat-interfaces';
 import { Store } from '@ngrx/store';
-import { AppState, selectAllMetadataIds } from 'src/app/state';
+import {
+  AppState,
+  selectAllMetadataIds,
+  selectCurrentMetadataId,
+} from 'src/app/state';
 import { map } from 'rxjs';
 import { EurostatMyDatasetsComponent } from '../eurostat-my-datasets/eurostat-my-datasets.component';
+import { EurostatQueryToolComponent } from '../eurostat-query-tool/eurostat-query-tool.component';
 
 @Component({
   selector: 'eurostat-tool',
@@ -16,6 +21,7 @@ import { EurostatMyDatasetsComponent } from '../eurostat-my-datasets/eurostat-my
     EurostatTreeComponent,
     EurostatMyDatasetsComponent,
     EurostatDatasetComponent,
+    EurostatQueryToolComponent,
   ],
   templateUrl: './eurostat-tool.component.html',
   styleUrls: ['./eurostat-tool.component.scss'],
@@ -24,6 +30,7 @@ export class EurostatToolComponent {
   datasetInfo: EurostatDataset | undefined;
   dimensions: any;
   loading = false;
+  selectCurrentMetadataId$ = this.store.select(selectCurrentMetadataId);
 
   constructor(private store: Store<AppState>) {}
 

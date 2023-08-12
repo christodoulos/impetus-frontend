@@ -52,4 +52,10 @@ export const MENU: MenuItem[] = [
     link: '/european-services/nuts-explorer',
     icon: 'ri-earth-line',
   },
+  {
+    key: 'eurostat_explorer',
+    label: 'Eurostat Explorer',
+    link: '/european-services/eurostat-explorer',
+    icon: 'ri-earth-line',
+  },
 ];

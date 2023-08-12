@@ -15,4 +15,11 @@ export const routes: Routes = [
         (m) => m.NutsExplorerComponent
       ),
   },
+  {
+    path: 'european-services/eurostat-explorer',
+    loadComponent: () =>
+      import('./eurostat/eurostat-tool/eurostat-tool.component').then(
+        (m) => m.EurostatToolComponent
+      ),
+  },
 ];

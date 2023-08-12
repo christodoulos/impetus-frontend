@@ -24,6 +24,7 @@ export class PillComponent {
   @Output() selected = new EventEmitter<PillInfo>();
 
   onClick() {
+    console.log('PillClicked');
     this.isSelected = !this.isSelected;
     this.selected.emit({ isSelected: this.isSelected, id: this.pill.id ?? '' });
   }

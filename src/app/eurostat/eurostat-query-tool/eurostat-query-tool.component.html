@@ -1,0 +1,49 @@
+<div class="card border-secondary border">
+  <div class="card-body">
+    <h5 class="card-title">Query Tool for {{ label }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Source: {{ source }}</h6>
+    <p class="card-text">
+      There are {{ n | number }} entries in this dataset. Please refine your
+      search by selecting one or more of the following:
+    </p>
+
+    <div class="accordion mb-2" id="datasetAccordion">
+      <div *ngFor="let dim of dimensions; let i = index" class="accordion-item">
+        <h2 class="accordion-header" [id]="'accordion-header-' + i">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            aria-expanded="false"
+            [attr.data-bs-target]="'#accordion-collapse-' + i"
+            [attr.aria-controls]="'accordion-collapse-' + i"
+          >
+            {{ dimensionInfo(dim).label }}
+          </button>
+        </h2>
+        <div
+          [id]="'accordion-collapse-' + i"
+          class="accordion-collapse collapse"
+          [attr.aria-labelledby]="'accordion-header-' + i"
+        >
+          <div class="accordion-body">
+            <pill-set
+              [multiple]="true"
+              [pills]="dimensionInfo(dim).pills"
+              (pillSelections)="onDimensionSelections($event)"
+            ></pill-set>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="card-text">
+      <a href="javascript: void(0);" class="btn btn-secondary btn-sm"
+        >Submit Query</a
+      >
+    </p>
+  </div>
+  <div class="card-footer border-top border-light text-muted">
+    Dataset updated at {{ updated | date }}
+  </div>
+</div>
