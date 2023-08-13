@@ -4,5 +4,16 @@
     [tooltip]="'Collapse all'"
     (click)="collapse()"
   ></icon-button>
+  <input
+    type="text"
+    id="jstree-search"
+    name="jstree-search"
+    class="form-control form-control-sm"
+  />
+  <icon-button
+    [icon]="'ri-search-line'"
+    [tooltip]="'Search'"
+    (click)="searchTree()"
+  ></icon-button>
 </div>
 <div id="jstree"></div>

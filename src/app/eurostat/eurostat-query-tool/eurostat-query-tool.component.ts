@@ -20,7 +20,8 @@ import { PillSetComponent } from 'src/app/ui/pill-set/pill-set.component';
   styleUrls: ['./eurostat-query-tool.component.scss'],
 })
 export class EurostatQueryToolComponent implements OnInit, OnDestroy {
-  @Output() eurostatQuery = new EventEmitter<string>();
+  // @Output() eurostatQuery = new EventEmitter<string>();
+  @Output() eurostatQuery = new EventEmitter<{ [key: string]: string[] }>();
   subscription: Subscription | undefined;
   currentMetadata$ = this.store.select(selectCurrentMetadata);
   ds: any;
@@ -130,11 +131,12 @@ export class EurostatQueryToolComponent implements OnInit, OnDestroy {
 
   onClick() {
     // Form a query string from the query selections
-    const queryString = Object.entries(this.querySelections)
-      .map(([key, values]) =>
-        values.map((value) => `${key}=${encodeURIComponent(value)}`).join('&')
-      )
-      .join('&');
-    this.eurostatQuery.emit(queryString);
+    //   const queryString = Object.entries(this.querySelections)
+    //     .map(([key, values]) =>
+    //       values.map((value) => `${key}=${encodeURIComponent(value)}`).join('&')
+    //     )
+    //     .join('&');
+    //   this.eurostatQuery.emit(queryString);
+    this.eurostatQuery.emit(this.querySelections);
   }
 }
