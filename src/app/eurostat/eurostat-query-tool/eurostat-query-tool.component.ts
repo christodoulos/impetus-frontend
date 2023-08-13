@@ -45,9 +45,9 @@ export class EurostatQueryToolComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.currentMetadata$.subscribe((metadata) => {
       if (metadata) {
-        // nothitng selected from my datasets
+        // nothing selected from my datasets
         this.ds = JSONstat(metadata);
-        console.log(this.ds);
+        // console.log(this.ds);
         const dimensions = this.ds.id ?? [];
         this.dimensions = dimensions;
 
@@ -59,7 +59,7 @@ export class EurostatQueryToolComponent implements OnInit, OnDestroy {
           }),
           {}
         );
-        console.log(this.labelToId);
+        // console.log(this.labelToId);
 
         this.label = this.ds.label;
         this.source = this.ds.source;
@@ -84,7 +84,7 @@ export class EurostatQueryToolComponent implements OnInit, OnDestroy {
           }),
           {}
         );
-        console.log(this.pillIdToTooltip);
+        // console.log(this.pillIdToTooltip);
       }
     });
   }
@@ -121,7 +121,7 @@ export class EurostatQueryToolComponent implements OnInit, OnDestroy {
       (key) =>
         this.querySelections[key].length < 1 && delete this.querySelections[key]
     );
-    console.log('onPillSelection', this.querySelections);
+    // console.log('onPillSelection', this.querySelections);
   }
 
   onCheckboxChange(event: Event) {

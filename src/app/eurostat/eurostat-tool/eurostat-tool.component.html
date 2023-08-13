@@ -10,4 +10,5 @@
 
 <eurostat-query-tool
   *ngIf="selectCurrentMetadataId$ | async"
+  (eurostatQuery)="onEurostatQuery($event)"
 ></eurostat-query-tool>
