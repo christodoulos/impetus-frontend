@@ -7,6 +7,18 @@
       search by selecting one or more of the following:
     </p>
 
+    <div class="form-check mb-2">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="multipleSelections"
+        (change)="onCheckboxChange($event)"
+      />
+      <label class="form-check-label" for="multipleSelections"
+        >Multiple Selections</label
+      >
+    </div>
+
     <div class="accordion mb-2" id="datasetAccordion">
       <div
         *ngFor="let dim of dimensionInfos; let i = index"
@@ -32,6 +44,7 @@
           <div class="accordion-body">
             <pill-set
               [pills]="dim.pills"
+              [multipleSelection]="multipleSelection"
               (selectedPillsChange)="onPillSelection($event)"
             ></pill-set>
           </div>

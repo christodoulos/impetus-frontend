@@ -18,13 +18,27 @@ import { PillComponent } from '../pill/pill.component';
 })
 export class PillSetComponent {
   @Input() pills: { id: string; tooltip: string }[] = [];
-  @Input() multipleSelection: boolean = false;
+
+  // @Input() multipleSelection: boolean = false;
+  private _multipleSelection: boolean = false;
+  @Input()
+  set multipleSelection(value: boolean) {
+    if (this._multipleSelection && !value) {
+      this.selectedPills = [];
+      this.selectedPillsChange.emit(this.selectedPills);
+    }
+    this._multipleSelection = value;
+  }
+
+  get multipleSelection(): boolean {
+    return this._multipleSelection;
+  }
+
   @Output() selectedPillsChange = new EventEmitter<string[]>();
 
   selectedPills: string[] = [];
 
   onSelectedChange(event: { id: string; selected: boolean }) {
-    console.log('PillSetComponent');
     if (event.selected) {
       if (!this.multipleSelection) {
         this.selectedPills = [event.id];

@@ -23,7 +23,6 @@ export class PillComponent {
   }>();
 
   toggleSelected() {
-    console.log('toggleSelected');
     this.selected = !this.selected;
     this.selectedChange.emit({ id: this.id, selected: this.selected });
   }

@@ -26,6 +26,7 @@ export class EurostatQueryToolComponent implements OnInit, OnDestroy {
     label: string;
     pills: { id: string; tooltip: string }[];
   }[] = [];
+  multipleSelection = false;
 
   query: { dimension: string; selections: string[] }[] = [];
 
@@ -73,13 +74,17 @@ export class EurostatQueryToolComponent implements OnInit, OnDestroy {
       };
       pills.push(pill);
     }
-    console.log('dimensionInfo', { label, pills });
+    // console.log('dimensionInfo', { label, pills });
     return { label, pills };
   }
 
   onPillSelection(selected: string[]) {
     this.changeDetectorRef.detectChanges();
     console.log('onPillSelection', selected);
+  }
+
+  onCheckboxChange(event: Event) {
+    this.multipleSelection = (event.target as HTMLInputElement).checked;
   }
 
   // onDimensionSelections($event: Pill[]) {
