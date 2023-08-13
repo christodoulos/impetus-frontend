@@ -8,7 +8,10 @@
     </p>
 
     <div class="accordion mb-2" id="datasetAccordion">
-      <div *ngFor="let dim of dimensions; let i = index" class="accordion-item">
+      <div
+        *ngFor="let dim of dimensionInfos; let i = index"
+        class="accordion-item"
+      >
         <h2 class="accordion-header" [id]="'accordion-header-' + i">
           <button
             class="accordion-button collapsed"
@@ -18,7 +21,7 @@
             [attr.data-bs-target]="'#accordion-collapse-' + i"
             [attr.aria-controls]="'accordion-collapse-' + i"
           >
-            {{ dimensionInfo(dim).label }}
+            {{ dim.label }}
           </button>
         </h2>
         <div
@@ -28,9 +31,8 @@
         >
           <div class="accordion-body">
             <pill-set
-              [multiple]="true"
-              [pills]="dimensionInfo(dim).pills"
-              (pillSelections)="onDimensionSelections($event)"
+              [pills]="dim.pills"
+              (selectedPillsChange)="onPillSelection($event)"
             ></pill-set>
           </div>
         </div>

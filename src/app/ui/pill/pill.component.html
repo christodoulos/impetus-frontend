@@ -1,12 +1,9 @@
 <button
   type="button"
-  class="{{
-    isSelected
-      ? 'btn btn-sm btn-secondary rounded-pill me-1 mt-1'
-      : 'btn btn-sm btn-outline-secondary rounded-pill me-1 mt-1'
-  }}"
-  (click)="onClick()"
-  [title]="pill.tooltip"
+  class="btn btn-sm rounded-pill me-1 mt-1"
+  [ngClass]="{ 'btn-secondary': selected, 'btn-outline-secondary': !selected }"
+  (click)="toggleSelected()"
+  [title]="tooltip"
 >
-  {{ pill.id }}
+  {{ id }}
 </button>

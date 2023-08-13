@@ -8,7 +8,6 @@ import {
 import { Store } from '@ngrx/store';
 import { Subscription, map } from 'rxjs';
 import { PillSetComponent } from 'src/app/ui/pill-set/pill-set.component';
-import { Pill } from 'src/app/ui/pill/pill.component';
 
 @Component({
   selector: 'eurostat-my-datasets',
@@ -22,7 +21,11 @@ export class EurostatMyDatasetsComponent implements OnDestroy {
   selectedId: string | null = null;
   myDatasets$ = this.store
     .select(selectAllMetadataIdAndLabel)
-    .pipe(map((data) => data.map((d) => ({ id: d.id, tooltip: d.label }))));
+    .pipe(
+      map((data) =>
+        data.map((d) => ({ id: d.id ?? '', tooltip: d.label ?? '' }))
+      )
+    );
 
   constructor(private store: Store<AppState>) {
     this.selectedIdSubscription = this.store
@@ -36,10 +39,10 @@ export class EurostatMyDatasetsComponent implements OnDestroy {
     this.selectedIdSubscription.unsubscribe();
   }
 
-  onPillSelection($event: Pill[]) {
+  onPillSelection(selected: string[]) {
     this.store.dispatch({
       type: '[Eurostat Dataset] Select Dataset',
-      id: $event[0].id,
+      id: selected[0],
     });
   }
 }

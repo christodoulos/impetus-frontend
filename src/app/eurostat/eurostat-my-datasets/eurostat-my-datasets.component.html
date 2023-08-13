@@ -5,8 +5,7 @@
     <p class="card-text">
       <pill-set
         [pills]="(myDatasets$ | async) ?? []"
-        [preselectedPills]="[selectedId ?? '']"
-        (pillSelections)="onPillSelection($event)"
+        (selectedPillsChange)="onPillSelection($event)"
       ></pill-set>
     </p>
   </div>

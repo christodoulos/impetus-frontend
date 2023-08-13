@@ -40,10 +40,6 @@ export class EurostatTreeComponent {
       type: '[Eurostat Dataset] Add Dataset',
       dataset: info,
     });
-    this.store.dispatch({
-      type: '[Eurostat Dataset] Select Dataset',
-      id: info.extension.id,
-    });
     this.info.emit(info);
     this.loading.emit(false);
   }

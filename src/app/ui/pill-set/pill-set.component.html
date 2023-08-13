@@ -1,6 +1,7 @@
 <pill
-  *ngFor="let p of pills"
-  [pill]="p"
-  [isSelected]="inPreselected(p)"
-  (selected)="onSelected($event)"
+  *ngFor="let pill of pills"
+  [id]="pill.id"
+  [tooltip]="pill.tooltip"
+  [selected]="selectedPills.includes(pill.id)"
+  (selectedChange)="onSelectedChange($event)"
 ></pill>
