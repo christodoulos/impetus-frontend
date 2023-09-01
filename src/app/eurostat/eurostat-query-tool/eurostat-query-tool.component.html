@@ -44,6 +44,7 @@
           <div class="accordion-body">
             <pill-set
               [pills]="dim.pills"
+              [selectOptions]="true"
               [multipleSelection]="multipleSelection"
               (selectedPillsChange)="onPillSelection(dim.label, $event)"
             ></pill-set>

@@ -1,3 +1,15 @@
+<div class="d-flex flex-row mb-2" *ngIf="selectOptions && pills.length > 1">
+  <div class="form-check mb-2">
+    <input
+      type="checkbox"
+      class="form-check-input"
+      [id]="selectAllUuid"
+      [(ngModel)]="selectAll"
+      (change)="selectAllPills()"
+    />
+    <label class="form-check-label" for="selectAll">Select All</label>
+  </div>
+</div>
 <pill
   *ngFor="let pill of pills"
   [id]="pill.id"
