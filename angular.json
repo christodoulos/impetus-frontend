@@ -33,12 +33,14 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "threebox/threebox.css",
               "src/assets/vendor/jstree/themes/default/style.min.css",
               "src/assets/scss/icons.scss",
               "src/assets/scss/app-saas.scss",
               "src/styles.scss"
             ],
             "scripts": [
+              "threebox/threebox.min.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/jstree/dist/jstree.min.js"

@@ -154,13 +154,12 @@ export const mapReducer = createReducer(
     const center = action.attrs['center'];
     if (center) {
       const [lng, lat] = center;
-      action.attrs['lng'] = lng;
-      action.attrs['lat'] = lat;
-    }
-    return {
-      ...state,
-      ...action.attrs,
-    };
+      return { ...state, ...action.attrs, lng, lat };
+    } else
+      return {
+        ...state,
+        ...action.attrs,
+      };
   }),
   //   Set Style action
   on(setStyle, (state, action) => ({

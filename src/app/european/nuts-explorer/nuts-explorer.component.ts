@@ -13,6 +13,8 @@ import { AppState, nutsIsLoading } from 'src/app/state';
 import { Observable, Subscription } from 'rxjs';
 import { FeatureCollection } from 'src/app/interfaces/geojson';
 import { EurostatToolComponent } from 'src/app/eurostat/eurostat-tool/eurostat-tool.component';
+import { MapService } from 'src/app/map/map.service';
+import { GeoJsonProperties } from 'geojson';
 
 @Component({
   selector: 'app-nuts-explorer',
@@ -28,7 +30,8 @@ import { EurostatToolComponent } from 'src/app/eurostat/eurostat-tool/eurostat-t
   styleUrls: ['./nuts-explorer.component.scss'],
 })
 export class NutsExplorerComponent implements OnInit, AfterViewInit {
-  @ViewChild('map') map!: MapComponent;
+  // @ViewChild('map') map!: MapComponent;
+  map = this.mapService.map;
   nutsLevels = [
     { key: 'nuts0', value: 'National (NUTS 0)' },
     { key: 'nuts1', value: 'Large Region (NUTS 1)' },
@@ -44,17 +47,23 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
   nuts2$ = this.store.select((state) => state.nuts.nuts2);
   nuts3$ = this.store.select((state) => state.nuts.nuts3);
   hoveredPolygonId = '';
-  nutsProperties = null;
+  nutsProperties: GeoJsonProperties | null = null;
   subscription: Subscription | undefined;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private mapService: MapService) {}
 
   ngOnInit(): void {
     this.nutsForm.controls.nutsLevel.valueChanges.subscribe((value) => {
       this.subscription?.unsubscribe();
-      this.map.removeLayer('nuts-fill');
-      this.map.removeLayer('nuts-borders');
-      this.map.removeSource('nuts-source');
+      if (this.map.getLayer('nuts-fill')) {
+        this.map.removeLayer('nuts-fill');
+      }
+      if (this.map.getLayer('nuts-borders')) {
+        this.map.removeLayer('nuts-borders');
+      }
+      if (this.map.getSource('nuts-source')) {
+        this.map.removeSource('nuts-source');
+      }
       switch (value) {
         case 'nuts0':
           this.onNutsLevelChange(this.nuts0$);
@@ -75,11 +84,10 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // this.map.fitBounds([
-    //   -26.39211076038066, 33.85666623943277, 46.06351684677202,
-    //   71.45984928826147,
-    // ]);
-    // this.onNutsLevelChange(this.nuts0$);
+    this.map.fitBounds([
+      -26.39211076038066, 33.85666623943277, 46.06351684677202,
+      71.45984928826147,
+    ]);
   }
 
   onNutsLevelChange(nuts$: Observable<FeatureCollection | null>) {

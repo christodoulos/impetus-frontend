@@ -15,6 +15,7 @@ import { MapComponent } from 'src/app/map/map.component';
 
 import * as interpolateheatmaplayer from 'interpolateheatmaplayer';
 import { Feature, FeatureCollection } from 'src/app/interfaces/geojson';
+import { MapService } from 'src/app/map/map.service';
 
 @Component({
   selector: 'app-heatmaps',
@@ -32,7 +33,8 @@ import { Feature, FeatureCollection } from 'src/app/interfaces/geojson';
   styleUrls: ['./heatmaps.component.scss'],
 })
 export class HeatmapsComponent implements OnInit, AfterViewInit {
-  @ViewChild('map') map!: MapComponent;
+  // @ViewChild('map') map!: MapComponent;
+  map = this.mapService.map;
   metrics = [
     { key: 'temperature', value: 'Temperature' },
     { key: 'windSpeed', value: 'Wind Speed (km/h)' },
@@ -51,7 +53,10 @@ export class HeatmapsComponent implements OnInit, AfterViewInit {
   unit = '';
   roi = [];
 
-  constructor(private service: HeatmapsService) {}
+  constructor(
+    private service: HeatmapsService,
+    private mapService: MapService
+  ) {}
 
   ngOnInit(): void {
     this.form.controls.metric.valueChanges.subscribe((value) => {

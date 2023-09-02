@@ -1,7 +1,16 @@
-import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { LeftSideBarComponent } from './layout/left-side-bar/left-side-bar.component';
+import { MapComponent } from './map/map.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +19,7 @@ import { Store } from '@ngrx/store';
 
 import { AppState, login, nutsUpdate } from './state';
 import { HttpClient } from '@angular/common/http';
+import { MapService } from './map/map.service';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +30,7 @@ import { HttpClient } from '@angular/common/http';
     RouterOutlet,
     NgbAlertModule,
     LeftSideBarComponent,
+    MapComponent,
     FooterComponent,
     TopbarComponent,
   ],
@@ -27,7 +38,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   dataBsTheme = 'light';
   dataLayoutMode = 'fluid';
   dataMenuColor = 'dark';
@@ -38,9 +49,12 @@ export class AppComponent implements OnInit {
   user: SocialUser | undefined;
   loggedIn = false;
 
+  @ViewChild('map', { static: true }) mapDiv!: ElementRef;
+
   constructor(
     private renderer: Renderer2,
     private authService: SocialAuthService,
+    private mapService: MapService,
     private store: Store<AppState>,
     private http: HttpClient
   ) {}
@@ -63,6 +77,17 @@ export class AppComponent implements OnInit {
         this.store.dispatch(login({ user }));
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    const { map } = this.mapService.newMap(this.mapDiv);
+    // map.on('style.load', () => this.mapService.onStyleLoad(map));
+    // map.on('load', () => this.mapService.onLoad(map));
+    map.on('wheel', () => this.mapService.onWheel());
+    map.on('boxzoomend', () => this.mapService.onBoxZoomEnd());
+    map.on('rotateend', () => this.mapService.onRotateEnd());
+    map.on('pitchend', () => this.mapService.onPitchEnd());
+    map.on('dragend', () => this.mapService.onDragEnd());
   }
 
   @HostListener('window:resize', ['$event'])
