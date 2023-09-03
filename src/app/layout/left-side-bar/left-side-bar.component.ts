@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { MenuItem } from '../models/menu.model';

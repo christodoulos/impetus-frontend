@@ -164,6 +164,9 @@ export class MapService {
 
     // window.tb = this.tb = this.newTreebox(this.map);
 
+    // Add zoom and rotation controls to the map.
+    this.map.addControl(new mapboxgl.NavigationControl());
+
     return { map: this.map, tb: this.tb };
   }
 

@@ -124,7 +124,7 @@ export class HeatmapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const layer = interpolateHeatmapLayer.create({
       layerId: 'heatmap',
-      opacity: 1,
+      opacity: 0.8,
       points,
       roi: this.roi,
     });
