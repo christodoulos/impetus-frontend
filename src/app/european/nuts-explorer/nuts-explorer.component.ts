@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MapComponent } from 'src/app/map/map.component';
 import {
@@ -28,8 +35,9 @@ import { GeoJsonProperties } from 'geojson';
   ],
   templateUrl: './nuts-explorer.component.html',
   styleUrls: ['./nuts-explorer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NutsExplorerComponent implements OnInit, AfterViewInit {
+export class NutsExplorerComponent implements OnInit, AfterViewInit, OnDestroy {
   // @ViewChild('map') map!: MapComponent;
   map = this.mapService.map;
   nutsLevels = [
@@ -55,15 +63,7 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.nutsForm.controls.nutsLevel.valueChanges.subscribe((value) => {
       this.subscription?.unsubscribe();
-      if (this.map.getLayer('nuts-fill')) {
-        this.map.removeLayer('nuts-fill');
-      }
-      if (this.map.getLayer('nuts-borders')) {
-        this.map.removeLayer('nuts-borders');
-      }
-      if (this.map.getSource('nuts-source')) {
-        this.map.removeSource('nuts-source');
-      }
+      this.removeLayers();
       switch (value) {
         case 'nuts0':
           this.onNutsLevelChange(this.nuts0$);
@@ -90,10 +90,27 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
     ]);
   }
 
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+    this.removeLayers();
+  }
+
+  removeLayers() {
+    if (this.map.getLayer('nuts-fill')) {
+      this.map.removeLayer('nuts-fill');
+    }
+    if (this.map.getLayer('nuts-borders')) {
+      this.map.removeLayer('nuts-borders');
+    }
+    if (this.map.getSource('nuts-source')) {
+      this.map.removeSource('nuts-source');
+    }
+  }
+
   onNutsLevelChange(nuts$: Observable<FeatureCollection | null>) {
     this.subscription = nuts$?.subscribe((data) => {
       if (data) {
-        console.log(data.features);
+        // console.log(data.features);
         this.map.addSource('nuts-source', {
           type: 'geojson',
           data,
@@ -128,7 +145,7 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
         });
 
         this.map.on('mousemove', 'nuts-fill', (e) => {
-          console.log(e.features);
+          // console.log(e.features);
           if (e.features && e.features.length > 0) {
             if (this.hoveredPolygonId !== '') {
               this.map.setFeatureState(
@@ -139,6 +156,7 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit {
 
             this.hoveredPolygonId = e.features[0].id as string;
             this.nutsProperties = e.features[0].properties;
+            // console.log(this.nutsProperties);
             this.map.setFeatureState(
               { source: 'nuts-source', id: this.hoveredPolygonId },
               { hover: true }

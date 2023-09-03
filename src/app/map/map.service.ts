@@ -1,11 +1,12 @@
-import { ElementRef, Injectable } from '@angular/core';
-import {
-  Map,
-  LngLatBoundsLike,
-  LngLatLike,
-  MapMouseEvent,
-  MapLayerEventType,
-} from 'mapbox-gl';
+import { ElementRef, Injectable, NgZone } from '@angular/core';
+// import {
+//   Map,
+//   LngLatBoundsLike,
+//   LngLatLike,
+//   MapMouseEvent,
+//   MapLayerEventType,
+// } from 'mapbox-gl';
+// import * as mapboxgl from 'mapbox-gl';
 import { Store } from '@ngrx/store';
 import * as MapState from './map.state';
 import { AppState } from '../state';
@@ -20,12 +21,13 @@ window.tb = window.tb || {};
 
 declare let Threebox: any;
 declare let THREE: any;
+declare let mapboxgl: any;
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
-  map!: Map;
+  map!: mapboxgl.Map;
   tb: any;
   style$ = this.store.select(MapState.selectMapStyle);
   bounds$ = this.store.select(MapState.selectMapBounds);
@@ -41,9 +43,11 @@ export class MapService {
 
   followMouse = debounce((e) => this.onMouseMove(e, this.map), 100);
 
-  constructor(private store: Store<AppState>) {
-    // Subscribe to map selectors and respond to changes
+  constructor(private store: Store<AppState>, private ngZone: NgZone) {
+    // Global MapboxGL
+    (window as any).mapboxgl = mapboxgl;
 
+    // Subscribe to map selectors and respond to changes
     // Map Style changes
     this.style$.subscribe((style) => {
       if (this.map) {
@@ -54,7 +58,7 @@ export class MapService {
     // Map Bounds changes
     this.bounds$.subscribe((bounds) => {
       if (this.map) {
-        this.map.fitBounds(bounds as LngLatBoundsLike);
+        this.map.fitBounds(bounds as mapboxgl.LngLatBoundsLike);
       }
     });
 
@@ -91,7 +95,7 @@ export class MapService {
     // Map Center changes
     this.center$.subscribe((center) => {
       if (this.map) {
-        this.map.setCenter(center as LngLatLike);
+        this.map.setCenter(center as mapboxgl.LngLatLike);
       }
     });
 
@@ -134,7 +138,7 @@ export class MapService {
     });
   }
 
-  newTreebox(map: Map) {
+  newTreebox(map: mapboxgl.Map) {
     return new Threebox(map, map.getCanvas().getContext('webgl'), {
       willReadFrequently: true,
       realSunlight: true,
@@ -146,9 +150,9 @@ export class MapService {
     });
   }
 
-  newMap(container: ElementRef): { map: Map; tb: any } {
-    this.map = new Map({
-      style: 'mapbox://styles/mapbox/streets-v12',
+  newMap(container: ElementRef): { map: mapboxgl.Map; tb: any } {
+    this.map = new mapboxgl.Map({
+      style: 'mapbox://styles/mapbox/light-v10',
       container: container.nativeElement,
       antialias: true,
       attributionControl: false,
@@ -158,7 +162,7 @@ export class MapService {
         'pk.eyJ1IjoiY2hyaXN0b2RvdWxvcyIsImEiOiJja3luYTd3eW0ydGFiMm9xcHRmMGJyOHVrIn0.c1mSurunkjU4Wyf2hxcy0g',
     });
 
-    window.tb = this.tb = this.newTreebox(this.map);
+    // window.tb = this.tb = this.newTreebox(this.map);
 
     return { map: this.map, tb: this.tb };
   }
@@ -184,7 +188,7 @@ export class MapService {
   }
 
   on(
-    event: keyof MapLayerEventType,
+    event: keyof mapboxgl.MapLayerEventType,
     layer: string,
     listener: (e: any) => void
   ) {
@@ -206,6 +210,10 @@ export class MapService {
 
   setFilter(layerId: string, filter: any[]) {
     this.map.setFilter(layerId, filter);
+  }
+
+  setStyle(style: string) {
+    this.map.setStyle(style);
   }
 
   addSkyLayer() {
@@ -236,7 +244,7 @@ export class MapService {
   }
 
   addGLBLayer(
-    where: LngLatLike,
+    where: mapboxgl.LngLatLike,
     elevated: boolean,
     modelFile: string,
     scale: { x: number; y: number; z: number } = { x: 1, y: 1, z: 1 },
@@ -329,7 +337,7 @@ export class MapService {
     return Math.round((pitch + Number.EPSILON) * 100) / 100;
   }
 
-  onMouseMove(e: MapMouseEvent, map: Map) {
+  onMouseMove(e: mapboxgl.MapMouseEvent, map: mapboxgl.Map) {
     const point = { x: e.point.x, y: e.point.y };
     const lngLat = { lng: e.lngLat.lng, lat: e.lngLat.lat };
     const features = map.queryRenderedFeatures(e.point);
@@ -342,7 +350,7 @@ export class MapService {
     this.store.dispatch(MapState.setWhere({ where }));
   }
 
-  onZoomEnd(map: Map) {
+  onZoomEnd(map: mapboxgl.Map) {
     let zoom = map.getZoom();
     zoom = Math.round((zoom + Number.EPSILON) * 100) / 100;
     this.store.dispatch(MapState.setZoom({ zoom }));

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { SelectComponent } from 'src/app/ui/select/select.component';
@@ -13,9 +13,12 @@ import { DisabledInputComponent } from 'src/app/ui/disabled-input/disabled-input
 import { InputComponent } from 'src/app/ui/input/input.component';
 import { MapComponent } from 'src/app/map/map.component';
 
-import * as interpolateheatmaplayer from 'interpolateheatmaplayer';
-import { Feature, FeatureCollection } from 'src/app/interfaces/geojson';
+import { FeatureCollection } from 'src/app/interfaces/geojson';
 import { MapService } from 'src/app/map/map.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/state';
+
+declare let interpolateHeatmapLayer: any;
 
 @Component({
   selector: 'app-heatmaps',
@@ -32,8 +35,7 @@ import { MapService } from 'src/app/map/map.service';
   templateUrl: './heatmaps.component.html',
   styleUrls: ['./heatmaps.component.scss'],
 })
-export class HeatmapsComponent implements OnInit, AfterViewInit {
-  // @ViewChild('map') map!: MapComponent;
+export class HeatmapsComponent implements OnInit, AfterViewInit, OnDestroy {
   map = this.mapService.map;
   metrics = [
     { key: 'temperature', value: 'Temperature' },
@@ -61,9 +63,7 @@ export class HeatmapsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.form.controls.metric.valueChanges.subscribe((value) => {
       this.service.getHeatmap(value).subscribe((data) => {
-        this.map.removeLayer('heatmap');
-        this.map.removeLayer('labels');
-        this.map.removeSource('data');
+        this.removeLayersAndSources();
         if (data) {
           const properties = data.properties;
           if (properties) {
@@ -71,7 +71,7 @@ export class HeatmapsComponent implements OnInit, AfterViewInit {
             this.unit = properties['unit'];
           }
           this.crateHeatmap(data, value ?? '');
-          this.createLabels(data, value ?? '');
+          // this.createLabels(data, value ?? '');
         } else {
           this.timeOfObservation = '';
           this.unit = '';
@@ -86,8 +86,27 @@ export class HeatmapsComponent implements OnInit, AfterViewInit {
     ]);
     this.service.getAtticaNUTS().subscribe((data) => {
       this.roi = data.geometry.coordinates[0][0];
-      this.atticaBoundary(data);
+      // this.atticaBoundary(data);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.removeLayersAndSources();
+  }
+
+  removeLayersAndSources() {
+    if (this.map.getLayer('heatmap')) {
+      this.map.removeLayer('heatmap');
+    }
+    if (this.map.getLayer('labels')) {
+      this.map.removeLayer('labels');
+    }
+    if (this.map.getLayer('attica_boundary')) {
+      this.map.removeLayer('attica_boundary');
+    }
+    if (this.map.getSource('data')) {
+      this.map.removeSource('data');
+    }
   }
 
   crateHeatmap(data: FeatureCollection, metric: string): void {
@@ -103,14 +122,16 @@ export class HeatmapsComponent implements OnInit, AfterViewInit {
       points.push(point);
     }
 
-    const layer = interpolateheatmaplayer.create({
+    const layer = interpolateHeatmapLayer.create({
       layerId: 'heatmap',
-      opacity: 0.8,
+      opacity: 1,
       points,
       roi: this.roi,
     });
+    this.mapService.removeSkyLayer();
 
     this.map.addLayer(layer);
+    console.log(this.map.getStyle().layers);
   }
 
   createLabels(data: any, metric: string) {
