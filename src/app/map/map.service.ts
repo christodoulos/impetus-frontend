@@ -166,6 +166,7 @@ export class MapService {
 
     // Add zoom and rotation controls to the map.
     this.map.addControl(new mapboxgl.NavigationControl());
+    // this.map.scrollZoom.disable();
 
     return { map: this.map, tb: this.tb };
   }

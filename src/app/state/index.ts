@@ -4,6 +4,7 @@ import { NutsState } from './nuts';
 import { MapState } from '../map/map.state';
 
 export interface AppState {
+  router: any;
   auth: AuthState;
   nuts: NutsState;
   'eurostat-metadata': EurostatMetadataState;

@@ -10,6 +10,7 @@ import {
 
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
+import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import {
   authReducer,
   nutsReducer,
@@ -45,7 +46,9 @@ export const appConfig: ApplicationConfig = {
       nuts: nutsReducer,
       'eurostat-metadata': eurostatMetadataReducer,
       map: mapReducer,
+      router: routerReducer,
     }),
+    provideRouterStore(),
     provideEffects([NutsEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states

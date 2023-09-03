@@ -17,9 +17,12 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Store } from '@ngrx/store';
 
+import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
+
 import { AppState, login, nutsUpdate } from './state';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from './map/map.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -60,6 +63,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
+    // const {selectRouteData} = getRouterSelectors();
+
     this.store.dispatch(nutsUpdate({ level: 'nuts0' }));
     this.store.dispatch(nutsUpdate({ level: 'nuts1' }));
     this.store.dispatch(nutsUpdate({ level: 'nuts2' }));
@@ -83,11 +88,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     const { map } = this.mapService.newMap(this.mapDiv);
     // map.on('style.load', () => this.mapService.onStyleLoad(map));
     // map.on('load', () => this.mapService.onLoad(map));
-    map.on('wheel', () => this.mapService.onWheel());
-    map.on('boxzoomend', () => this.mapService.onBoxZoomEnd());
-    map.on('rotateend', () => this.mapService.onRotateEnd());
-    map.on('pitchend', () => this.mapService.onPitchEnd());
-    map.on('dragend', () => this.mapService.onDragEnd());
+    // map.on('wheel', () => this.mapService.onWheel());
+    // map.on('boxzoomend', () => this.mapService.onBoxZoomEnd());
+    // map.on('rotateend', () => this.mapService.onRotateEnd());
+    // map.on('pitchend', () => this.mapService.onPitchEnd());
+    // map.on('dragend', () => this.mapService.onDragEnd());
   }
 
   @HostListener('window:resize', ['$event'])

@@ -14,7 +14,9 @@ import {
   photoUrl,
   logout,
 } from 'src/app/state';
+import { getRouterSelectors } from '@ngrx/router-store';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-topbar',
@@ -28,6 +30,12 @@ export class TopbarComponent {
   name$ = this.store.select(name);
   photoUrl$ = this.store.select(photoUrl);
   email$ = this.store.select(email);
+  routeTitle$ = this.store.select(getRouterSelectors().selectRouteData).pipe(
+    map((data) => {
+      if (!data) return '';
+      else return data['title'];
+    })
+  );
   constructor(
     private renderer: Renderer2,
     private authService: SocialAuthService,
