@@ -1,7 +1,7 @@
 import { AuthState } from './auth';
 import { MetadataState as EurostatMetadataState } from '../eurostat/eurostat-state';
 import { NutsState } from './nuts';
-import { MapState } from '../map/map.state';
+import { MapState } from './map';
 
 export interface AppState {
   router: any;
@@ -13,4 +13,4 @@ export interface AppState {
 export * from './auth';
 export * from './nuts';
 export * from '../eurostat/eurostat-state';
-export * from '../map/map.state';
+export * from './map';

@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   Map,
   LngLatBoundsLike,
@@ -11,9 +11,10 @@ import {
   MapboxGeoJSONFeature,
 } from 'mapbox-gl';
 import { Store } from '@ngrx/store';
-import * as MapState from './map.state';
+import * as MapState from '../state/map';
 import { AppState } from '../state';
 import { debounce } from 'lodash-es';
+import { saveAs } from 'file-saver';
 
 declare global {
   interface Window {
@@ -45,7 +46,7 @@ export class MapService {
 
   followMouse = debounce((e) => this.onMouseMove(e, this.map), 100);
 
-  constructor(private store: Store<AppState>, private ngZone: NgZone) {
+  constructor(private store: Store<AppState>) {
     // Subscribe to map selectors and respond to changes
     // Map Style changes
     this.style$.subscribe((style) => {
@@ -168,6 +169,18 @@ export class MapService {
     // this.map.scrollZoom.disable();
 
     return this.map;
+  }
+
+  downloadMap() {
+    // Τhanks to https://tinyurl.com/22vht9zc accepted answer
+    const img = new Image();
+    const mapCanvas = document.querySelector(
+      '.mapboxgl-canvas'
+    ) as HTMLCanvasElement;
+    if (mapCanvas) {
+      img.src = mapCanvas.toDataURL();
+      saveAs(img.src, 'map.png');
+    }
   }
 
   addSource(id: string, source: AnySourceData) {

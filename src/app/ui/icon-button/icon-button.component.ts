@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { uniqueId } from 'lodash-es';
 
 @Component({
   selector: 'icon-button',
@@ -11,4 +12,10 @@ import { CommonModule } from '@angular/common';
 export class IconButtonComponent {
   @Input() icon = 'ri-question-line';
   @Input() tooltip = '';
+  @Input() id = uniqueId();
+  @Output() buttonClick = new EventEmitter<string>();
+
+  onClick(): void {
+    this.buttonClick.emit(this.id);
+  }
 }
