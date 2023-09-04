@@ -144,7 +144,7 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit, OnDestroy {
           },
         });
 
-        this.map.on('mousemove', 'nuts-fill', (e) => {
+        this.map.on('mousemove', 'nuts-fill', (e: any) => {
           // console.log(e.features);
           if (e.features && e.features.length > 0) {
             if (this.hoveredPolygonId !== '') {

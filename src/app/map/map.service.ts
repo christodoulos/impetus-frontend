@@ -1,12 +1,15 @@
 import { ElementRef, Injectable, NgZone } from '@angular/core';
-// import {
-//   Map,
-//   LngLatBoundsLike,
-//   LngLatLike,
-//   MapMouseEvent,
-//   MapLayerEventType,
-// } from 'mapbox-gl';
-// import * as mapboxgl from 'mapbox-gl';
+import {
+  Map,
+  LngLatBoundsLike,
+  LngLatLike,
+  MapMouseEvent,
+  MapLayerEventType,
+  NavigationControl,
+  AnySourceData,
+  AnyLayer,
+  MapboxGeoJSONFeature,
+} from 'mapbox-gl';
 import { Store } from '@ngrx/store';
 import * as MapState from './map.state';
 import { AppState } from '../state';
@@ -21,13 +24,12 @@ window.tb = window.tb || {};
 
 declare let Threebox: any;
 declare let THREE: any;
-declare let mapboxgl: any;
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
-  map!: mapboxgl.Map;
+  map!: Map;
   tb: any;
   style$ = this.store.select(MapState.selectMapStyle);
   bounds$ = this.store.select(MapState.selectMapBounds);
@@ -44,9 +46,6 @@ export class MapService {
   followMouse = debounce((e) => this.onMouseMove(e, this.map), 100);
 
   constructor(private store: Store<AppState>, private ngZone: NgZone) {
-    // Global MapboxGL
-    (window as any).mapboxgl = mapboxgl;
-
     // Subscribe to map selectors and respond to changes
     // Map Style changes
     this.style$.subscribe((style) => {
@@ -58,7 +57,7 @@ export class MapService {
     // Map Bounds changes
     this.bounds$.subscribe((bounds) => {
       if (this.map) {
-        this.map.fitBounds(bounds as mapboxgl.LngLatBoundsLike);
+        this.map.fitBounds(bounds as LngLatBoundsLike);
       }
     });
 
@@ -95,7 +94,7 @@ export class MapService {
     // Map Center changes
     this.center$.subscribe((center) => {
       if (this.map) {
-        this.map.setCenter(center as mapboxgl.LngLatLike);
+        this.map.setCenter(center as LngLatLike);
       }
     });
 
@@ -138,7 +137,7 @@ export class MapService {
     });
   }
 
-  newTreebox(map: mapboxgl.Map) {
+  newTreebox(map: Map) {
     return new Threebox(map, map.getCanvas().getContext('webgl'), {
       willReadFrequently: true,
       realSunlight: true,
@@ -150,10 +149,10 @@ export class MapService {
     });
   }
 
-  newMap(container: ElementRef): { map: mapboxgl.Map; tb: any } {
-    this.map = new mapboxgl.Map({
+  newMap(container: HTMLDivElement): Map {
+    this.map = new Map({
       style: 'mapbox://styles/mapbox/light-v10',
-      container: container.nativeElement,
+      container,
       antialias: true,
       attributionControl: false,
       preserveDrawingBuffer: true,
@@ -165,13 +164,13 @@ export class MapService {
     // window.tb = this.tb = this.newTreebox(this.map);
 
     // Add zoom and rotation controls to the map.
-    this.map.addControl(new mapboxgl.NavigationControl());
+    this.map.addControl(new NavigationControl());
     // this.map.scrollZoom.disable();
 
-    return { map: this.map, tb: this.tb };
+    return this.map;
   }
 
-  addSource(id: string, source: mapboxgl.AnySourceData) {
+  addSource(id: string, source: AnySourceData) {
     this.map.addSource(id, source);
   }
 
@@ -179,7 +178,7 @@ export class MapService {
     if (this.map.getSource(id)) this.map.removeSource(id);
   }
 
-  addLayer(layer: mapboxgl.AnyLayer) {
+  addLayer(layer: AnyLayer) {
     this.map.addLayer(layer);
   }
 
@@ -187,12 +186,12 @@ export class MapService {
     if (this.map.getLayer(id)) this.map.removeLayer(id);
   }
 
-  fitBounds(bounds: mapboxgl.LngLatBoundsLike) {
+  fitBounds(bounds: LngLatBoundsLike) {
     this.map.fitBounds(bounds);
   }
 
   on(
-    event: keyof mapboxgl.MapLayerEventType,
+    event: keyof MapLayerEventType,
     layer: string,
     listener: (e: any) => void
   ) {
@@ -205,7 +204,7 @@ export class MapService {
 
   setFeatureState(
     feature:
-      | mapboxgl.MapboxGeoJSONFeature
+      | MapboxGeoJSONFeature
       | { source: string; id: string | number; sourceLayer?: string },
     state: any
   ) {
@@ -248,7 +247,7 @@ export class MapService {
   }
 
   addGLBLayer(
-    where: mapboxgl.LngLatLike,
+    where: LngLatLike,
     elevated: boolean,
     modelFile: string,
     scale: { x: number; y: number; z: number } = { x: 1, y: 1, z: 1 },
@@ -341,7 +340,7 @@ export class MapService {
     return Math.round((pitch + Number.EPSILON) * 100) / 100;
   }
 
-  onMouseMove(e: mapboxgl.MapMouseEvent, map: mapboxgl.Map) {
+  onMouseMove(e: MapMouseEvent, map: Map) {
     const point = { x: e.point.x, y: e.point.y };
     const lngLat = { lng: e.lngLat.lng, lat: e.lngLat.lat };
     const features = map.queryRenderedFeatures(e.point);
@@ -354,7 +353,7 @@ export class MapService {
     this.store.dispatch(MapState.setWhere({ where }));
   }
 
-  onZoomEnd(map: mapboxgl.Map) {
+  onZoomEnd(map: Map) {
     let zoom = map.getZoom();
     zoom = Math.round((zoom + Number.EPSILON) * 100) / 100;
     this.store.dispatch(MapState.setZoom({ zoom }));

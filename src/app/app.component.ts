@@ -20,6 +20,7 @@ import { Store } from '@ngrx/store';
 import { AppState, login, nutsUpdate } from './state';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from './map/map.service';
+import { set } from 'lodash-es';
 
 @Component({
   selector: 'app-root',
@@ -49,7 +50,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   user: SocialUser | undefined;
   loggedIn = false;
 
-  @ViewChild('map', { static: true }) mapDiv!: ElementRef;
+  @ViewChild('mapComponent', { read: ElementRef }) mapComponentRef!: ElementRef;
 
   constructor(
     private renderer: Renderer2,
@@ -80,7 +81,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const { map } = this.mapService.newMap(this.mapDiv);
+    // console.log(this.mapComponentRef);
+    // const mapRef: ElementRef =
+    //   this.mapComponentRef.nativeElement.querySelector('#map');
+    // console.log(mapRef);
+    // const { map } = this.mapService.newMap(mapRef.nativeElement);
     // map.on('style.load', () => this.mapService.onStyleLoad(map));
     // map.on('load', () => this.mapService.onLoad(map));
     // map.on('wheel', () => this.mapService.onWheel());
@@ -88,6 +93,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     // map.on('rotateend', () => this.mapService.onRotateEnd());
     // map.on('pitchend', () => this.mapService.onPitchEnd());
     // map.on('dragend', () => this.mapService.onDragEnd());
+  }
+
+  onAfterMapInit() {
+    const mapRef = this.mapComponentRef.nativeElement.querySelector(
+      '#map'
+    ) as HTMLDivElement;
+    this.mapService.newMap(mapRef);
   }
 
   @HostListener('window:resize', ['$event'])

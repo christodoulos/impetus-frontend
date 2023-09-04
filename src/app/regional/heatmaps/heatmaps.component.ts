@@ -15,10 +15,12 @@ import { MapComponent } from 'src/app/map/map.component';
 
 import { FeatureCollection } from 'src/app/interfaces/geojson';
 import { MapService } from 'src/app/map/map.service';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/state';
 
-declare let interpolateHeatmapLayer: any;
+// declare let interpolateHeatmapLayer: any;
+import * as interpolateHeatmapLayer from 'interpolateheatmaplayer';
+import * as mapboxgl from 'mapbox-gl';
+
+window.mapboxgl = mapboxgl;
 
 @Component({
   selector: 'app-heatmaps',
@@ -128,7 +130,7 @@ export class HeatmapsComponent implements OnInit, AfterViewInit, OnDestroy {
       points,
       roi: this.roi,
     });
-    this.mapService.removeSkyLayer();
+    // this.mapService.removeSkyLayer();
 
     this.map.addLayer(layer);
     console.log(this.map.getStyle().layers);
