@@ -17,12 +17,9 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Store } from '@ngrx/store';
 
-import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
-
 import { AppState, login, nutsUpdate } from './state';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from './map/map.service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -63,8 +60,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    // const {selectRouteData} = getRouterSelectors();
-
     this.store.dispatch(nutsUpdate({ level: 'nuts0' }));
     this.store.dispatch(nutsUpdate({ level: 'nuts1' }));
     this.store.dispatch(nutsUpdate({ level: 'nuts2' }));
