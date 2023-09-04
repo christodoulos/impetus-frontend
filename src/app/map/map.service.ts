@@ -9,6 +9,7 @@ import {
   AnySourceData,
   AnyLayer,
   MapboxGeoJSONFeature,
+  ScaleControl,
 } from 'mapbox-gl';
 import { Store } from '@ngrx/store';
 import * as MapState from '../state/map';
@@ -166,7 +167,13 @@ export class MapService {
 
     // Add zoom and rotation controls to the map.
     this.map.addControl(new NavigationControl());
+    this.map.addControl(new ScaleControl());
     // this.map.scrollZoom.disable();
+
+    this.map.loadImage('/assets/markers/custom_marker.png', (error, image) => {
+      if (error) throw error;
+      this.map.addImage('custom-marker', image as HTMLImageElement);
+    });
 
     return this.map;
   }

@@ -28,3 +28,14 @@ export const getRouteData = createSelector(
   (state: RouterReducerState<RouterStateUrl>) =>
     state && state.state && state.state.data
 );
+
+export const getNavigationId = createSelector(
+  getRouterState,
+  (state: RouterReducerState<RouterStateUrl>) => state && state.navigationId
+);
+
+export const shouldShowWelcomePins = createSelector(
+  getUrl,
+  getNavigationId,
+  (url, navigationId) => navigationId > 1 && url === '/'
+);
