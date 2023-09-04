@@ -11,6 +11,7 @@ import {
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
+import { CustomSerializer } from './custom-route-serializer';
 import {
   authReducer,
   nutsReducer,
@@ -48,7 +49,9 @@ export const appConfig: ApplicationConfig = {
       map: mapReducer,
       router: routerReducer,
     }),
-    provideRouterStore(),
+    provideRouterStore({
+      serializer: CustomSerializer,
+    }),
     provideEffects([NutsEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states

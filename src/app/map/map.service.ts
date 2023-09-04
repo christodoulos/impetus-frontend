@@ -400,4 +400,17 @@ export class MapService {
   onDragEnd() {
     this.store.dispatch(MapState.setCenter({ center: this.getMapCenter() }));
   }
+
+  fitToAttica() {
+    this.map.fitBounds([
+      24.1028392959052, 38.40303239502197, 23.30886905192861, 37.62646012564626,
+    ]);
+  }
+
+  fitToEurope() {
+    this.map.fitBounds([
+      -26.39211076038066, 33.85666623943277, 46.06351684677202,
+      71.45984928826147,
+    ]);
+  }
 }

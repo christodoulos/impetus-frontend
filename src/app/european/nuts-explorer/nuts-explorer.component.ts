@@ -84,10 +84,11 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.map.fitBounds([
-      -26.39211076038066, 33.85666623943277, 46.06351684677202,
-      71.45984928826147,
-    ]);
+    // this.map.fitBounds([
+    //   -26.39211076038066, 33.85666623943277, 46.06351684677202,
+    //   71.45984928826147,
+    // ]);
+    this.mapService.fitToEurope();
   }
 
   ngOnDestroy(): void {

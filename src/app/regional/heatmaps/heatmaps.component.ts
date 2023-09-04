@@ -83,9 +83,10 @@ export class HeatmapsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.map.fitBounds([
-      24.1028392959052, 38.40303239502197, 23.30886905192861, 37.62646012564626,
-    ]);
+    // this.map.fitBounds([
+    //   24.1028392959052, 38.40303239502197, 23.30886905192861, 37.62646012564626,
+    // ]);
+    this.mapService.fitToAttica();
     this.service.getAtticaNUTS().subscribe((data) => {
       this.roi = data.geometry.coordinates[0][0];
       // this.atticaBoundary(data);
