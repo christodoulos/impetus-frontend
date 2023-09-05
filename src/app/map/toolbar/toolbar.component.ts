@@ -18,6 +18,10 @@ export class MapToolbarComponent {
       case 'save':
         this.mapService.downloadMap();
         break;
+      case 'resize':
+        const map = this.mapService.map;
+        console.log(map.getCenter());
+        break;
       default:
         console.log(id);
         break;

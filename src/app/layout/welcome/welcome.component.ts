@@ -9,22 +9,11 @@ import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalWelcomeComponent } from 'src/app/modals/welcome/welcome.component';
 import { MapService } from 'src/app/map/map.service';
-import { FeatureCollection, GeometryType } from 'src/app/interfaces/geojson';
+import { GeometryType } from 'src/app/interfaces/geojson';
 import { AnySourceData, Popup } from 'mapbox-gl';
 import { Store } from '@ngrx/store';
-import {
-  AppState,
-  getNavigationId,
-  shouldShowWelcomePins,
-} from 'src/app/state';
-import {
-  Subject,
-  Subscription,
-  distinct,
-  distinctUntilChanged,
-  takeUntil,
-  withLatestFrom,
-} from 'rxjs';
+import { AppState, shouldShowWelcomePins } from 'src/app/state';
+import { Subscription, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-welcome',
@@ -35,6 +24,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
+  map = this.mapService.map;
   shouldShowWelcomePins$ = this.store.select(shouldShowWelcomePins);
   subscription: Subscription | undefined;
   pins = {
@@ -52,8 +42,17 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           properties: {
             title: 'Plant Nursery',
-            description:
-              '<strong>Athens Plant Nursery</strong><p>Make it Mount Pleasant is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+            description: `<img src="/assets/images/apn.jpg" style="width:100%">
+            <h6>Sewer Mining (SM) Technology</h6>
+            <p>Sewer Mining is a treatment plant in a container in which:</p>
+            <ul>
+              <li>wastewater is extracted from local sewers that run under every location of a city</li>
+              <li>treated directly on site in a distributed system</li>
+              <li>high quality water is produced (at the point of demand) suitable for irrigation of green areas, groundwater recharge and other urban uses.</li>
+            </ul>
+            <p>The main idea of this technology is that we use a resource (wastewater) that lies beneath every part of a city to produce clean water and reduce pressures due to water scarcity.</p>
+            <p>Sewer Mining technology is a distributed, flexible and autonomous circular economy solution.</p>
+            `,
           },
         },
         {
@@ -65,9 +64,13 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             coordinates: [23.89076532854162, 38.12430221183547],
           },
           properties: {
-            title: 'Kokkotou Vineyards',
-            description:
-              '<strong>Athens Plant Nursery</strong><p>Make it Mount Pleasant is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+            title: 'farmAIr @Kokkotou Vineyards',
+            description: `<img src="/assets/images/farmair-drone.png" style="width:100%">
+              <p><img src="/assets/images/farmAIr.png" style="float:right;width:100px;" /></p> 
+              <p>Unlike what is currently available in the market, farmAIr technology (patented) uses thermal images and 
+              Artificial Intelligence to reveal Plant Stress before the onset of any symptom. farmAIr helps farmers and agronomists 
+              spot what they can’t see with the naked eye, be aware, and take all necessary precautions to help prevent any spread. 
+              farmAIr technology is currently available for vineyards, planning to gradually expand to virtually any plant with leaves.</p>`,
           },
         },
         {
@@ -121,9 +124,13 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             coordinates: [24.031015046843585, 38.15361073507763],
           },
           properties: {
-            title: 'Subsol',
-            description:
-              '<strong>Athens Plant Nursery</strong><p>Make it Mount Pleasant is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+            title: 'Subsurface Water Solutions',
+            description: `<img src="/assets/images/subsol.jpg" style="width:100%">
+              <h6>Subsurface Water Solutions</h6>
+              <p>Subsurface Water Solutions (SWS) are a novel approach combining management and technology to protect, enlarge and utilize fresh groundwater resources.</p>
+              <p>In coastal areas, decentralized SWS can be implemented through an aquifer storage and recovery configuration to address seawater intrusion and over-abstraction of groundwater. </p>
+              <p>SWS make use of the subsurface’s potential to store water and it is distinguished by new well designs and configurations as well as new management features to precisely control the fresh groundwater resources. SWS are adaptable to changing environmental and socio-economic conditions.</p>
+              `,
           },
         },
       ],
@@ -138,11 +145,11 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.mapService.fitToAttica();
-    const stop$ = new Subject<void>();
     // Create a popup, but don't add it to the map yet.
     const popup = new Popup({
       closeButton: false,
       closeOnClick: false,
+      maxWidth: '500px',
     });
     this.subscription = this.shouldShowWelcomePins$
       .pipe(distinctUntilChanged())
@@ -150,12 +157,11 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('SHOW', show);
         if (show) {
           this.showPins();
-          stop$.next();
         }
       });
-    this.mapService.map.on('mouseenter', 'places', (e: any) => {
+    this.map.on('mouseenter', 'places', (e: any) => {
       // Change the cursor style as a UI indicator.
-      this.mapService.map.getCanvas().style.cursor = 'pointer';
+      this.map.getCanvas().style.cursor = 'pointer';
 
       // Copy coordinates array.
       const coordinates = e.features[0].geometry.coordinates.slice();
@@ -170,21 +176,17 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // Populate the popup and set its coordinates
       // based on the feature found.
-      popup
-        .setLngLat(coordinates)
-        .setHTML(description)
-        .addTo(this.mapService.map);
+      popup.setLngLat(coordinates).setHTML(description).addTo(this.map);
     });
 
-    this.mapService.map.on('mouseleave', 'places', () => {
-      this.mapService.map.getCanvas().style.cursor = '';
+    this.map.on('mouseleave', 'places', () => {
+      this.map.getCanvas().style.cursor = '';
       popup.remove();
     });
   }
 
   ngAfterViewInit(): void {
-    this.mapService.map.on('load', () => {
-      console.log('GAMO TO FELEKAKI MOU');
+    this.map.on('load', () => {
       this.modalService.open(ModalWelcomeComponent, {
         size: 'lg',
         centered: true,
@@ -197,16 +199,14 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    this.mapService.map.removeLayer('points');
-    this.mapService.map.removeLayer('places');
-    this.mapService.map.removeSource('pins');
+    this.map.removeLayer('points');
+    this.map.removeLayer('places');
+    this.map.removeSource('pins');
   }
 
   showPins() {
-    console.log('SKATA');
-    this.mapService.map.addSource('pins', this.pins as AnySourceData);
-    console.log('AAAAAAAAAAAAAAA');
-    this.mapService.map.addLayer({
+    this.map.addSource('pins', this.pins as AnySourceData);
+    this.map.addLayer({
       id: 'points',
       type: 'symbol',
       source: 'pins',
@@ -223,8 +223,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
         'icon-offset': [0, -30],
       },
     });
-    console.log('BBBBBBBBBBB');
-    this.mapService.map.addLayer({
+    this.map.addLayer({
       id: 'places',
       type: 'circle',
       source: 'pins',
