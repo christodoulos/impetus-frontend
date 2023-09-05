@@ -21,6 +21,9 @@ export class MapToolbarComponent {
       case 'resize':
         const map = this.mapService.map;
         console.log(map.getCenter());
+        map.getStyle().layers?.forEach((layer) => {
+          console.log(layer);
+        });
         break;
       default:
         console.log(id);

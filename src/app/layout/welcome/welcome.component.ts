@@ -154,7 +154,6 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription = this.shouldShowWelcomePins$
       .pipe(distinctUntilChanged())
       .subscribe((show) => {
-        console.log('SHOW', show);
         if (show) {
           this.showPins();
         }
