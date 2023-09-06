@@ -9,13 +9,26 @@
     (click)="modal.dismiss('Cross click')"
   ></button>
 </div>
-<div class="modal-body">lala</div>
-<div class="modal-footer">
+<div class="modal-body">
+  <p>
+    We demonstrate the digital twin notion of consolidating several online
+    metrics into a “live heatmap.” Our “sensors” are practically scrapped data
+    from many web pages that display these metrics in isolation.
+  </p>
+  <form [formGroup]="form">
+    <ui-select
+      [label]="'Select a metric'"
+      [selections]="metrics"
+      formControlName="metric"
+    ></ui-select>
+  </form>
+</div>
+<!-- <div class="modal-footer">
   <button
     type="button"
     class="btn btn-primary"
-    (click)="modal.close('Close click')"
+    (click)="modal.close(form.controls.metric.value)"
   >
-    Continue
+    Apply
   </button>
-</div>
+</div> -->

@@ -1,13 +1,8 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { SelectComponent } from 'src/app/ui/select/select.component';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+
 import { HeatmapsService } from './heatmaps.service';
 import { DisabledInputComponent } from 'src/app/ui/disabled-input/disabled-input.component';
 import { InputComponent } from 'src/app/ui/input/input.component';
@@ -19,6 +14,8 @@ import { MapService } from 'src/app/map/map.service';
 import { polygon, Polygon, Feature, booleanPointInPolygon } from '@turf/turf';
 import * as interpolateHeatmapLayer from 'interpolateheatmaplayer';
 import * as mapboxgl from 'mapbox-gl';
+import { LocalStorageService } from 'src/app/local-storage.service';
+import { Subscription } from 'rxjs';
 
 window.mapboxgl = mapboxgl;
 
@@ -27,7 +24,6 @@ window.mapboxgl = mapboxgl;
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     NgbAlertModule,
     SelectComponent,
     InputComponent,
@@ -37,75 +33,57 @@ window.mapboxgl = mapboxgl;
   templateUrl: './heatmaps.component.html',
   styleUrls: ['./heatmaps.component.scss'],
 })
-export class HeatmapsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class HeatmapsComponent implements OnInit, OnDestroy {
   map = this.mapService.map;
-  metrics = [
-    { key: 'temperature', value: 'Temperature' },
-    { key: 'windSpeed', value: 'Wind Speed (km/h)' },
-    { key: 'beaufort', value: 'Wind Speed (beaufort)' },
-    { key: 'humidity', value: 'Humidity' },
-    { key: 'atmosphericPressure', value: 'Atmospheric Pressure' },
-    { key: 'highestDailyTemperature', value: 'Highest Daily Temperature' },
-    { key: 'lowestDailyTemperature', value: 'Lowest Daily Temperature' },
-    { key: 'precipitation', value: 'Precipitation' },
-    { key: 'highestDailyGust', value: 'Highest Daily Gust' },
-  ];
-  form = new FormGroup({
-    metric: new FormControl('', Validators.required),
-  });
+
   timeOfObservation = '';
   min: number | null = null;
   max: number | null = null;
   unit = '';
   roi = [];
   tpoly: Feature | null = null;
+  subscription: Subscription | null = null;
 
   constructor(
     private service: HeatmapsService,
-    private mapService: MapService
+    private mapService: MapService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
-    this.form.controls.metric.valueChanges.subscribe((value) => {
-      this.service.getHeatmap(value).subscribe((data) => {
-        this.removeLayersAndSources(false);
-        if (data) {
-          const properties = data.properties;
-          if (properties) {
-            this.timeOfObservation = properties['TimeOfObservation'];
-            this.unit = properties['unit'];
-          }
-          this.crateHeatmap(data, value ?? '');
-          this.createLabels(data, value ?? '');
-        } else {
-          this.timeOfObservation = '';
-          this.unit = '';
-          this.min = null;
-          this.max = null;
-        }
-      });
-    });
     this.mapService.fitToAttica();
     this.service.getAtticaNUTS().subscribe((data) => {
       console.log('NUTS', data);
       this.roi = data.geometry.coordinates[0][0];
-      // this.atticaBoundary(data.features[0]);
-      console.log('ROI', this.roi);
-      console.log('Turff', polygon(data.geometry.coordinates[0]));
-      this.tpoly = polygon(data.geometry.coordinates[0]);
-    });
-  }
 
-  ngAfterViewInit(): void {
-    // this.mapService.fitToAttica();
-    // this.service.getAtticaNUTS().subscribe((data) => {
-    //   this.roi = data.geometry.coordinates[0][0];
-    //   // this.atticaBoundary(data.features[0]);
-    // });
+      this.tpoly = polygon(data.geometry.coordinates[0]);
+
+      this.localStorageService.storage$.subscribe((storage) => {
+        const metric = storage['heatmap'];
+        this.service.getHeatmap(metric).subscribe((data) => {
+          this.removeLayersAndSources(false);
+          if (data) {
+            const properties = data.properties;
+            if (properties) {
+              this.timeOfObservation = properties['TimeOfObservation'];
+              this.unit = properties['unit'];
+            }
+            this.crateHeatmap(data, metric ?? '');
+            this.createLabels(data, metric ?? '');
+          } else {
+            this.timeOfObservation = '';
+            this.unit = '';
+            this.min = null;
+            this.max = null;
+          }
+        });
+      });
+    });
   }
 
   ngOnDestroy(): void {
     this.removeLayersAndSources(true);
+    this.subscription?.unsubscribe();
   }
 
   removeLayersAndSources(boundary: boolean) {
@@ -115,9 +93,7 @@ export class HeatmapsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.map.getLayer('labels')) {
       this.map.removeLayer('labels');
     }
-    // if (boundary && this.map.getLayer('attica_boundary')) {
-    //   this.map.removeLayer('attica_boundary');
-    // }
+
     if (this.map.getSource('data')) {
       this.map.removeSource('data');
     }
@@ -125,9 +101,6 @@ export class HeatmapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   crateHeatmap(data: FeatureCollection, metric: string): void {
     const points = [];
-
-    const skata = this.roi as unknown as Polygon;
-    console.log(skata);
 
     for (let index = 0; index < data.features.length; index++) {
       const element = data.features[index];
@@ -143,10 +116,8 @@ export class HeatmapsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.tpoly as unknown as Polygon
         )
       ) {
-        console.log('in');
         points.push(point);
       }
-      // points.push(point);
     }
 
     this.min = Math.min(...points.map((p) => p.val));

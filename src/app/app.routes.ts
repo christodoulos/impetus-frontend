@@ -5,6 +5,7 @@ export const routes: Routes = [
     path: 'regional/meteorological-heatmaps',
     data: {
       title: 'Meteorological Heatmaps',
+      info: 'heatmaps',
     },
     loadComponent: () =>
       import('./regional/heatmaps/heatmaps.component').then(
@@ -15,6 +16,7 @@ export const routes: Routes = [
     path: 'european-services/nuts-explorer',
     data: {
       title: 'NUTS Explorer',
+      info: 'nuts-explorer',
     },
     loadComponent: () =>
       import('./european/nuts-explorer/nuts-explorer.component').then(
@@ -26,6 +28,7 @@ export const routes: Routes = [
     path: 'european-services/eurostat-explorer',
     data: {
       title: 'Eurostat Explorer',
+      info: 'eurostat-explorer',
     },
     loadComponent: () =>
       import('./eurostat/eurostat-tool/eurostat-tool.component').then(
@@ -34,6 +37,9 @@ export const routes: Routes = [
   },
   {
     path: '',
+    data: {
+      info: 'welcome',
+    },
     loadComponent: () =>
       import('./layout/welcome/welcome.component').then(
         (m) => m.WelcomeComponent
