@@ -16,6 +16,7 @@ import * as interpolateHeatmapLayer from 'interpolateheatmaplayer';
 import * as mapboxgl from 'mapbox-gl';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { Subscription } from 'rxjs';
+import { HeatmapsLegendControl } from './heatmaps-legend';
 
 window.mapboxgl = mapboxgl;
 
@@ -43,6 +44,7 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
   roi = [];
   tpoly: Feature | null = null;
   subscription: Subscription | null = null;
+  legend: HeatmapsLegendControl | null = null;
 
   constructor(
     private service: HeatmapsService,
@@ -53,7 +55,6 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mapService.fitToAttica();
     this.service.getAtticaNUTS().subscribe((data) => {
-      console.log('NUTS', data);
       this.roi = data.geometry.coordinates[0][0];
 
       this.tpoly = polygon(data.geometry.coordinates[0]);
@@ -61,12 +62,13 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
       this.localStorageService.storage$.subscribe((storage) => {
         const metric = storage['heatmap'];
         this.service.getHeatmap(metric).subscribe((data) => {
-          this.removeLayersAndSources(false);
+          this.removeLayersAndSources();
           if (data) {
             const properties = data.properties;
+            console.log(properties);
             if (properties) {
               this.timeOfObservation = properties['TimeOfObservation'];
-              this.unit = properties['unit'];
+              this.unit = properties['FeatureUnit'];
             }
             this.crateHeatmap(data, metric ?? '');
             this.createLabels(data, metric ?? '');
@@ -82,11 +84,12 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.removeLayersAndSources(true);
+    this.removeLayersAndSources();
     this.subscription?.unsubscribe();
+    if (this.legend) this.map.removeControl(this.legend);
   }
 
-  removeLayersAndSources(boundary: boolean) {
+  removeLayersAndSources() {
     if (this.map.getLayer('heatmap')) {
       this.map.removeLayer('heatmap');
     }
@@ -131,6 +134,18 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
     });
 
     this.map.addLayer(layer);
+
+    if (this.legend) {
+      this.map.removeControl(this.legend);
+    }
+    this.legend = new HeatmapsLegendControl(
+      metric,
+      this.min,
+      this.max,
+      this.unit,
+      this.timeOfObservation
+    );
+    this.map.addControl(this.legend, 'top-left');
   }
 
   createLabels(data: any, metric: string) {

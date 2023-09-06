@@ -28,6 +28,7 @@
     "@popperjs/core": "^2.11.6",
     "@turf/turf": "^6.5.0",
     "bootstrap": "^5.2.3",
+    "date-fns": "^2.30.0",
     "file-saver": "^2.0.5",
     "interpolateheatmaplayer": "github:Rylern/InterpolateHeatmapLayer",
     "jquery": "^3.7.0",
