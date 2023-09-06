@@ -1,12 +1,18 @@
-<div class="d-flex align-items-center gap-1 mb-1">
+<div class="d-flex justify-content-end align-items-center gap-1 mb-1">
   <icon-button
-    [icon]="'ri-save-3-line'"
+    [icon]="'mdi mdi-information-outline'"
+    [tooltip]="'Further Info'"
+    [id]="'info'"
+    (buttonClick)="onClick($event)"
+  ></icon-button>
+  <icon-button
+    [icon]="'mdi mdi-monitor-screenshot'"
     [tooltip]="'Save Map'"
     [id]="'save'"
     (buttonClick)="onClick($event)"
   ></icon-button>
   <icon-button
-    [icon]="'uil-image-resize-landscape'"
+    [icon]="'mdi mdi-map-marker-plus'"
     [tooltip]="'Resize Map Container'"
     [id]="'resize'"
     (buttonClick)="onClick($event)"

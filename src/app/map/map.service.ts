@@ -168,7 +168,7 @@ export class MapService {
     // Add zoom and rotation controls to the map.
     this.map.addControl(new NavigationControl());
     this.map.addControl(new ScaleControl());
-    // this.map.scrollZoom.disable();
+    this.map.scrollZoom.disable();
 
     this.map.loadImage('/assets/markers/custom_marker.png', (error, image) => {
       if (error) throw error;

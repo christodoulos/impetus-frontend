@@ -4,57 +4,8 @@
   <div class="content-page">
     <div class="content">
       <div class="container-fluid pt-2">
-        <!-- Tabs start -->
-        <ul class="nav nav-tabs mb-3">
-          <li class="nav-item">
-            <a
-              href="#home"
-              data-bs-toggle="tab"
-              aria-expanded="true"
-              class="nav-link active"
-            >
-              <i class="mdi mdi-home-variant d-md-none d-block"></i>
-              <span class="d-none d-md-block">Map</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              href="#profile"
-              data-bs-toggle="tab"
-              aria-expanded="false"
-              class="nav-link"
-            >
-              <i class="mdi mdi-account-circle d-md-none d-block"></i>
-              <span class="d-none d-md-block">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              href="#settings"
-              data-bs-toggle="tab"
-              aria-expanded="false"
-              class="nav-link"
-            >
-              <i class="mdi mdi-settings-outline d-md-none d-block"></i>
-              <span class="d-none d-md-block">Info</span>
-            </a>
-          </li>
-        </ul>
-
-        <div class="tab-content">
-          <div class="tab-pane show active" id="home">
-            <!-- <div #map style="width: 100%; height: 768px"></div> -->
-            <app-map #mapComponent (afterMapInit)="onAfterMapInit()"></app-map>
-          </div>
-          <div class="tab-pane" id="profile">
-            <p>Dashboard</p>
-            <router-outlet></router-outlet>
-          </div>
-          <div class="tab-pane" id="settings">
-            <p>Info</p>
-          </div>
-        </div>
-        <!-- Tabs end -->
+        <router-outlet></router-outlet>
+        <app-map #mapComponent (afterMapInit)="onAfterMapInit()"></app-map>
       </div>
     </div>
     <app-footer></app-footer>
