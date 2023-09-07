@@ -8,7 +8,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import {
+  RouterModule,
+  RouterOutlet,
+  Router,
+  RouterState,
+} from '@angular/router';
 import { LeftSideBarComponent } from './layout/left-side-bar/left-side-bar.component';
 import { MapComponent } from './map/map.component';
 import { FooterComponent } from './layout/footer/footer.component';
@@ -20,7 +25,6 @@ import { Store } from '@ngrx/store';
 import { AppState, login, nutsUpdate } from './state';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from './map/map.service';
-import { set } from 'lodash-es';
 
 @Component({
   selector: 'app-root',
@@ -57,15 +61,19 @@ export class AppComponent implements OnInit, AfterViewInit {
     private authService: SocialAuthService,
     private mapService: MapService,
     private store: Store<AppState>,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
 
   ngOnInit() {
+    localStorage.removeItem('heatmap');
+    localStorage.setItem('heatmap', 'temperature');
     this.store.dispatch(nutsUpdate({ level: 'nuts0' }));
     this.store.dispatch(nutsUpdate({ level: 'nuts1' }));
     this.store.dispatch(nutsUpdate({ level: 'nuts2' }));
     this.store.dispatch(nutsUpdate({ level: 'nuts3' }));
     this.applyTheme();
+    this.router.navigate(['/']);
     this.authService.authState.subscribe((user) => {
       if (user) {
         console.log(user);

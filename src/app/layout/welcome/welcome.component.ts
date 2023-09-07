@@ -41,9 +41,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             coordinates: [23.781372557061157, 37.988260208268386],
           },
           properties: {
-            title: 'Plant Nursery',
+            title: 'Sewer Mining Technology',
             description: `<img src="/assets/images/apn.jpg" style="width:100%">
-            <h6>Sewer Mining (SM) Technology</h6>
+            <h6>Athens Plant Nursery</h6>
             <p>Sewer Mining is a treatment plant in a container in which:</p>
             <ul>
               <li>wastewater is extracted from local sewers that run under every location of a city</li>
@@ -64,8 +64,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             coordinates: [23.89076532854162, 38.12430221183547],
           },
           properties: {
-            title: 'farmAIr @Kokkotou Vineyards',
+            title: 'Plant Stress Detection',
             description: `<img src="/assets/images/farmair-drone.png" style="width:100%">
+              <h6>farmAIr @Kokkotou Vineyards</h6>
               <p><img src="/assets/images/farmAIr.png" style="float:right;width:100px;" /></p> 
               <p>Unlike what is currently available in the market, farmAIr technology (patented) uses thermal images and 
               Artificial Intelligence to reveal Plant Stress before the onset of any symptom. farmAIr helps farmers and agronomists 
@@ -82,9 +83,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             coordinates: [23.73508263685423, 37.87729612062206],
           },
           properties: {
-            title: 'Hellinikon Development',
+            title: 'Flood Risk Assessment',
             description:
-              '<strong>Athens Plant Nursery</strong><p>Make it Mount Pleasant is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+              '<strong>Hellinikon Development</strong><p>Incididunt laboris consequat culpa do labore labore eiusmod aute duis nisi labore. Non sit minim fugiat qui. Tempor adipisicing enim est minim irure id mollit incididunt ex ad sit reprehenderit sit. Excepteur proident consequat ut esse adipisicing pariatur. Dolore sunt nisi irure dolor enim ipsum enim minim eu consectetur proident. Adipisicing est consectetur dolore consequat velit do adipisicing consequat. Non excepteur nostrud cupidatat sint id id veniam.</p>',
           },
         },
         {
@@ -96,9 +97,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             coordinates: [23.927596535047954, 37.88231031893016],
           },
           properties: {
-            title: 'Markopoulo Station',
+            title: 'Advanced Sewer Mining',
             description:
-              '<strong>Athens Plant Nursery</strong><p>Make it Mount Pleasant is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+              '<strong>Markopoulo Municipality</strong><p>Anim sit aliqua incididunt id ea et minim laboris excepteur. Et consequat proident duis do elit mollit amet. Cillum ad ea ad duis laborum. Qui pariatur voluptate fugiat est mollit ullamco veniam tempor commodo consequat culpa ad. Enim proident mollit aute proident Lorem ipsum tempor amet deserunt ex officia esse quis. Duis sit fugiat ad consequat Lorem velit duis aute velit tempor velit.</p>',
           },
         },
         {
@@ -110,9 +111,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             coordinates: [23.911037590576747, 37.9402394070189],
           },
           properties: {
-            title: 'Attica Green',
+            title: 'Controlled Environment Agriculture solution',
             description:
-              '<strong>Athens Plant Nursery</strong><p>Make it Mount Pleasant is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>',
+              '<strong>Attica Green, Spata</strong><p>Laboris et consectetur aliquip ut aliqua ut ipsum minim aliqua eiusmod. Nostrud consectetur aliqua duis labore aliqua dolore exercitation veniam cupidatat exercitation velit. Dolor veniam cupidatat excepteur nisi. Cupidatat nulla magna magna ea et laborum commodo officia do ipsum dolore fugiat excepteur.</p>',
           },
         },
         {
@@ -126,7 +127,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
           properties: {
             title: 'Subsurface Water Solutions',
             description: `<img src="/assets/images/subsol.jpg" style="width:100%">
-              <h6>Subsurface Water Solutions</h6>
+              <h6>Schinias, Marathon</h6>
               <p>Subsurface Water Solutions (SWS) are a novel approach combining management and technology to protect, enlarge and utilize fresh groundwater resources.</p>
               <p>In coastal areas, decentralized SWS can be implemented through an aquifer storage and recovery configuration to address seawater intrusion and over-abstraction of groundwater. </p>
               <p>SWS make use of the subsurface’s potential to store water and it is distinguished by new well designs and configurations as well as new management features to precisely control the fresh groundwater resources. SWS are adaptable to changing environmental and socio-economic conditions.</p>

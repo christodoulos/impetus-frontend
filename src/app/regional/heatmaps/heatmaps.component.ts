@@ -54,6 +54,7 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.mapService.fitToAttica();
+
     this.service.getAtticaNUTS().subscribe((data) => {
       this.roi = data.geometry.coordinates[0][0];
 
