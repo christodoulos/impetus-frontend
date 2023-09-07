@@ -44,11 +44,7 @@ export class MapToolbarComponent implements OnInit {
         this.mapService.downloadMap();
         break;
       case 'resize':
-        const map = this.mapService.map;
-        console.log(map.getCenter());
-        map.getStyle().layers?.forEach((layer) => {
-          console.log(layer);
-        });
+        this.logMapDetails();
         break;
       case 'info':
         this.showInfoModal();
@@ -76,5 +72,14 @@ export class MapToolbarComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  logMapDetails(): void {
+    const map = this.mapService.map;
+    console.log('CENTER', map.getCenter());
+    console.log('ZOOM', map.getZoom());
+    console.log('PITCH', map.getPitch());
+    console.log('BEARING', map.getBearing());
+    console.log('STYLE', map.getStyle());
   }
 }

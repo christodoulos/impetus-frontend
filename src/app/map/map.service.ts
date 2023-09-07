@@ -10,6 +10,7 @@ import {
   AnyLayer,
   MapboxGeoJSONFeature,
   ScaleControl,
+  CustomLayerInterface,
 } from 'mapbox-gl';
 import { Store } from '@ngrx/store';
 import * as MapState from '../state/map';
@@ -33,6 +34,10 @@ declare let THREE: any;
 export class MapService {
   map!: Map;
   tb: any;
+
+  plantNurseryLayer!: CustomLayerInterface;
+  hellinikonFloodLayer!: CustomLayerInterface;
+
   style$ = this.store.select(MapState.selectMapStyle);
   bounds$ = this.store.select(MapState.selectMapBounds);
   bearing$ = this.store.select(MapState.selectMapBearing);
@@ -139,8 +144,8 @@ export class MapService {
     });
   }
 
-  newTreebox(map: Map) {
-    return new Threebox(map, map.getCanvas().getContext('webgl'), {
+  newThreebox() {
+    return new Threebox(this.map, this.map.getCanvas().getContext('webgl'), {
       willReadFrequently: true,
       realSunlight: true,
       sky: true,
@@ -163,8 +168,6 @@ export class MapService {
         'pk.eyJ1IjoiY2hyaXN0b2RvdWxvcyIsImEiOiJja3luYTd3eW0ydGFiMm9xcHRmMGJyOHVrIn0.c1mSurunkjU4Wyf2hxcy0g',
     });
 
-    // window.tb = this.tb = this.newTreebox(this.map);
-
     // Add zoom and rotation controls to the map.
     this.map.addControl(new NavigationControl());
     this.map.addControl(new ScaleControl());
@@ -175,7 +178,41 @@ export class MapService {
       this.map.addImage('custom-marker', image as HTMLImageElement);
     });
 
+    window.tb = this.tb = this.newThreebox();
+
+    this.map.on('style.load', () => {
+      this.add3DBuildingsLayer();
+    });
+    this.map.on('load', () => {
+      this.onMapLoad();
+    });
+
     return this.map;
+  }
+
+  onMapLoad() {
+    this.plantNurseryLayer = this.glbLayer(
+      'plant-nursery',
+      [23.781372557061157, 37.988260208268386],
+      true, // elevated
+      'assets/glbs/tank.glb',
+      { x: 0.5, y: 0.5, z: 0.5 }, // scale
+      { x: 180, y: 90, z: 270 }, // rotation
+      'center',
+      true, // modelCastShadow
+      'Sewer Mining Technology'
+    );
+    this.hellinikonFloodLayer = this.glbLayer(
+      'hellilikon-flood',
+      [23.7280492635823, 37.8719384907549],
+      false, // elevated
+      'assets/glbs/flood6.glb',
+      { x: 1, y: 1, z: 1.2 }, // scale
+      { x: 0, y: 0, z: 180 }, // rotation
+      'bottom-left',
+      false, // modelCastShadow
+      'Flood Risk Analysis Result'
+    );
   }
 
   downloadMap() {
@@ -266,7 +303,32 @@ export class MapService {
     });
   }
 
-  addGLBLayer(
+  add3DBuildingsLayer() {
+    if (this.map.getLayer('building')) {
+      this.map.removeLayer('building');
+    }
+    if (this.map.getSource('composite')) {
+      this.map.addLayer(
+        {
+          id: '3d-buildings',
+          source: 'composite',
+          'source-layer': 'building',
+          type: 'fill-extrusion',
+          minzoom: 9,
+          paint: {
+            'fill-extrusion-color': '#ddd',
+            'fill-extrusion-height': ['number', ['get', 'height'], 2],
+            'fill-extrusion-base': ['number', ['get', 'min_height'], 0],
+            'fill-extrusion-opacity': 1,
+          },
+        },
+        'waterway-label'
+      );
+    }
+  }
+
+  glbLayer(
+    id: string,
     where: LngLatLike,
     elevated: boolean,
     modelFile: string,
@@ -284,7 +346,7 @@ export class MapService {
       | 'bottom-right' = 'bottom-left',
     modelCastShadow: boolean = true,
     modelToolTip: string = ''
-  ) {
+  ): CustomLayerInterface {
     // Elevate the model if needed
     let elevation = 0;
     if (elevated) {
@@ -295,9 +357,9 @@ export class MapService {
       `MapService.addGLBLayer: elevation is ${elevation} meters at ${where}`
     );
 
-    // Add a custom layer to the map
-    this.map.addLayer({
-      id: `3d-model-${where}`,
+    // Return a custom layer
+    return {
+      id: `3d-model-${id}`,
       type: 'custom',
       renderingMode: '3d',
       onAdd: () => {
@@ -321,7 +383,7 @@ export class MapService {
       render: () => {
         this.tb.update();
       },
-    });
+    };
   }
 
   removeSkyLayer() {
@@ -419,5 +481,27 @@ export class MapService {
       -26.39211076038066, 33.85666623943277, 46.06351684677202,
       71.45984928826147,
     ]);
+  }
+
+  flyToAthensPlantNursery() {
+    this.map.flyTo({
+      center: [23.783535537759576, 37.986796706691095],
+      zoom: 16.777210158888213,
+      bearing: 122.61132170386838,
+      pitch: 81.0008753894744,
+      duration: 3000,
+      essential: true,
+    });
+  }
+
+  flyToHellinikonFlood() {
+    this.map.flyTo({
+      center: [23.73508263685423, 37.87729612062206],
+      zoom: 15.26,
+      bearing: 46.8,
+      pitch: 75.5,
+      duration: 3000,
+      essential: true,
+    });
   }
 }

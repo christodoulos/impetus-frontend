@@ -36,6 +36,7 @@ window.mapboxgl = mapboxgl;
 })
 export class HeatmapsComponent implements OnInit, OnDestroy {
   map = this.mapService.map;
+  tb = this.mapService.tb;
 
   timeOfObservation = '';
   min: number | null = null;
@@ -54,6 +55,8 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.mapService.fitToAttica();
+
+    this.tb.terrain = false;
 
     this.service.getAtticaNUTS().subscribe((data) => {
       this.roi = data.geometry.coordinates[0][0];
@@ -88,6 +91,7 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
     this.removeLayersAndSources();
     this.subscription?.unsubscribe();
     if (this.legend) this.map.removeControl(this.legend);
+    this.tb.terrain = true;
   }
 
   removeLayersAndSources() {
@@ -132,7 +136,14 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
       opacity: 0.9,
       points,
       roi: this.roi,
+      renderingMode: '3d',
     });
+
+    // layer.render = () => {
+    //   this.tb.update();
+    // };
+
+    console.log('HEATMAP', layer);
 
     this.map.addLayer(layer);
 

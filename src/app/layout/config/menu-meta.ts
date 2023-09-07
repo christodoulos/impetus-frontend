@@ -22,18 +22,22 @@ export const MENU: MenuItem[] = [
       },
     ],
   },
-  // Inovations Inventory
-  { key: 'inovations_inventory', label: 'Inovations Inventory', isTitle: true },
+  // Innovations Inventory
+  {
+    key: 'innovations_inventory',
+    label: 'Innovations Inventory',
+    isTitle: true,
+  },
   {
     key: 'athens_plant_nursery',
-    label: 'Athens Plant Nursery',
-    link: '/inovations-inventory/athens-plant-nursery',
+    label: 'Sewer Mining Technology',
+    link: 'innovations/athens-plant-nursery',
     icon: 'ri-plant-line',
   },
   {
     key: 'farmAIr_(plant_stress)',
-    label: 'FarmAIr (Plant Stress)',
-    link: '/inovations-inventory/farmair-plant-stress',
+    label: 'Plant Stress Detection',
+    link: '/innovations-inventory/farmair-plant-stress',
     icon: 'ri-leaf-line',
   },
   // Regional Services
@@ -43,6 +47,14 @@ export const MENU: MenuItem[] = [
     label: 'Meteorological Heatmaps',
     link: '/regional/meteorological-heatmaps',
     icon: 'uil-layer-group',
+  },
+  // Analysis Services
+  { key: 'analysis_services', label: 'Analysis Services', isTitle: true },
+  {
+    key: 'hellinikon',
+    label: 'Flood Risk Analysis',
+    link: '/analyses/hellinikon',
+    icon: 'ri-flood-line',
   },
   // European Services
   { key: 'european_services', label: 'European Services', isTitle: true },
@@ -56,6 +68,6 @@ export const MENU: MenuItem[] = [
     key: 'eurostat_explorer',
     label: 'Eurostat Explorer',
     link: '/european-services/eurostat-explorer',
-    icon: 'ri-earth-line',
+    icon: 'ri-database-2-line',
   },
 ];

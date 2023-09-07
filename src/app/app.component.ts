@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -8,12 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  RouterModule,
-  RouterOutlet,
-  Router,
-  RouterState,
-} from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { LeftSideBarComponent } from './layout/left-side-bar/left-side-bar.component';
 import { MapComponent } from './map/map.component';
 import { FooterComponent } from './layout/footer/footer.component';
@@ -32,18 +26,16 @@ import { MapService } from './map/map.service';
   imports: [
     CommonModule,
     RouterModule,
-    RouterOutlet,
     NgbAlertModule,
     LeftSideBarComponent,
     MapComponent,
     FooterComponent,
     TopbarComponent,
   ],
-
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit {
   dataBsTheme = 'light';
   dataLayoutMode = 'fluid';
   dataMenuColor = 'dark';
@@ -86,21 +78,6 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.store.dispatch(login({ user }));
       }
     });
-  }
-
-  ngAfterViewInit(): void {
-    // console.log(this.mapComponentRef);
-    // const mapRef: ElementRef =
-    //   this.mapComponentRef.nativeElement.querySelector('#map');
-    // console.log(mapRef);
-    // const { map } = this.mapService.newMap(mapRef.nativeElement);
-    // map.on('style.load', () => this.mapService.onStyleLoad(map));
-    // map.on('load', () => this.mapService.onLoad(map));
-    // map.on('wheel', () => this.mapService.onWheel());
-    // map.on('boxzoomend', () => this.mapService.onBoxZoomEnd());
-    // map.on('rotateend', () => this.mapService.onRotateEnd());
-    // map.on('pitchend', () => this.mapService.onPitchEnd());
-    // map.on('dragend', () => this.mapService.onDragEnd());
   }
 
   onAfterMapInit() {

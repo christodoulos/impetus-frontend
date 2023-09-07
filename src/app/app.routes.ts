@@ -2,6 +2,17 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'innovations/athens-plant-nursery',
+    data: {
+      title: 'Sewer Mining Technology',
+      info: 'athens-plant-nursery',
+    },
+    loadComponent: () =>
+      import(
+        './innovations/athens-plant-nursery/athens-plant-nursery.component'
+      ).then((m) => m.AthensPlantNurseryComponent),
+  },
+  {
     path: 'regional/meteorological-heatmaps',
     data: {
       title: 'Meteorological Heatmaps',
@@ -10,6 +21,17 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./regional/heatmaps/heatmaps.component').then(
         (m) => m.HeatmapsComponent
+      ),
+  },
+  {
+    path: 'analyses/hellinikon',
+    data: {
+      title: 'Flood Risk Analysis',
+      info: 'hellinikon',
+    },
+    loadComponent: () =>
+      import('./analyses/hellinikon/hellinikon.component').then(
+        (m) => m.HellinikonComponent
       ),
   },
   {
