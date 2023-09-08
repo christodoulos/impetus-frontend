@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MapService } from 'src/app/map/map.service';
-import { LineChartComponent } from 'src/app/ui/line-chart/line-chart.component';
 
 import * as $ from 'jquery';
 import { AthensPlantNurseryLegendControl } from './athens-plant-nursery.legend';
@@ -16,7 +15,7 @@ import { AthensPlantNurseryLegendControl } from './athens-plant-nursery.legend';
 @Component({
   selector: 'app-athens-plant-nursery',
   standalone: true,
-  imports: [CommonModule, LineChartComponent],
+  imports: [CommonModule],
   templateUrl: './athens-plant-nursery.component.html',
   styleUrls: ['./athens-plant-nursery.component.scss'],
 })

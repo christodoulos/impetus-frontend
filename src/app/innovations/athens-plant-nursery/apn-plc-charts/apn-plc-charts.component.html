@@ -1,0 +1,14 @@
+<ngx-simplebar
+  *ngIf="optionsArray"
+  style="max-height: 350px"
+  class="card-body p-0"
+>
+  <apx-chart
+    *ngFor="let option of optionsArray"
+    class="apex-charts"
+    [series]="option.series"
+    [chart]="option.chart"
+    [xaxis]="option.xaxis"
+    [title]="option.title"
+  ></apx-chart>
+</ngx-simplebar>

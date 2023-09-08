@@ -9,7 +9,7 @@ export class AthensPlantNurseryService {
 
   constructor(private readonly http: HttpClient = inject(HttpClient)) {}
 
-  getPlantNursery() {
-    return this.http.get<any>(`${this.url}/plant-nursery`);
+  getPlantNursery(num: number) {
+    return this.http.get<any>(`${this.url}/apn-nursery/metrics/${num}`);
   }
 }
