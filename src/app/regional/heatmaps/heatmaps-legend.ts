@@ -49,6 +49,7 @@ export class HeatmapsLegendControl {
     </div>`;
     return this.container;
   }
+
   onRemove() {
     this.container?.parentNode?.removeChild(this.container);
     this.map = undefined;

@@ -8,6 +8,7 @@ import { map } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalWelcomeComponent } from 'src/app/modals/welcome/welcome.component';
 import { ModalHeatmapsComponent } from 'src/app/modals/heatmaps/heatmaps.component';
+import { ApnplcModalComponent } from 'src/app/modals/apnplc/apnplc.component';
 
 @Component({
   selector: 'map-toolbar',
@@ -65,6 +66,12 @@ export class MapToolbarComponent implements OnInit {
         break;
       case 'heatmaps':
         this.modalService.open(ModalHeatmapsComponent, {
+          size: 'lg',
+          centered: true,
+        });
+        break;
+      case 'athens-plant-nursery':
+        this.modalService.open(ApnplcModalComponent, {
           size: 'lg',
           centered: true,
         });
