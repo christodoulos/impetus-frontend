@@ -35,15 +35,26 @@
             "styles": [
               "threebox/threebox.css",
               "src/assets/vendor/jstree/themes/default/style.min.css",
-              "src/assets/scss/icons.scss",
               "src/assets/scss/app-saas.scss",
+              "src/assets/scss/icons.scss",
+              "node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css",
+              "node_modules/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css",
+              "node_modules/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css",
               "src/styles.scss"
             ],
             "scripts": [
               "threebox/threebox.min.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/jstree/dist/jstree.min.js"
+              "node_modules/jstree/dist/jstree.min.js",
+              "node_modules/datatables.net/js/jquery.dataTables.min.js",
+              "node_modules/datatables.net-bs5/js/dataTables.bootstrap5.min.js",
+              "node_modules/datatables.net-responsive/js/dataTables.responsive.min.js",
+              "node_modules/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js",
+              "node_modules/datatables.net-buttons/js/dataTables.buttons.min.js",
+              "node_modules/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js",
+              "node_modules/datatables.net-buttons/js/buttons.html5.min.js",
+              "node_modules/jszip/dist/jszip.min.js"
             ]
           },
           "configurations": {

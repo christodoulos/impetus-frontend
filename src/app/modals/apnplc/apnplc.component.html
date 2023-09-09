@@ -8,6 +8,7 @@
   ></button>
 </div>
 <div class="modal-body">
+  <h5>About</h5>
   <p>
     The Athens Urban Tree Nursery comprises 4 hectares of vegetation, supplies
     all urban parks and green spaces of Athens with plant material, and uses
@@ -27,6 +28,8 @@
     investigated to minimize the pilot’s environmental footprint.
   </p>
 
+  <h5>A short video tour</h5>
+
   <div class="ratio ratio-16x9 mb-2">
     <iframe
       src="https://www.youtube.com/embed/B6m7JLbRJUQ"
@@ -35,5 +38,15 @@
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
     ></iframe>
+  </div>
+
+  <h5>Latest PLC metrics</h5>
+
+  <div class="table-responsive">
+    <table
+      datatable
+      [dtOptions]="dtOptions"
+      class="table dt-responsive nowrap w-100 fs-6"
+    ></table>
   </div>
 </div>
