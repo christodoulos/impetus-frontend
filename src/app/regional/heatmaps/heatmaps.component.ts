@@ -63,11 +63,12 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
 
       this.tpoly = polygon(data.geometry.coordinates[0]);
 
-      this.localStorageService.storage$.subscribe((storage) => {
-        const metric = storage['heatmap'];
-        this.service.getHeatmap(metric).subscribe((data) => {
-          this.removeLayersAndSources();
-          if (data) {
+      this.subscription = this.localStorageService.storage$.subscribe(
+        (storage) => {
+          const metric = storage['heatmap'];
+          this.service.getHeatmap(metric).subscribe((data) => {
+            this.removeLayersAndSources();
+            // if (data) {
             const properties = data.properties;
             console.log(properties);
             if (properties) {
@@ -76,14 +77,17 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
             }
             this.crateHeatmap(data, metric ?? '');
             this.createLabels(data, metric ?? '');
-          } else {
-            this.timeOfObservation = '';
-            this.unit = '';
-            this.min = null;
-            this.max = null;
-          }
-        });
-      });
+            // } else {
+            //   console.log('NO DATA');
+            //   this.timeOfObservation = '';
+            //   this.unit = '';
+            //   this.min = null;
+            //   this.max = null;
+            //   if (this.legend) this.map.removeControl(this.legend);
+            // }
+          });
+        }
+      );
     });
   }
 
@@ -92,6 +96,7 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
     if (this.legend) this.map.removeControl(this.legend);
     this.tb.terrain = true;
+    // this.localStorageService.removeItem('heatmap');
   }
 
   removeLayersAndSources() {

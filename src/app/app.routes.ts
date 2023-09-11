@@ -13,6 +13,17 @@ export const routes: Routes = [
       ).then((m) => m.AthensPlantNurseryComponent),
   },
   {
+    path: 'innovations/farmair',
+    data: {
+      title: 'Plant Stress Detection',
+      info: 'farmair',
+    },
+    loadComponent: () =>
+      import('./innovations/farmair/farmair.component').then(
+        (m) => m.FarmairComponent
+      ),
+  },
+  {
     path: 'regional/meteorological-heatmaps',
     data: {
       title: 'Meteorological Heatmaps',

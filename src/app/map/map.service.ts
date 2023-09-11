@@ -150,15 +150,15 @@ export class MapService {
       realSunlight: true,
       sky: true,
       terrain: true,
-      enableSelectingObjects: true,
-      enableSelectingFeatures: true,
+      // enableSelectingObjects: true,
+      // enableSelectingFeatures: true,
       defaultLights: true,
     });
   }
 
   newMap(container: HTMLDivElement): Map {
     this.map = new Map({
-      style: 'mapbox://styles/mapbox/streets-v12',
+      style: 'mapbox://styles/mapbox/satellite-streets-v12',
       container,
       antialias: true,
       attributionControl: false,
@@ -303,27 +303,70 @@ export class MapService {
     });
   }
 
+  // add3DBuildingsLayer() {
+  //   if (this.map.getLayer('building')) {
+  //     this.map.removeLayer('building');
+  //   }
+  //   if (this.map.getSource('composite')) {
+  //     this.map.addLayer(
+  //       {
+  //         id: '3d-buildings',
+  //         source: 'composite',
+  //         'source-layer': 'building',
+  //         type: 'fill-extrusion',
+  //         minzoom: 9,
+  //         paint: {
+  //           'fill-extrusion-color': '#ddd',
+  //           'fill-extrusion-height': ['number', ['get', 'height'], 0],
+  //           'fill-extrusion-base': ['number', ['get', 'min_height'], 0],
+  //           'fill-extrusion-opacity': 1,
+  //         },
+  //       },
+  //       'waterway-label'
+  //     );
+  //   }
+  // }
+
   add3DBuildingsLayer() {
     if (this.map.getLayer('building')) {
       this.map.removeLayer('building');
     }
+
     if (this.map.getSource('composite')) {
-      this.map.addLayer(
-        {
-          id: '3d-buildings',
-          source: 'composite',
-          'source-layer': 'building',
-          type: 'fill-extrusion',
-          minzoom: 9,
-          paint: {
-            'fill-extrusion-color': '#ddd',
-            'fill-extrusion-height': ['number', ['get', 'height'], 2],
-            'fill-extrusion-base': ['number', ['get', 'min_height'], 0],
-            'fill-extrusion-opacity': 1,
-          },
+      this.map.addLayer({
+        id: '3d-buildings',
+        source: 'composite',
+        'source-layer': 'building',
+        filter: ['==', 'extrude', 'true'],
+        type: 'fill-extrusion',
+        minzoom: 15,
+        paint: {
+          'fill-extrusion-color': '#aaa',
+
+          // Use an 'interpolate' expression to
+          // add a smooth transition effect to
+          // the buildings as the user zooms in.
+          'fill-extrusion-height': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            15,
+            0,
+            15.05,
+            ['get', 'height'],
+          ],
+          'fill-extrusion-base': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            15,
+            0,
+            15.05,
+            ['get', 'min_height'],
+          ],
+          'fill-extrusion-opacity': 1,
         },
-        'waterway-label'
-      );
+      });
     }
   }
 
@@ -471,16 +514,23 @@ export class MapService {
   }
 
   fitToAttica() {
-    this.map.fitBounds([
-      24.1028392959052, 38.40303239502197, 23.30886905192861, 37.62646012564626,
-    ]);
+    this.map.fitBounds(
+      [
+        24.1028392959052, 38.40303239502197, 23.30886905192861,
+        37.62646012564626,
+      ],
+      { duration: 0 }
+    );
   }
 
   fitToEurope() {
-    this.map.fitBounds([
-      -26.39211076038066, 33.85666623943277, 46.06351684677202,
-      71.45984928826147,
-    ]);
+    this.map.fitBounds(
+      [
+        -26.39211076038066, 33.85666623943277, 46.06351684677202,
+        71.45984928826147,
+      ],
+      { duration: 0 }
+    );
   }
 
   flyToAthensPlantNursery() {
@@ -489,8 +539,8 @@ export class MapService {
       zoom: 16.777210158888213,
       bearing: 122.61132170386838,
       pitch: 81.0008753894744,
-      duration: 3000,
-      essential: true,
+      duration: 0,
+      essential: false,
     });
   }
 
@@ -500,8 +550,19 @@ export class MapService {
       zoom: 15.26,
       bearing: 46.8,
       pitch: 75.5,
-      duration: 3000,
-      essential: true,
+      duration: 0,
+      essential: false,
+    });
+  }
+
+  flyToKokkotouVineyards() {
+    this.map.flyTo({
+      center: [23.89076532854162, 38.12430221183547],
+      zoom: 17,
+      bearing: 90,
+      pitch: 50,
+      duration: 0,
+      essential: false,
     });
   }
 }

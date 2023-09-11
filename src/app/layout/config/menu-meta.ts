@@ -35,9 +35,9 @@ export const MENU: MenuItem[] = [
     icon: 'ri-plant-line',
   },
   {
-    key: 'farmAIr_(plant_stress)',
+    key: 'farmair',
     label: 'Plant Stress Detection',
-    link: '/innovations-inventory/farmair-plant-stress',
+    link: '/innovations/farmair',
     icon: 'ri-leaf-line',
   },
   // Regional Services
@@ -57,7 +57,7 @@ export const MENU: MenuItem[] = [
     icon: 'ri-flood-line',
   },
   // European Services
-  { key: 'european_services', label: 'European Services', isTitle: true },
+  { key: 'european_services', label: 'Experiments', isTitle: true },
   {
     key: 'nuts_explorer',
     label: 'NUTS Explorer',

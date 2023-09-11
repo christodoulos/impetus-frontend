@@ -15,11 +15,12 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ui-select',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgbTooltipModule],
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
   providers: [
@@ -32,6 +33,8 @@ import {
 })
 export class SelectComponent implements ControlValueAccessor {
   @Input() label = 'Select Something';
+  @Input() showLabel = false;
+  @Input() tooltip = 'Select Something';
   @Input() prompt = '';
   @Input() selections: { key: string; value: string }[] = [];
   @Input() hasNull = false;
@@ -41,7 +44,9 @@ export class SelectComponent implements ControlValueAccessor {
     | undefined;
   formControl!: FormControl;
 
-  constructor(private controlContainer: ControlContainer) {}
+  constructor(private controlContainer: ControlContainer) {
+    this.control?.setValue(this.selections[0].key);
+  }
 
   onChange(event: any) {
     if (!event.target.options.selectedIndex)

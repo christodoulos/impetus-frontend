@@ -1,0 +1,17 @@
+<div class="align-items-center fs-6" [ngSwitch]="routeInfo">
+  <ng-container *ngSwitchCase="'heatmaps'">
+    <ng-template [ngTemplateOutlet]="heatmaps"></ng-template>
+  </ng-container>
+</div>
+
+<ng-template #heatmaps>
+  <form [formGroup]="heatmapForm">
+    <ui-select
+      [label]="'Select a metric'"
+      [selections]="heatmapMetrics"
+      [tooltip]="'Select a metric to display a heatmap.'"
+      formControlName="metric"
+      class="fs-6"
+    ></ui-select>
+  </form>
+</ng-template>

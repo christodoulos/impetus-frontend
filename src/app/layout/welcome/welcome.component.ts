@@ -222,6 +222,11 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
         'text-anchor': 'top',
         'icon-offset': [0, -30],
       },
+      paint: {
+        'text-color': '#ffffff',
+        'text-halo-color': '#4264fb',
+        'text-halo-width': 2,
+      },
     });
     this.map.addLayer({
       id: 'places',

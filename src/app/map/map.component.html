@@ -1,2 +1,5 @@
-<map-toolbar></map-toolbar>
+<div class="d-flex flex-nowrap align-items-center justify-content-between mb-1">
+  <map-dropdowns [routeInfo]="routeInfo"></map-dropdowns>
+  <map-toolbar [routeInfo]="routeInfo"></map-toolbar>
+</div>
 <div id="map" style="position: relative; width: 100%; height: 768px"></div>
