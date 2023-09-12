@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -31,7 +32,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     },
   ],
 })
-export class SelectComponent implements ControlValueAccessor {
+export class SelectComponent implements ControlValueAccessor, OnInit {
   @Input() label = 'Select Something';
   @Input() showLabel = false;
   @Input() tooltip = 'Select Something';
@@ -46,6 +47,12 @@ export class SelectComponent implements ControlValueAccessor {
 
   constructor(private controlContainer: ControlContainer) {
     this.control?.setValue(this.selections[0].key);
+  }
+
+  ngOnInit() {
+    if (this.selections && this.selections.length > 0) {
+      this.control?.setValue(this.selections[0].key);
+    }
   }
 
   onChange(event: any) {

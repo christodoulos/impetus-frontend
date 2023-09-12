@@ -2,6 +2,9 @@
   <ng-container *ngSwitchCase="'heatmaps'">
     <ng-template [ngTemplateOutlet]="heatmaps"></ng-template>
   </ng-container>
+  <ng-container *ngSwitchCase="'farmair'">
+    <ng-template [ngTemplateOutlet]="farmair"></ng-template>
+  </ng-container>
 </div>
 
 <ng-template #heatmaps>
@@ -11,7 +14,39 @@
       [selections]="heatmapMetrics"
       [tooltip]="'Select a metric to display a heatmap.'"
       formControlName="metric"
-      class="fs-6"
     ></ui-select>
+  </form>
+</ng-template>
+
+<ng-template #farmair>
+  <form [formGroup]="farmairForm">
+    <div class="d-flex align-items-center gap-1 fs-6">
+      <ui-select
+        [label]="'Select a vineyard'"
+        [selections]="farmairVineyards"
+        [tooltip]="'Select a vineyard'"
+        formControlName="vineyard"
+      ></ui-select>
+      <ui-select
+        *ngIf="farmairForm.get('vineyard')?.value === 'C.S. WINERY'"
+        [label]="'Select a scan date'"
+        [selections]="farmairDatesCSWINERY"
+        [tooltip]="'Select a scan date'"
+        formControlName="date"
+      ></ui-select>
+      <ui-select
+        *ngIf="farmairForm.get('vineyard')?.value === 'chardonay oinodiadromes'"
+        [label]="'Select a scan date'"
+        [selections]="farmairDatesChardonayOinodiadromes"
+        [tooltip]="'Select a scan date'"
+        formControlName="date"
+      ></ui-select>
+      <ui-select
+        [label]="'Select an analysis layer'"
+        [selections]="farmairLayers"
+        [tooltip]="'Select an analysis layer'"
+        formControlName="layer"
+      ></ui-select>
+    </div>
   </form>
 </ng-template>

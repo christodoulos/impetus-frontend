@@ -63,10 +63,10 @@ export class HellinikonComponent implements OnInit, OnDestroy {
 
     // console.log(`The value at pixel (${x}, ${y}) is ${value}`);
 
-    const mapWidth = $('#map').width() ?? 0;
-    const mapHeight = $('#map').height() ?? 0;
-    $('#map').width(mapWidth);
-    $('#map').height(mapHeight);
+    // const mapWidth = $('#map').width() ?? 0;
+    // const mapHeight = $('#map').height() ?? 0;
+    // $('#map').width(mapWidth);
+    // $('#map').height(mapHeight);
     this.mapService.flyToHellinikonFlood();
 
     // create two three.js lights to illuminate the model

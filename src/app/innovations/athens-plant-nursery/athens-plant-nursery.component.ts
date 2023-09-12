@@ -32,10 +32,10 @@ export class AthensPlantNurseryComponent
   constructor(private mapService: MapService) {}
 
   ngOnInit(): void {
-    const mapWidth = $('#map').width() ?? 0;
-    const mapHeight = $('#map').height() ?? 0;
-    $('#map').width(mapWidth);
-    $('#map').height(mapHeight);
+    // const mapWidth = $('#map').width() ?? 0;
+    // const mapHeight = $('#map').height() ?? 0;
+    // $('#map').width(mapWidth);
+    // $('#map').height(mapHeight);
     this.mapService.flyToAthensPlantNursery();
 
     this.map.addLayer(this.plantNurseryLayer);

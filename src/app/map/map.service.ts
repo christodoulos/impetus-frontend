@@ -519,7 +519,7 @@ export class MapService {
         24.1028392959052, 38.40303239502197, 23.30886905192861,
         37.62646012564626,
       ],
-      { duration: 0 }
+      { duration: 1000 }
     );
   }
 
@@ -529,7 +529,7 @@ export class MapService {
         -26.39211076038066, 33.85666623943277, 46.06351684677202,
         71.45984928826147,
       ],
-      { duration: 0 }
+      { duration: 1000 }
     );
   }
 
@@ -539,8 +539,8 @@ export class MapService {
       zoom: 16.777210158888213,
       bearing: 122.61132170386838,
       pitch: 81.0008753894744,
-      duration: 0,
-      essential: false,
+      duration: 1000,
+      essential: true,
     });
   }
 
@@ -550,8 +550,8 @@ export class MapService {
       zoom: 15.26,
       bearing: 46.8,
       pitch: 75.5,
-      duration: 0,
-      essential: false,
+      duration: 1000,
+      essential: true,
     });
   }
 
@@ -561,8 +561,8 @@ export class MapService {
       zoom: 17,
       bearing: 90,
       pitch: 50,
-      duration: 0,
-      essential: false,
+      duration: 1000,
+      essential: true,
     });
   }
 }
