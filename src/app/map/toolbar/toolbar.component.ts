@@ -60,6 +60,7 @@ export class MapToolbarComponent implements OnChanges {
         });
         break;
       case 'heatmaps':
+        console.log('OPEN HEATMAPS MODAL');
         this.modalService.open(ModalHeatmapsComponent, {
           size: 'lg',
           centered: true,
