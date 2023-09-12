@@ -129,7 +129,7 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
           this.tpoly as unknown as Polygon
         )
       ) {
-        points.push(point);
+        if (point.val !== 30.8) points.push(point); // A station seems to be stuck at 30.8
       }
     }
 

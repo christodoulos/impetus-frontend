@@ -150,8 +150,8 @@ export class MapService {
       realSunlight: true,
       sky: true,
       terrain: true,
-      // enableSelectingObjects: true,
-      // enableSelectingFeatures: true,
+      enableSelectingObjects: true,
+      enableSelectingFeatures: true,
       defaultLights: true,
     });
   }
