@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconButtonComponent } from 'src/app/ui/icon-button/icon-button.component';
 import { MapService } from '../map.service';
@@ -22,16 +16,10 @@ import { FarmairModalComponent } from 'src/app/modals/farmair/farmair.component'
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
 })
-export class MapToolbarComponent implements OnChanges {
+export class MapToolbarComponent {
   @Input() routeInfo = '';
 
   constructor(private mapService: MapService, private modalService: NgbModal) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['routeInfo']) {
-      console.log('ROUTEINFO CHANGES', changes['routeInfo'].currentValue);
-    }
-  }
 
   onClick(id: string): void {
     console.log(id);
@@ -85,10 +73,12 @@ export class MapToolbarComponent implements OnChanges {
 
   logMapDetails(): void {
     const map = this.mapService.map;
-    console.log('CENTER', map.getCenter());
-    console.log('ZOOM', map.getZoom());
-    console.log('PITCH', map.getPitch());
-    console.log('BEARING', map.getBearing());
-    console.log('STYLE', map.getStyle());
+    const mapDetails = {
+      center: map.getCenter(),
+      zoom: map.getZoom(),
+      pitch: map.getPitch(),
+      bearing: map.getBearing(),
+    };
+    console.log('MAP DETAILS', mapDetails);
   }
 }

@@ -18,6 +18,7 @@ import {
   NutsEffects,
   MetadataReducer as eurostatMetadataReducer,
   mapReducer,
+  dropdownsReducer,
 } from './state';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
@@ -48,6 +49,7 @@ export const appConfig: ApplicationConfig = {
       'eurostat-metadata': eurostatMetadataReducer,
       map: mapReducer,
       router: routerReducer,
+      dropdowns: dropdownsReducer,
     }),
     provideRouterStore({
       serializer: CustomSerializer,

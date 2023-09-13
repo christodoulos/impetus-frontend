@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { MapService } from 'src/app/map/map.service';
 import { Map } from 'mapbox-gl';
 import { FeatureCollection } from 'src/app/interfaces/geojson';
-import { LocalStorageService } from 'src/app/local-storage.service';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState, selectFarmair } from 'src/app/state';
 
 @Component({
   selector: 'app-farmair',
@@ -16,24 +17,15 @@ import { Subscription } from 'rxjs';
 export class FarmairComponent implements OnInit, OnDestroy {
   map = this.mapService.map;
   subscription: Subscription | null = null;
-  constructor(
-    private mapService: MapService,
-    private localStorageService: LocalStorageService
-  ) {}
+  farmairSelections$ = this.store.select(selectFarmair);
+  constructor(private mapService: MapService, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.mapService.flyToKokkotouVineyards();
 
-    this.subscription = this.localStorageService.storage$.subscribe((data) => {
-      console.log('LOCAL STORAGE DATA', data);
+    this.subscription = this.farmairSelections$.subscribe((farmair) => {
       this.removeLayersAndSources();
-
-      const farmair: { [key: string]: string } = JSON.parse(data['farmair']);
       const { vineyard, date, layer, geojson } = farmair;
-
-      // this.map.fitBounds(
-      //   (geojson as unknown as FeatureCollection).properties['bbox']
-      // );
 
       // What a terrible situation here :-(
       let _vineyard = vineyard;

@@ -164,6 +164,7 @@ export class MapService {
       attributionControl: false,
       preserveDrawingBuffer: true,
       bearingSnap: 0,
+      pitch: 0,
       accessToken:
         'pk.eyJ1IjoiY2hyaXN0b2RvdWxvcyIsImEiOiJja3luYTd3eW0ydGFiMm9xcHRmMGJyOHVrIn0.c1mSurunkjU4Wyf2hxcy0g',
     });
@@ -513,24 +514,39 @@ export class MapService {
     this.store.dispatch(MapState.setCenter({ center: this.getMapCenter() }));
   }
 
-  fitToAttica() {
-    this.map.fitBounds(
-      [
-        24.1028392959052, 38.40303239502197, 23.30886905192861,
-        37.62646012564626,
-      ],
-      { duration: 1000 }
-    );
+  flyToAttica() {
+    this.map.flyTo({
+      center: {
+        lng: 23.70585417391692,
+        lat: 38.01577475657271,
+      },
+      zoom: 9.097581678448197,
+      pitch: 0,
+      bearing: 0,
+      duration: 1000,
+      essential: true,
+    });
   }
 
-  fitToEurope() {
-    this.map.fitBounds(
-      [
-        -26.39211076038066, 33.85666623943277, 46.06351684677202,
-        71.45984928826147,
-      ],
-      { duration: 1000 }
-    );
+  flyToEurope() {
+    // this.map.fitBounds(
+    //   [
+    //     -26.39211076038066, 33.85666623943277, 46.06351684677202,
+    //     71.45984928826147,
+    //   ],
+    //   { duration: 1000 }
+    // );
+    this.map.flyTo({
+      center: {
+        lng: 15.164831706104877,
+        lat: 53.69874679296251,
+      },
+      zoom: 3.3926060103197466,
+      pitch: 0,
+      bearing: 0,
+      duration: 1000,
+      essential: true,
+    });
   }
 
   flyToAthensPlantNursery() {

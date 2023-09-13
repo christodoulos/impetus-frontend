@@ -8,7 +8,7 @@ import {
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FeatureCollection } from '../interfaces/geojson';
 import { Injectable } from '@angular/core';
-import { exhaustMap, mergeMap, map } from 'rxjs';
+import { mergeMap, map } from 'rxjs';
 import { GeoJsonService } from './geojson.service';
 import { AppState } from 'src/app/state';
 

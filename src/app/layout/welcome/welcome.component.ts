@@ -145,7 +145,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.mapService.fitToAttica();
+    this.mapService.flyToAttica();
     // Create a popup, but don't add it to the map yet.
     const popup = new Popup({
       closeButton: false,

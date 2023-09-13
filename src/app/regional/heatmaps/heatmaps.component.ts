@@ -14,9 +14,11 @@ import { MapService } from 'src/app/map/map.service';
 import { polygon, Polygon, Feature, booleanPointInPolygon } from '@turf/turf';
 import * as interpolateHeatmapLayer from 'interpolateheatmaplayer';
 import * as mapboxgl from 'mapbox-gl';
-import { LocalStorageService } from 'src/app/local-storage.service';
 import { Subscription } from 'rxjs';
 import { HeatmapsLegendControl } from './heatmaps-legend';
+import { Store } from '@ngrx/store';
+import { AppState, selectHeatmap } from 'src/app/state';
+import * as moment from 'moment';
 
 window.mapboxgl = mapboxgl;
 
@@ -47,14 +49,16 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
   subscription: Subscription | null = null;
   legend: HeatmapsLegendControl | null = null;
 
+  heatmapSelection$ = this.store.select(selectHeatmap);
+
   constructor(
     private service: HeatmapsService,
     private mapService: MapService,
-    private localStorageService: LocalStorageService
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
-    this.mapService.fitToAttica();
+    this.mapService.flyToAttica();
 
     this.tb.terrain = false;
 
@@ -63,32 +67,33 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
 
       this.tpoly = polygon(data.geometry.coordinates[0]);
 
-      this.subscription = this.localStorageService.storage$.subscribe(
-        (storage) => {
-          const metric = storage['heatmap'];
-          this.service.getHeatmap(metric).subscribe((data) => {
-            this.removeLayersAndSources();
-            // if (data) {
-            const properties = data.properties;
-            console.log(properties);
-            if (properties) {
-              this.timeOfObservation = properties['TimeOfObservation'];
-              this.unit = properties['FeatureUnit'];
-            }
-            this.crateHeatmap(data, metric ?? '');
-            this.createLabels(data, metric ?? '');
-            // } else {
-            //   console.log('NO DATA');
-            //   this.timeOfObservation = '';
-            //   this.unit = '';
-            //   this.min = null;
-            //   this.max = null;
-            //   if (this.legend) this.map.removeControl(this.legend);
-            // }
-          });
-        }
-      );
+      this.subscription = this.heatmapSelection$.subscribe((metric) => {
+        console.log('HEATMAPS', metric);
+        this.service.getHeatmap(metric).subscribe((data) => {
+          this.clearOldData(data);
+          console.log(data);
+          this.removeLayersAndSources();
+          const properties = data.properties;
+          console.log(properties);
+          if (properties) {
+            this.timeOfObservation = properties['TimeOfObservation'];
+            this.unit = properties['FeatureUnit'];
+          }
+          this.crateHeatmap(data, metric ?? '');
+          this.createLabels(data, metric ?? '');
+        });
+      });
     });
+  }
+
+  clearOldData(data: any) {
+    for (let index = 0; index < data.features.length; index++) {
+      const element = data.features[index];
+      const datetime = moment(element.properties.TimeOfObservation);
+      if (moment().diff(datetime, 'days') > 0) {
+        data.features.splice(index, 1);
+      }
+    }
   }
 
   ngOnDestroy(): void {
@@ -96,7 +101,6 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
     if (this.legend) this.map.removeControl(this.legend);
     this.tb.terrain = true;
-    // this.localStorageService.removeItem('heatmap');
   }
 
   removeLayersAndSources() {
@@ -129,7 +133,8 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
           this.tpoly as unknown as Polygon
         )
       ) {
-        if (point.val !== 30.8) points.push(point); // A station seems to be stuck at 30.8
+        // if (point.val !== 30.8) points.push(point); // A station seems to be stuck at 30.8
+        points.push(point);
       }
     }
 
@@ -143,12 +148,6 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
       roi: this.roi,
       renderingMode: '3d',
     });
-
-    // layer.render = () => {
-    //   this.tb.update();
-    // };
-
-    console.log('HEATMAP', layer);
 
     this.map.addLayer(layer);
 
@@ -182,19 +181,6 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
       paint: {
         'text-color': '#FFFFFF',
       },
-    });
-  }
-
-  atticaBoundary(data: any) {
-    this.map.addSource('attica_boundary_source', {
-      type: 'geojson',
-      data: data,
-    });
-    this.map.addLayer({
-      id: 'attica_boundary',
-      type: 'line',
-      source: 'attica_boundary_source',
-      paint: { 'line-color': '#000080', 'line-width': 4 },
     });
   }
 }

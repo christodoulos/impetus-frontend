@@ -58,12 +58,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    localStorage.removeItem('heatmap');
-    localStorage.setItem('heatmap', 'temperature');
-    this.store.dispatch(nutsUpdate({ level: 'nuts0' }));
-    this.store.dispatch(nutsUpdate({ level: 'nuts1' }));
-    this.store.dispatch(nutsUpdate({ level: 'nuts2' }));
-    this.store.dispatch(nutsUpdate({ level: 'nuts3' }));
     this.applyTheme();
     this.router.navigate(['/']);
     this.authService.authState.subscribe((user) => {
@@ -78,6 +72,11 @@ export class AppComponent implements OnInit {
         this.store.dispatch(login({ user }));
       }
     });
+
+    this.store.dispatch(nutsUpdate({ level: 'nuts0' }));
+    this.store.dispatch(nutsUpdate({ level: 'nuts1' }));
+    this.store.dispatch(nutsUpdate({ level: 'nuts2' }));
+    this.store.dispatch(nutsUpdate({ level: 'nuts3' }));
   }
 
   onAfterMapInit() {

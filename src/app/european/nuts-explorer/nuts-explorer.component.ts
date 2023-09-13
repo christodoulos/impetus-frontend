@@ -1,81 +1,109 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MapComponent } from 'src/app/map/map.component';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
 import { SelectComponent } from 'src/app/ui/select/select.component';
 import { Store } from '@ngrx/store';
-import { AppState, nutsIsLoading } from 'src/app/state';
-import { Observable, Subscription } from 'rxjs';
+import {
+  AppState,
+  nuts0,
+  nuts1,
+  nuts2,
+  nuts3,
+  nutsIsLoading,
+  selectNuts,
+} from 'src/app/state';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { FeatureCollection } from 'src/app/interfaces/geojson';
-import { EurostatToolComponent } from 'src/app/eurostat/eurostat-tool/eurostat-tool.component';
 import { MapService } from 'src/app/map/map.service';
 import { GeoJsonProperties } from 'geojson';
+import { NutsExplorerLegendControl } from './nuts-explorer.legend';
 
 @Component({
   selector: 'app-nuts-explorer',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    SelectComponent,
-    MapComponent,
-    EurostatToolComponent,
-  ],
+  imports: [CommonModule, SelectComponent, MapComponent],
   templateUrl: './nuts-explorer.component.html',
   styleUrls: ['./nuts-explorer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NutsExplorerComponent implements OnInit, AfterViewInit, OnDestroy {
-  // @ViewChild('map') map!: MapComponent;
+export class NutsExplorerComponent implements OnInit, OnDestroy {
   map = this.mapService.map;
-  nutsLevels = [
-    { key: 'nuts0', value: 'National (NUTS 0)' },
-    { key: 'nuts1', value: 'Large Region (NUTS 1)' },
-    { key: 'nuts2', value: 'Small Region (NUTS 2)' },
-    { key: 'nuts3', value: 'Local (NUTS 3)' },
-  ];
-  nutsForm = new FormGroup({
-    nutsLevel: new FormControl('', Validators.required),
-  });
+  tb = this.mapService.tb;
+  legend: NutsExplorerLegendControl | null = null;
+
+  nuts_id = '';
+  name_latin = '';
+  nuts_name = '';
+
+  private onDestroy$ = new Subject<void>();
+
   isLoading$ = this.store.select(nutsIsLoading);
-  nuts0$ = this.store.select((state) => state.nuts.nuts0);
-  nuts1$ = this.store.select((state) => state.nuts.nuts1);
-  nuts2$ = this.store.select((state) => state.nuts.nuts2);
-  nuts3$ = this.store.select((state) => state.nuts.nuts3);
+
+  nuts0$ = this.store.select(nuts0);
+  nuts1$ = this.store.select(nuts1);
+  nuts2$ = this.store.select(nuts2);
+  nuts3$ = this.store.select(nuts3);
+  nuts0: FeatureCollection | null = null;
+  nuts1: FeatureCollection | null = null;
+  nuts2: FeatureCollection | null = null;
+  nuts3: FeatureCollection | null = null;
+
   hoveredPolygonId = '';
   nutsProperties: GeoJsonProperties | null = null;
-  subscription: Subscription | undefined;
+
+  subscriptions: Subscription[] = [];
+
+  nutsSelection$ = this.store.select(selectNuts);
 
   constructor(private store: Store<AppState>, private mapService: MapService) {}
 
   ngOnInit(): void {
-    this.nutsForm.controls.nutsLevel.valueChanges.subscribe((value) => {
-      this.subscription?.unsubscribe();
+    this.mapService.flyToEurope();
+    this.tb.terrain = false;
+
+    this.subscriptions.push(
+      this.nuts0$.subscribe((data) => {
+        this.nuts0 = data;
+      })
+    );
+    this.subscriptions.push(
+      this.nuts1$.subscribe((data) => {
+        this.nuts1 = data;
+      })
+    );
+    this.subscriptions.push(
+      this.nuts2$.subscribe((data) => {
+        this.nuts2 = data;
+      })
+    );
+    this.subscriptions.push(
+      this.nuts3$.subscribe((data) => {
+        this.nuts3 = data;
+      })
+    );
+
+    this.legend = new NutsExplorerLegendControl(
+      this.nuts_id,
+      this.name_latin,
+      this.nuts_name
+    );
+
+    this.map.addControl(this.legend, 'top-left');
+
+    this.nutsSelection$.pipe(takeUntil(this.onDestroy$)).subscribe((nuts) => {
+      console.log('NUTS', nuts);
       this.removeLayers();
-      switch (value) {
+      switch (nuts) {
         case 'nuts0':
-          this.onNutsLevelChange(this.nuts0$);
+          this.onNutsLevelChange(this.nuts0 as FeatureCollection);
           break;
         case 'nuts1':
-          this.onNutsLevelChange(this.nuts1$);
+          this.onNutsLevelChange(this.nuts1 as FeatureCollection);
           break;
         case 'nuts2':
-          this.onNutsLevelChange(this.nuts2$);
+          this.onNutsLevelChange(this.nuts2 as FeatureCollection);
           break;
         case 'nuts3':
-          this.onNutsLevelChange(this.nuts3$);
+          this.onNutsLevelChange(this.nuts3 as FeatureCollection);
           break;
         default:
           break;
@@ -83,17 +111,15 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit(): void {
-    // this.map.fitBounds([
-    //   -26.39211076038066, 33.85666623943277, 46.06351684677202,
-    //   71.45984928826147,
-    // ]);
-    this.mapService.fitToEurope();
-  }
-
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
+    if (this.legend) this.map.removeControl(this.legend);
     this.removeLayers();
+    this.tb.terrain = true;
   }
 
   removeLayers() {
@@ -108,74 +134,76 @@ export class NutsExplorerComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onNutsLevelChange(nuts$: Observable<FeatureCollection | null>) {
-    this.subscription = nuts$?.subscribe((data) => {
-      if (data) {
-        // console.log(data.features);
-        this.map.addSource('nuts-source', {
-          type: 'geojson',
-          data,
-          generateId: true,
-        });
+  onNutsLevelChange(data: FeatureCollection) {
+    this.map.addSource('nuts-source', {
+      type: 'geojson',
+      data,
+      generateId: true,
+    });
 
-        this.map.addLayer({
-          id: 'nuts-fill',
-          type: 'fill',
-          source: 'nuts-source',
-          // layout: {},
-          paint: {
-            'fill-color': '#627BC1',
-            'fill-opacity': [
-              'case',
-              ['boolean', ['feature-state', 'hover'], false],
-              1,
-              0.5,
-            ],
-          },
-        });
+    this.map.addLayer({
+      id: 'nuts-fill',
+      type: 'fill',
+      source: 'nuts-source',
+      // layout: {},
+      paint: {
+        'fill-color': '#627BC1',
+        'fill-opacity': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          1,
+          0.5,
+        ],
+      },
+    });
 
-        this.map.addLayer({
-          id: 'nuts-borders',
-          type: 'line',
-          source: 'nuts-source',
-          // layout: {},
-          paint: {
-            'line-color': '#627BC1',
-            'line-width': 1,
-          },
-        });
+    this.map.addLayer({
+      id: 'nuts-borders',
+      type: 'line',
+      source: 'nuts-source',
+      // layout: {},
+      paint: {
+        'line-color': '#627BC1',
+        'line-width': 1,
+      },
+    });
 
-        this.map.on('mousemove', 'nuts-fill', (e: any) => {
-          // console.log(e.features);
-          if (e.features && e.features.length > 0) {
-            if (this.hoveredPolygonId !== '') {
-              this.map.setFeatureState(
-                { source: 'nuts-source', id: this.hoveredPolygonId },
-                { hover: false }
-              );
-            }
+    this.map.on('mousemove', 'nuts-fill', (e: any) => {
+      // console.log(e.features);
+      if (e.features && e.features.length > 0) {
+        if (this.hoveredPolygonId !== '') {
+          this.map.setFeatureState(
+            { source: 'nuts-source', id: this.hoveredPolygonId },
+            { hover: false }
+          );
+        }
 
-            this.hoveredPolygonId = e.features[0].id as string;
-            this.nutsProperties = e.features[0].properties;
-            // console.log(this.nutsProperties);
-            this.map.setFeatureState(
-              { source: 'nuts-source', id: this.hoveredPolygonId },
-              { hover: true }
-            );
-          }
-        });
+        this.hoveredPolygonId = e.features[0].id as string;
+        this.nutsProperties = e.features[0].properties;
 
-        this.map.on('mouseleave', 'nuts-fill', () => {
-          if (this.hoveredPolygonId !== '') {
-            this.map.setFeatureState(
-              { source: 'nuts-source', id: this.hoveredPolygonId },
-              { hover: false }
-            );
-          }
-          this.hoveredPolygonId = '';
-          this.nutsProperties = null;
-        });
+        if (this.nutsProperties) {
+          this.nuts_id = this.nutsProperties['NUTS_ID'];
+          this.name_latin = this.nutsProperties['NAME_LATN'];
+          this.nuts_name = this.nutsProperties['NUTS_NAME'];
+          this.legend?.update(this.nuts_id, this.name_latin, this.nuts_name);
+        }
+
+        this.map.setFeatureState(
+          { source: 'nuts-source', id: this.hoveredPolygonId },
+          { hover: true }
+        );
       }
+    });
+
+    this.map.on('mouseleave', 'nuts-fill', () => {
+      if (this.hoveredPolygonId !== '') {
+        this.map.setFeatureState(
+          { source: 'nuts-source', id: this.hoveredPolygonId },
+          { hover: false }
+        );
+      }
+      this.hoveredPolygonId = '';
+      this.nutsProperties = null;
     });
   }
 }

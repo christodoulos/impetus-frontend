@@ -7,8 +7,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { SelectComponent } from 'src/app/ui/select/select.component';
-import { LocalStorageService } from 'src/app/local-storage.service';
 import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import {
+  AppState,
+  nutsIsLoading,
+  updateFarmair,
+  updateHeatmap,
+  updateNuts,
+} from 'src/app/state';
 
 @Component({
   selector: 'map-dropdowns',
@@ -21,6 +28,7 @@ export class MapDropdownsComponent implements OnInit {
   @Input() routeInfo = '';
   farmairDates: { key: string; value: string }[] = [];
   farmairCurrentDate = '';
+  nutsIsLoading$ = this.store.select(nutsIsLoading);
 
   heatmapMetrics = [
     { key: 'temperature', value: 'Temperature' },
@@ -67,28 +75,48 @@ export class MapDropdownsComponent implements OnInit {
     layer: new FormControl('', Validators.required),
   });
 
+  nutsLevels = [
+    { key: 'nuts0', value: 'National (NUTS 0)' },
+    { key: 'nuts1', value: 'Large Region (NUTS 1)' },
+    { key: 'nuts2', value: 'Small Region (NUTS 2)' },
+    { key: 'nuts3', value: 'Local (NUTS 3)' },
+  ];
+  nutsForm = new FormGroup({
+    nutsLevel: new FormControl('', Validators.required),
+  });
+
   constructor(
-    private localStorageService: LocalStorageService,
-    private readonly http: HttpClient = inject(HttpClient)
+    private readonly http: HttpClient = inject(HttpClient),
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
     this.heatmapForm.controls.metric.valueChanges.subscribe((value) => {
-      this.localStorageService.setItem('heatmap', value ?? '');
+      this.store.dispatch(updateHeatmap({ heatmap: value ?? '' }));
     });
 
     this.farmairForm.valueChanges.subscribe((value) => {
-      const { vineyard } = value;
+      let { vineyard, date, layer } = value;
+
       const url = `https://backend.atticadt.uwmh.eu/api/farmair/vineyard/${vineyard}`;
       this.http.get(url).subscribe((data: any) => {
         if (data) {
           const { geojson } = data;
-          this.localStorageService.setItem(
-            'farmair',
-            JSON.stringify({ ...value, geojson })
+
+          vineyard = vineyard ?? '';
+          date = date ?? '';
+          layer = layer ?? '';
+          this.store.dispatch(
+            updateFarmair({
+              farmair: { vineyard, date, layer, geojson },
+            })
           );
         }
       });
+    });
+
+    this.nutsForm.controls.nutsLevel.valueChanges.subscribe((value) => {
+      this.store.dispatch(updateNuts({ nuts: value ?? '' }));
     });
   }
 }

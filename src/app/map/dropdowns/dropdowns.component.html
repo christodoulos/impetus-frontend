@@ -5,6 +5,9 @@
   <ng-container *ngSwitchCase="'farmair'">
     <ng-template [ngTemplateOutlet]="farmair"></ng-template>
   </ng-container>
+  <ng-container *ngSwitchCase="'nuts-explorer'">
+    <ng-template [ngTemplateOutlet]="nutsExlorer"></ng-template>
+  </ng-container>
 </div>
 
 <ng-template #heatmaps>
@@ -47,6 +50,22 @@
         [tooltip]="'Select an analysis layer'"
         formControlName="layer"
       ></ui-select>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #nutsExlorer>
+  <form [formGroup]="nutsForm">
+    <div class="d-flex align-items-center gap-2">
+      <ui-select
+        [label]="'Select NUTS Level'"
+        [selections]="nutsLevels"
+        [tooltip]="'Select NUTS Level.'"
+        formControlName="nutsLevel"
+      ></ui-select>
+      <div *ngIf="nutsIsLoading$ | async" class="spinner-grow" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
   </form>
 </ng-template>
