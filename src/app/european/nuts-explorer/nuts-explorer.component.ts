@@ -58,7 +58,7 @@ export class NutsExplorerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.mapService.flyToEurope();
-    this.tb.terrain = false;
+    this.mapService.zeroExaggeration();
 
     this.subscriptions.push(
       this.nuts0$.subscribe((data) => {
@@ -119,7 +119,7 @@ export class NutsExplorerComponent implements OnInit, OnDestroy {
     }
     if (this.legend) this.map.removeControl(this.legend);
     this.removeLayers();
-    this.tb.terrain = true;
+    this.mapService.restoreExaggeration();
   }
 
   removeLayers() {

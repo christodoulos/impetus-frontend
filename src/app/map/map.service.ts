@@ -173,7 +173,7 @@ export class MapService {
   newThreebox() {
     return new Threebox(this.map, this.map.getCanvas().getContext('webgl'), {
       willReadFrequently: true,
-      realSunlight: true,
+      // realSunlight: true,
       sky: true,
       terrain: true,
       enableSelectingObjects: true,

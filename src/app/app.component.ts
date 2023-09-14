@@ -20,6 +20,8 @@ import { AppState, login, nutsUpdate } from './state';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from './map/map.service';
 
+import * as $ from 'jquery';
+
 @Component({
   selector: 'app-root',
   standalone: true,
