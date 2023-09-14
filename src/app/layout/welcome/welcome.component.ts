@@ -14,6 +14,7 @@ import { AnySourceData, Popup } from 'mapbox-gl';
 import { Store } from '@ngrx/store';
 import { AppState, shouldShowWelcomePins } from 'src/app/state';
 import { Subscription, distinctUntilChanged } from 'rxjs';
+import { AppService } from '@atticadt/services';
 
 @Component({
   selector: 'app-welcome',
@@ -141,10 +142,18 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private modalService: NgbModal,
     private mapService: MapService,
+    private appService: AppService,
     private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
+    if (this.appService.showWelcome) {
+      this.modalService.open(ModalWelcomeComponent, {
+        size: 'lg',
+        centered: true,
+      });
+      this.appService.showWelcome = false;
+    }
     this.mapService.flyToAttica();
     // Create a popup, but don't add it to the map yet.
     const popup = new Popup({
@@ -187,10 +196,6 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.map.on('load', () => {
-      this.modalService.open(ModalWelcomeComponent, {
-        size: 'lg',
-        centered: true,
-      });
       this.showPins();
     });
   }
