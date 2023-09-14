@@ -16,11 +16,18 @@ import {
   updateHeatmap,
   updateNuts,
 } from 'src/app/state';
+import { IconButtonComponent } from 'src/app/ui/icon-button/icon-button.component';
+import { MapService } from '@atticadt/services';
 
 @Component({
   selector: 'map-dropdowns',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SelectComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    SelectComponent,
+    IconButtonComponent,
+  ],
   templateUrl: './dropdowns.component.html',
   styleUrls: ['./dropdowns.component.scss'],
 })
@@ -87,7 +94,8 @@ export class MapDropdownsComponent implements OnInit {
 
   constructor(
     private readonly http: HttpClient = inject(HttpClient),
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private mapService: MapService
   ) {}
 
   ngOnInit(): void {
@@ -118,5 +126,29 @@ export class MapDropdownsComponent implements OnInit {
     this.nutsForm.controls.nutsLevel.valueChanges.subscribe((value) => {
       this.store.dispatch(updateNuts({ nuts: value ?? '' }));
     });
+  }
+
+  onClick(what: string) {
+    const model = this.mapService.threeDModels['hellilikon-flood'];
+    switch (what) {
+      case 'floodup':
+        model.position.z += 0.01;
+        this.mapService.triggerRepaint();
+        console.log(model, model.position.z);
+        break;
+      case 'flooddown':
+        model.position.z -= 0.01;
+        this.mapService.triggerRepaint();
+        console.log(model, model.position.z);
+        break;
+      case 'terrainup':
+        this.mapService.incExaggeration();
+        break;
+      case 'terraindown':
+        this.mapService.decExaggeration();
+        break;
+      default:
+        break;
+    }
   }
 }

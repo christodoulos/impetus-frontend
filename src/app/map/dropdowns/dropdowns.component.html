@@ -8,6 +8,9 @@
   <ng-container *ngSwitchCase="'nuts-explorer'">
     <ng-template [ngTemplateOutlet]="nutsExlorer"></ng-template>
   </ng-container>
+  <ng-container *ngSwitchCase="'hellinikon'">
+    <ng-template [ngTemplateOutlet]="hellinikon"></ng-template>
+  </ng-container>
 </div>
 
 <ng-template #heatmaps>
@@ -68,4 +71,33 @@
       </div>
     </div>
   </form>
+</ng-template>
+
+<ng-template #hellinikon>
+  <div class="d-flex align-items-center gap-1">
+    <icon-button
+      [icon]="'mdi mdi-stairs-up'"
+      [tooltip]="'Flood up'"
+      [id]="'floodup'"
+      (buttonClick)="onClick($event)"
+    ></icon-button>
+    <icon-button
+      [icon]="'mdi mdi-stairs-down'"
+      [tooltip]="'Flood down'"
+      [id]="'flooddown'"
+      (buttonClick)="onClick($event)"
+    ></icon-button>
+    <icon-button
+      [icon]="'mdi mdi-slope-uphill'"
+      [tooltip]="'Terrain up'"
+      [id]="'terrainup'"
+      (buttonClick)="onClick($event)"
+    ></icon-button>
+    <icon-button
+      [icon]="'mdi mdi-slope-downhill'"
+      [tooltip]="'Terrain down'"
+      [id]="'terraindown'"
+      (buttonClick)="onClick($event)"
+    ></icon-button>
+  </div>
 </ng-template>

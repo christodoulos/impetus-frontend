@@ -118,13 +118,13 @@ export class HellinikonComponent implements OnInit, OnDestroy {
     this.mapService.flyToHellinikonFlood();
 
     // create two three.js lights to illuminate the model
-    // const directionalLight = new THREE.DirectionalLight(0xffffff);
-    // directionalLight.position.set(0, -70, 100).normalize();
-    // this.tb.scene.add(directionalLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff);
+    directionalLight.position.set(0, -70, 100).normalize();
+    this.tb.scene.add(directionalLight);
 
-    // const directionalLight2 = new THREE.DirectionalLight(0xffffff);
-    // directionalLight2.position.set(0, 70, 100).normalize();
-    // this.tb.scene.add(directionalLight2);
+    const directionalLight2 = new THREE.DirectionalLight(0xffffff);
+    directionalLight2.position.set(0, 70, 100).normalize();
+    this.tb.scene.add(directionalLight2);
 
     // this.map.addLayer(this.floodLayer);
 
@@ -168,27 +168,5 @@ export class HellinikonComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.layer) this.map.removeLayer(this.layer.id);
-  }
-
-  onclickminus(): void {
-    this.model.position.z -= 0.05;
-    // this.tb.update();
-    this.map.triggerRepaint();
-    console.log(this.model.position);
-  }
-
-  onclickplus(): void {
-    this.model.position.z += 0.05;
-    // this.tb.update();
-    this.map.triggerRepaint();
-    console.log(this.model.position);
-  }
-
-  onclickminusT(): void {
-    this.mapService.decExaggeration();
-  }
-
-  onclickplusT(): void {
-    this.mapService.incExaggeration();
   }
 }

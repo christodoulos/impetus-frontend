@@ -59,7 +59,7 @@ export class MapService {
   modelLoaded: Promise<any>;
   modelResolve!: (value: any) => void;
 
-  private exaggeration = 0.5;
+  private exaggeration = 0.4;
 
   style$ = this.store.select(MapState.selectMapStyle);
   bounds$ = this.store.select(MapState.selectMapBounds);
@@ -223,6 +223,10 @@ export class MapService {
     return this.map;
   }
 
+  triggerRepaint() {
+    this.map.triggerRepaint();
+  }
+
   async onMapLoad() {
     await this.glbLayer(
       'plant-nursery',
@@ -238,9 +242,9 @@ export class MapService {
     await this.glbLayer(
       'hellilikon-flood',
       [23.745103, 37.885798],
-      0.2, // elevation
+      5, // elevation
       'assets/glbs/flood6.glb',
-      { x: 1, y: 1, z: 1 }, // scale
+      { x: 1, y: 1, z: 0.34 }, // scale
       { x: 0, y: 0, z: 180 }, // rotation
       'top-right',
       false, // modelCastShadow
