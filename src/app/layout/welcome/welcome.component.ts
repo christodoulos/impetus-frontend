@@ -8,14 +8,13 @@ import {
 import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalWelcomeComponent } from 'src/app/modals/welcome/welcome.component';
-import { MapService } from 'src/app/map/map.service';
 import { GeometryType } from 'src/app/interfaces/geojson';
 import { AnySourceData, Popup } from 'mapbox-gl';
 import { Store } from '@ngrx/store';
 import { AppState, shouldShowWelcomePins } from 'src/app/state';
 import { Subscription, distinctUntilChanged } from 'rxjs';
 
-import { AppService } from '@atticadt/services';
+import { AppService, MapService } from '@atticadt/services';
 
 @Component({
   selector: 'app-welcome',

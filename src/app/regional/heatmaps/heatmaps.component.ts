@@ -3,22 +3,23 @@ import { CommonModule } from '@angular/common';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { SelectComponent } from 'src/app/ui/select/select.component';
 
-import { HeatmapsService } from './heatmaps.service';
 import { DisabledInputComponent } from 'src/app/ui/disabled-input/disabled-input.component';
 import { InputComponent } from 'src/app/ui/input/input.component';
 import { MapComponent } from 'src/app/map/map.component';
 
 import { FeatureCollection } from 'src/app/interfaces/geojson';
-import { MapService } from 'src/app/map/map.service';
 
 import { polygon, Polygon, Feature, booleanPointInPolygon } from '@turf/turf';
-import * as interpolateHeatmapLayer from 'interpolateheatmaplayer';
-import * as mapboxgl from 'mapbox-gl';
 import { Subscription } from 'rxjs';
 import { HeatmapsLegendControl } from './heatmaps-legend';
 import { Store } from '@ngrx/store';
 import { AppState, selectHeatmap } from 'src/app/state';
+
+import { MapService, HeatmapsService } from '@atticadt/services';
+
 import * as moment from 'moment';
+import * as interpolateHeatmapLayer from 'interpolateheatmaplayer';
+import * as mapboxgl from 'mapbox-gl';
 
 window.mapboxgl = mapboxgl;
 

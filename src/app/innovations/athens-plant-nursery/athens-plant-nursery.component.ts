@@ -7,7 +7,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapService } from 'src/app/map/map.service';
+import { MapService } from 'src/app/services/map.service';
 
 import { AthensPlantNurseryLegendControl } from './athens-plant-nursery.legend';
 

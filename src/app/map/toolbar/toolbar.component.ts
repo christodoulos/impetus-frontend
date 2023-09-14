@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconButtonComponent } from 'src/app/ui/icon-button/icon-button.component';
-import { MapService } from '../map.service';
+import { MapService } from '../../services/map.service';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalWelcomeComponent } from 'src/app/modals/welcome/welcome.component';

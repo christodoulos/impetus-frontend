@@ -14,7 +14,7 @@ import {
 } from 'src/app/state';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { FeatureCollection } from 'src/app/interfaces/geojson';
-import { MapService } from 'src/app/map/map.service';
+import { MapService } from 'src/app/services/map.service';
 import { GeoJsonProperties } from 'geojson';
 import { NutsExplorerLegendControl } from './nuts-explorer.legend';
 

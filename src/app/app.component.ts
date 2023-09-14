@@ -18,7 +18,7 @@ import { Store } from '@ngrx/store';
 
 import { AppState, login, nutsUpdate } from './state';
 import { HttpClient } from '@angular/common/http';
-import { MapService } from './map/map.service';
+import { MapService } from './services/map.service';
 
 import * as $ from 'jquery';
 

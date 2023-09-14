@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapService } from 'src/app/map/map.service';
+import { MapService } from 'src/app/services/map.service';
 
 import initGdalJs from 'gdal3.js';
 import * as proj4 from 'proj4';

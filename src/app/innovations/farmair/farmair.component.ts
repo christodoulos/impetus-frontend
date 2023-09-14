@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapService } from 'src/app/map/map.service';
+import { MapService } from 'src/app/services/map.service';
 import { Map } from 'mapbox-gl';
 import { FeatureCollection } from 'src/app/interfaces/geojson';
 import { Subscription } from 'rxjs';

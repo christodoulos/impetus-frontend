@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AthensPlantNurseryService } from '../athens-plant-nursery.service';
+import { AthensPlantNurseryService } from '@atticadt/services';
 import { map as _map } from 'lodash-es';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { SimplebarAngularModule } from 'simplebar-angular';
