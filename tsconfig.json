@@ -20,7 +20,10 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "lib": ["ES2022", "dom"],
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@atticadt/services": ["src/app/services"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

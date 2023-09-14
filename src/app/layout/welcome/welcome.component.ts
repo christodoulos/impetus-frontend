@@ -14,6 +14,7 @@ import { AnySourceData, Popup } from 'mapbox-gl';
 import { Store } from '@ngrx/store';
 import { AppState, shouldShowWelcomePins } from 'src/app/state';
 import { Subscription, distinctUntilChanged } from 'rxjs';
+
 import { AppService } from '@atticadt/services';
 
 @Component({

@@ -3,10 +3,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": ["@angular/localize"],
-    "paths": {
-      "@atticadt/services": ["src/app/services/index.ts"]
-    }
+    "types": ["@angular/localize"]
   },
   "files": ["src/main.ts"],
   "include": ["src/**/*.d.ts", "src/interpolateheatmaplayer.d.ts"]
