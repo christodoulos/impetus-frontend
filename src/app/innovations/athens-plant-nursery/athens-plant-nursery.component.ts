@@ -9,7 +9,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { MapService } from 'src/app/map/map.service';
 
-import * as $ from 'jquery';
 import { AthensPlantNurseryLegendControl } from './athens-plant-nursery.legend';
 
 @Component({
@@ -23,8 +22,8 @@ export class AthensPlantNurseryComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
   map = this.mapService.map;
-  plantNurseryLayer = this.mapService.plantNurseryLayer;
   legend: AthensPlantNurseryLegendControl | null = null;
+  tankLayer = this.mapService.customLayers['plant-nursery'];
 
   @ViewChild('viewContainerRef', { read: ViewContainerRef })
   viewContainerRef!: ViewContainerRef;
@@ -32,13 +31,9 @@ export class AthensPlantNurseryComponent
   constructor(private mapService: MapService) {}
 
   ngOnInit(): void {
-    // const mapWidth = $('#map').width() ?? 0;
-    // const mapHeight = $('#map').height() ?? 0;
-    // $('#map').width(mapWidth);
-    // $('#map').height(mapHeight);
     this.mapService.flyToAthensPlantNursery();
 
-    this.map.addLayer(this.plantNurseryLayer);
+    this.map.addLayer(this.tankLayer);
   }
 
   ngAfterViewInit(): void {
@@ -49,7 +44,7 @@ export class AthensPlantNurseryComponent
   }
 
   ngOnDestroy(): void {
-    this.map.removeLayer(this.plantNurseryLayer.id);
+    this.map.removeLayer(this.tankLayer.id);
     if (this.legend) this.map.removeControl(this.legend);
   }
 }

@@ -6,7 +6,7 @@ import { FeatureCollection } from 'src/app/interfaces/geojson';
   providedIn: 'root',
 })
 export class GeoJsonService {
-  url = 'http://localhost:3456/api/geojson/featurecollection';
+  url = 'https://backend.atticadt.uwmh.eu/api/geojson/featurecollection';
 
   constructor(private readonly http: HttpClient) {}
 

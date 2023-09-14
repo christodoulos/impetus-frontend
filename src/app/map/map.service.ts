@@ -28,6 +28,20 @@ window.tb = window.tb || {};
 declare let Threebox: any;
 declare let THREE: any;
 
+export type AnchorType =
+  | 'auto'
+  | 'center'
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right';
+
+export type ThreeDType = { x: number; y: number; z: number };
+
 @Injectable({
   providedIn: 'root',
 })
@@ -35,8 +49,17 @@ export class MapService {
   map!: Map;
   tb: any;
 
+  customLayers: { [id: string]: CustomLayerInterface } = {};
+  threeDModels: { [id: string]: any } = {};
+
   plantNurseryLayer!: CustomLayerInterface;
   hellinikonFloodLayer!: CustomLayerInterface;
+
+  floodModel!: any;
+  modelLoaded: Promise<any>;
+  modelResolve!: (value: any) => void;
+
+  private exaggeration = 0.5;
 
   style$ = this.store.select(MapState.selectMapStyle);
   bounds$ = this.store.select(MapState.selectMapBounds);
@@ -53,6 +76,9 @@ export class MapService {
   followMouse = debounce((e) => this.onMouseMove(e, this.map), 100);
 
   constructor(private store: Store<AppState>) {
+    this.modelLoaded = new Promise((resolve) => {
+      this.modelResolve = resolve;
+    });
     // Subscribe to map selectors and respond to changes
     // Map Style changes
     this.style$.subscribe((style) => {
@@ -152,6 +178,8 @@ export class MapService {
       terrain: true,
       enableSelectingObjects: true,
       enableSelectingFeatures: true,
+      enableDraggingObjects: true,
+      enableRotatingObjects: true,
       defaultLights: true,
     });
   }
@@ -183,19 +211,23 @@ export class MapService {
 
     this.map.on('style.load', () => {
       this.add3DBuildingsLayer();
+      this.map.setTerrain({
+        source: 'mapbox-dem',
+        exaggeration: this.exaggeration,
+      });
     });
-    this.map.on('load', () => {
-      this.onMapLoad();
+    this.map.on('load', async () => {
+      await this.onMapLoad();
     });
 
     return this.map;
   }
 
-  onMapLoad() {
-    this.plantNurseryLayer = this.glbLayer(
+  async onMapLoad() {
+    await this.glbLayer(
       'plant-nursery',
       [23.781372557061157, 37.988260208268386],
-      true, // elevated
+      90, // elevation
       'assets/glbs/tank.glb',
       { x: 0.5, y: 0.5, z: 0.5 }, // scale
       { x: 180, y: 90, z: 270 }, // rotation
@@ -203,16 +235,16 @@ export class MapService {
       true, // modelCastShadow
       'Sewer Mining Technology'
     );
-    this.hellinikonFloodLayer = this.glbLayer(
+    await this.glbLayer(
       'hellilikon-flood',
-      [23.7280492635823, 37.8719384907549],
-      false, // elevated
+      [23.745103, 37.885798],
+      0.2, // elevation
       'assets/glbs/flood6.glb',
-      { x: 1, y: 1, z: 1.2 }, // scale
+      { x: 1, y: 1, z: 1 }, // scale
       { x: 0, y: 0, z: 180 }, // rotation
-      'bottom-left',
+      'top-right',
       false, // modelCastShadow
-      'Flood Risk Analysis Result'
+      ''
     );
   }
 
@@ -226,6 +258,44 @@ export class MapService {
       img.src = mapCanvas.toDataURL();
       saveAs(img.src, 'map.png');
     }
+  }
+
+  incExaggeration() {
+    this.exaggeration += 0.05;
+    try {
+      this.map.setTerrain({
+        source: 'mapbox-dem',
+        exaggeration: this.exaggeration,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  decExaggeration() {
+    this.exaggeration -= 0.05;
+    try {
+      this.map.setTerrain({
+        source: 'mapbox-dem',
+        exaggeration: this.exaggeration,
+      });
+    } catch (e) {
+      console.log('exaggeration cannot be less than 0.1');
+    }
+  }
+
+  zeroExaggeration() {
+    this.map.setTerrain({
+      source: 'mapbox-dem',
+      exaggeration: 0,
+    });
+  }
+
+  restoreExaggeration() {
+    this.map.setTerrain({
+      source: 'mapbox-dem',
+      exaggeration: this.exaggeration,
+    });
   }
 
   addSource(id: string, source: AnySourceData) {
@@ -304,30 +374,6 @@ export class MapService {
     });
   }
 
-  // add3DBuildingsLayer() {
-  //   if (this.map.getLayer('building')) {
-  //     this.map.removeLayer('building');
-  //   }
-  //   if (this.map.getSource('composite')) {
-  //     this.map.addLayer(
-  //       {
-  //         id: '3d-buildings',
-  //         source: 'composite',
-  //         'source-layer': 'building',
-  //         type: 'fill-extrusion',
-  //         minzoom: 9,
-  //         paint: {
-  //           'fill-extrusion-color': '#ddd',
-  //           'fill-extrusion-height': ['number', ['get', 'height'], 0],
-  //           'fill-extrusion-base': ['number', ['get', 'min_height'], 0],
-  //           'fill-extrusion-opacity': 1,
-  //         },
-  //       },
-  //       'waterway-label'
-  //     );
-  //   }
-  // }
-
   add3DBuildingsLayer() {
     if (this.map.getLayer('building')) {
       this.map.removeLayer('building');
@@ -374,61 +420,104 @@ export class MapService {
   glbLayer(
     id: string,
     where: LngLatLike,
-    elevated: boolean,
+    elevation = 0,
     modelFile: string,
-    scale: { x: number; y: number; z: number } = { x: 1, y: 1, z: 1 },
-    rotation: { x: number; y: number; z: number } = { x: 0, y: 0, z: 0 },
-    anchor:
-      | 'center'
-      | 'top'
-      | 'bottom'
-      | 'left'
-      | 'right'
-      | 'top-left'
-      | 'top-right'
-      | 'bottom-left'
-      | 'bottom-right' = 'bottom-left',
+    scale: ThreeDType = { x: 1, y: 1, z: 1 },
+    rotation: ThreeDType = { x: 0, y: 0, z: 0 },
+    anchor: AnchorType = 'bottom-left',
     modelCastShadow: boolean = true,
     modelToolTip: string = ''
-  ): CustomLayerInterface {
-    // Elevate the model if needed
-    let elevation = 0;
-    if (elevated) {
-      elevation =
-        this.map.queryTerrainElevation(where, { exaggerated: true }) ?? 0;
-    }
-    console.log(
-      `MapService.addGLBLayer: elevation is ${elevation} meters at ${where}`
-    );
+  ): Promise<CustomLayerInterface> {
+    // Get the elevation of the terrain at the given location
+    const terrainElevation = this.map.queryTerrainElevation(where, {
+      exaggerated: true,
+    });
+    console.log(`Map elevation at ${where} is ${terrainElevation} meters`);
 
-    // Return a custom layer
-    return {
-      id: `3d-model-${id}`,
-      type: 'custom',
-      renderingMode: '3d',
-      onAdd: () => {
-        const options = {
-          obj: modelFile,
-          type: 'gltf',
-          scale,
-          units: 'meters',
-          rotation,
-          anchor,
+    return new Promise((resolve) => {
+      const options = {
+        obj: modelFile,
+        type: 'gltf',
+        scale,
+        units: 'meters',
+        rotation,
+        anchor,
+      };
+      this.tb.loadObj(options, (model: any) => {
+        this.threeDModels[id] = model;
+        const pos = [...(where as number[]), elevation];
+        model.setCoords(pos);
+        if (modelToolTip) model.addTooltip(modelToolTip, true);
+        model.modelCastShadow = modelCastShadow;
+        this.tb.lights.dirLight.target = model;
+        this.customLayers[id] = {
+          id: `3d-model-${id}`,
+          type: 'custom',
+          renderingMode: '3d',
+          onAdd: () => {
+            this.tb.add(model);
+          },
+          render: () => {
+            this.tb.update();
+          },
         };
-        this.tb.loadObj(options, (model: any) => {
-          const pos = elevated ? [...(where as number[]), elevation] : where;
-          model.setCoords(pos);
-          if (modelToolTip) model.addTooltip(modelToolTip, true);
-          model.modelCastShadow = modelCastShadow;
-          this.tb.lights.dirLight.targer = model;
-          this.tb.add(model);
-        });
-      },
-      render: () => {
-        this.tb.update();
-      },
-    };
+        resolve(this.customLayers[id]);
+      });
+    });
   }
+
+  // glbLayer(
+  //   id: string,
+  //   where: LngLatLike,
+  //   elevated: boolean,
+  //   modelFile: string,
+  //   scale: { x: number; y: number; z: number } = { x: 1, y: 1, z: 1 },
+  //   rotation: { x: number; y: number; z: number } = { x: 0, y: 0, z: 0 },
+  //   anchor: AnchorType = 'bottom-left',
+  //   modelCastShadow: boolean = true,
+  //   modelToolTip: string = ''
+  // ): CustomLayerInterface {
+  //   // Elevate the model if needed
+  //   let elevation = 0;
+  //   if (elevated) {
+  //     elevation =
+  //       this.map.queryTerrainElevation(where, { exaggerated: false }) ?? 0;
+  //   }
+  //   console.log(
+  //     `MapService.addGLBLayer: elevation is ${elevation} meters at ${where}`
+  //   );
+
+  //   // Return a custom layer
+  //   return {
+  //     id: `3d-model-${id}`,
+  //     type: 'custom',
+  //     renderingMode: '3d',
+  //     onAdd: () => {
+  //       const options = {
+  //         obj: modelFile,
+  //         type: 'gltf',
+  //         scale,
+  //         units: 'meters',
+  //         rotation,
+  //         anchor,
+  //       };
+  //       this.tb.loadObj(options, (model: any) => {
+  //         const pos = elevated ? [...(where as number[]), elevation] : where;
+  //         model.setCoords(pos);
+  //         if (modelToolTip) model.addTooltip(modelToolTip, true);
+  //         model.modelCastShadow = modelCastShadow;
+  //         this.tb.lights.dirLight.targer = model;
+  //         // this.floodModel = model;
+  //         // console.log('AAAAAAAAAAAAAAA', this.floodModel);
+  //         this.tb.add(model);
+  //         // this.modelResolve(model);
+  //       });
+  //     },
+  //     render: () => {
+  //       this.tb.update();
+  //     },
+  //   };
+  // }
 
   removeSkyLayer() {
     this.map?.removeLayer('sky-layer');
@@ -529,13 +618,6 @@ export class MapService {
   }
 
   flyToEurope() {
-    // this.map.fitBounds(
-    //   [
-    //     -26.39211076038066, 33.85666623943277, 46.06351684677202,
-    //     71.45984928826147,
-    //   ],
-    //   { duration: 1000 }
-    // );
     this.map.flyTo({
       center: {
         lng: 15.164831706104877,

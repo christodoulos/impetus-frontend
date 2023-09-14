@@ -60,7 +60,8 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mapService.flyToAttica();
 
-    this.tb.terrain = false;
+    // this.tb.terrain = false;
+    this.mapService.zeroExaggeration();
 
     this.service.getAtticaNUTS().subscribe((data) => {
       this.roi = data.geometry.coordinates[0][0];
@@ -100,7 +101,8 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
     this.removeLayersAndSources();
     this.subscription?.unsubscribe();
     if (this.legend) this.map.removeControl(this.legend);
-    this.tb.terrain = true;
+    // this.tb.terrain = true;
+    this.mapService.restoreExaggeration();
   }
 
   removeLayersAndSources() {

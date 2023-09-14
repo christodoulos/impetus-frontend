@@ -78,5 +78,5 @@ export const routes: Routes = [
         (m) => m.WelcomeComponent
       ),
   },
-  { path: '**', redirectTo: '/european-services/nuts-explorer' },
+  { path: '**', redirectTo: '' },
 ];
