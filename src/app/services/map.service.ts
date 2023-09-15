@@ -231,7 +231,7 @@ export class MapService {
     await this.glbLayer(
       'plant-nursery',
       [23.781372557061157, 37.988260208268386],
-      90, // elevation
+      71.76, // elevation
       'assets/glbs/tank.glb',
       { x: 0.5, y: 0.5, z: 0.5 }, // scale
       { x: 180, y: 90, z: 270 }, // rotation

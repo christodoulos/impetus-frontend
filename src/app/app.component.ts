@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
         console.log(user);
         const { idToken } = user;
         this.http
-          .post('http://backend.atticadt.uwmh.eu/api/auth/google-login', {
+          .post('https://backend.atticadt.uwmh.eu/api/auth/google-login', {
             idToken,
           })
           .subscribe((res) => {

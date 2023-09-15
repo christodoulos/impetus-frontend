@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "deploy": "ng build && rsync -avz --delete dist/impetus-ng-frontend/* atticadt@atticadt:atticadt",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
