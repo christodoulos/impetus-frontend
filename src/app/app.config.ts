@@ -19,6 +19,8 @@ import {
   MetadataReducer as eurostatMetadataReducer,
   mapReducer,
   dropdownsReducer,
+  mapSourceReducer,
+  MapSourceEffects,
 } from './state';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
@@ -48,13 +50,14 @@ export const appConfig: ApplicationConfig = {
       nuts: nutsReducer,
       'eurostat-metadata': eurostatMetadataReducer,
       map: mapReducer,
+      mapSources: mapSourceReducer,
       router: routerReducer,
       dropdowns: dropdownsReducer,
     }),
     provideRouterStore({
       serializer: CustomSerializer,
     }),
-    provideEffects([NutsEffects]),
+    provideEffects([NutsEffects, MapSourceEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       // logOnly: environment.production, // Restrict extension to log-only mode

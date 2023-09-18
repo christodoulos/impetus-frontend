@@ -16,7 +16,7 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Store } from '@ngrx/store';
 
-import { AppState, login, nutsUpdate } from './state';
+import { AppState, login, mapSourceUpdate, nutsUpdate } from './state';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from './services/map.service';
 
@@ -81,6 +81,7 @@ export class AppComponent implements OnInit {
     this.store.dispatch(nutsUpdate({ level: 'nuts1' }));
     this.store.dispatch(nutsUpdate({ level: 'nuts2' }));
     this.store.dispatch(nutsUpdate({ level: 'nuts3' }));
+    this.store.dispatch(mapSourceUpdate({ source: 'hellinikonInnundation' }));
   }
 
   onAfterMapInit() {

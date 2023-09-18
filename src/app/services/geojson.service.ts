@@ -11,7 +11,12 @@ export class GeoJsonService {
   constructor(private readonly http: HttpClient) {}
 
   getFeatureCollection(id: string) {
-    console.log(`${this.url}/${id}`);
     return this.http.get<FeatureCollection>(`${this.url}/${id}`);
+  }
+
+  getHellinikonInnundation() {
+    return this.http.get<FeatureCollection>(
+      'assets/hellinikon_innundation.geojson'
+    );
   }
 }

@@ -241,13 +241,13 @@ export class MapService {
     );
     await this.glbLayer(
       'hellilikon-flood',
-      [23.745103, 37.885798],
-      5, // elevation
-      'assets/glbs/flood6.glb',
+      [23.728049, 37.871938],
+      0, // elevation
+      'assets/glbs/flood.glb',
       { x: 1, y: 1, z: 0.34 }, // scale
       { x: 0, y: 0, z: 180 }, // rotation
-      'top-right',
-      false, // modelCastShadow
+      'bottom-left',
+      true, // modelCastShadow
       ''
     );
   }

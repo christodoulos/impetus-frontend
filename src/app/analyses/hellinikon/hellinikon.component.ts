@@ -8,6 +8,12 @@ import * as geotiff from 'geotiff';
 import { CustomLayerInterface } from 'mapbox-gl';
 import { th } from 'date-fns/locale';
 
+import * as _ from 'lodash';
+import { GeoJsonService, MapSourcesService } from '@atticadt/services';
+import { Feature, FeatureCollection } from '@turf/turf';
+import { State } from '@ngrx/store';
+import { AppState } from 'src/app/state';
+
 declare let THREE: any;
 
 @Component({
@@ -28,9 +34,17 @@ export class HellinikonComponent implements OnInit, OnDestroy {
   layer: CustomLayerInterface | undefined;
   band: any;
   transformation: any;
-  constructor(private mapService: MapService) {}
+
+  innundation: FeatureCollection | undefined;
+
+  constructor(
+    private mapService: MapService,
+    private mapSourcesService: MapSourcesService,
+    private geojsonService: GeoJsonService
+  ) {}
 
   ngOnInit() {
+    this.mapSourcesService.addHellinikonInnundation();
     // await initGdalJs({ path: '/assets/gdal3' }).then(async (gdal: any) => {
     //   const tif = await gdal.open('/assets/maxdepth.tif');
     //   this.band = tif.bands.get(0);
@@ -81,7 +95,6 @@ export class HellinikonComponent implements OnInit, OnDestroy {
     // );
     this.model = this.mapService.threeDModels['hellilikon-flood'];
     this.layer = this.mapService.customLayers['hellilikon-flood'];
-    this.mapService.addLayer(this.layer);
 
     // this.mapService.modelLoaded.then((model) => (this.model = model));
     // console.log(this.model);
@@ -126,6 +139,25 @@ export class HellinikonComponent implements OnInit, OnDestroy {
     directionalLight2.position.set(0, 70, 100).normalize();
     this.tb.scene.add(directionalLight2);
 
+    // const sphere = this.tb
+    //   .sphere({ color: 'red', material: 'MeshToonMaterial' })
+    //   .setCoords([23.745103, 37.885798, 40]);
+    // this.tb.add(sphere);
+    // this.tb.update();
+
+    // const geometry = new THREE.BoxGeometry(10, 10, 10);
+    // const material = new THREE.MeshBasicMaterial({ color: 0x000000 });
+    // const cube = new THREE.Mesh(geometry, material);
+    // cube.position.set(
+    //   -67541.6263111111,
+    //   -116601.94194029529,
+    //   0.16205962225837955
+    // );
+    // this.tb.scene.add(cube);
+    // this.tb.update();
+
+    // console.log('>>>>>>>>>>>>>>>>>', this.tb.scene);
+
     // this.map.addLayer(this.floodLayer);
 
     // this.map.on('mousemove', (e) => {
@@ -163,6 +195,30 @@ export class HellinikonComponent implements OnInit, OnDestroy {
     //   const [x, y] = this.transformation.transformPoint(where.lng, where.lat);
     //   const value = this.band.readRaster(x, y, 1, 1);
     //   console.log('RASTER DEPTH', value);
+    // });
+
+    this.map.addLayer({
+      id: 'maine',
+      type: 'fill',
+      source: 'hellinikon-innundation', // reference the data source
+      layout: {},
+      paint: {
+        'fill-color': '#0080ff', // blue color fill
+        'fill-opacity': 0.8,
+      },
+    });
+    this.mapService.addLayer(this.layer);
+
+    // Add a black outline around the polygon.
+    // this.map.addLayer({
+    //   id: 'outline',
+    //   type: 'line',
+    //   source: 'hellinikon-innundation',
+    //   layout: {},
+    //   paint: {
+    //     'line-color': '#000',
+    //     'line-width': 3,
+    //   },
     // });
   }
 
