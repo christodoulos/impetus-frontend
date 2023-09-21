@@ -8,6 +8,7 @@ import { ModalWelcomeComponent } from 'src/app/modals/welcome/welcome.component'
 import { ModalHeatmapsComponent } from 'src/app/modals/heatmaps/heatmaps.component';
 import { ApnplcModalComponent } from 'src/app/modals/apnplc/apnplc.component';
 import { FarmairModalComponent } from 'src/app/modals/farmair/farmair.component';
+import { ModalHelpComponent } from 'src/app/modals/help/help.component';
 
 @Component({
   selector: 'map-toolbar',
@@ -42,14 +43,18 @@ export class MapToolbarComponent {
   showInfoModal(): void {
     switch (this.routeInfo) {
       case 'about':
-      case 'welcome':
         this.modalService.open(ModalWelcomeComponent, {
           size: 'lg',
           centered: true,
         });
         break;
+      case 'welcome':
+        this.modalService.open(ModalHelpComponent, {
+          size: 'lg',
+          centered: true,
+        });
+        break;
       case 'heatmaps':
-        console.log('OPEN HEATMAPS MODAL');
         this.modalService.open(ModalHeatmapsComponent, {
           size: 'lg',
           centered: true,

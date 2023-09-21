@@ -138,22 +138,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
       properties: {},
     },
   };
-  constructor(
-    private modalService: NgbModal,
-    private mapService: MapService,
-    private appService: AppService,
-    private store: Store<AppState>
-  ) {}
+  constructor(private mapService: MapService, private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    if (this.appService.showWelcome) {
-      this.modalService.open(ModalWelcomeComponent, {
-        size: 'lg',
-        centered: true,
-        backdrop: 'static',
-      });
-      this.appService.showWelcome = false;
-    }
     this.mapService.flyToAttica();
     // Create a popup, but don't add it to the map yet.
     const popup = new Popup({

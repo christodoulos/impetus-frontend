@@ -11,7 +11,11 @@ import { RouterModule, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { HttpClient } from '@angular/common/http';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbActiveModal,
+  NgbAlertModule,
+  NgbModal,
+} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppState, login, mapSourceUpdate, mapload, nutsUpdate } from './state';
 import { MapService } from './services/map.service';
@@ -20,6 +24,8 @@ import { LeftSideBarComponent } from './layout/left-side-bar/left-side-bar.compo
 import { MapComponent } from './map/map.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
+import { AppService } from './services';
+import { ModalWelcomeComponent } from './modals/welcome/welcome.component';
 
 @Component({
   selector: 'app-root',
@@ -51,7 +57,9 @@ export class AppComponent implements OnInit {
 
   constructor(
     private renderer: Renderer2,
+    private modalService: NgbModal,
     private authService: SocialAuthService,
+    private appService: AppService,
     private mapService: MapService,
     private store: Store<AppState>,
     private http: HttpClient,
@@ -60,6 +68,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.applyTheme();
+
+    if (this.appService.showWelcome) {
+      this.modalService.open(ModalWelcomeComponent, {
+        size: 'lg',
+        centered: true,
+        backdrop: 'static',
+      });
+      this.appService.showWelcome = false;
+    }
+
     this.router.navigate(['/']);
     this.authService.authState.subscribe((user) => {
       if (user) {
