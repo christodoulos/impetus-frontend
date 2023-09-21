@@ -151,6 +151,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.modalService.open(ModalWelcomeComponent, {
         size: 'lg',
         centered: true,
+        backdrop: 'static',
       });
       this.appService.showWelcome = false;
     }

@@ -23,7 +23,8 @@
     "types": ["node"],
     "paths": {
       "@atticadt/services": ["src/app/services"]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

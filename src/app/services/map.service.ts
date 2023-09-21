@@ -14,7 +14,7 @@ import {
 } from 'mapbox-gl';
 import { Store } from '@ngrx/store';
 import * as MapState from '../state/map';
-import { AppState } from '../state';
+import { AppState, mapload, maploaded } from '../state';
 import { debounce } from 'lodash-es';
 import { saveAs } from 'file-saver';
 
@@ -250,6 +250,7 @@ export class MapService {
       true, // modelCastShadow
       ''
     );
+    this.store.dispatch(maploaded());
   }
 
   downloadMap() {

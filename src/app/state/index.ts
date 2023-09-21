@@ -1,9 +1,11 @@
+import { createSelector } from '@ngrx/store';
+
 import { AuthState } from './auth';
 import { MetadataState as EurostatMetadataState } from '../eurostat/eurostat-state';
-import { NutsState } from './nuts';
-import { MapState } from './map';
+import { NutsState, nutsIsLoading } from './nuts';
+import { MapState, selectMapIsLoading } from './map';
 import { DropDownsState } from './dropdowns';
-import { MapSourceState } from './mapSources';
+import { MapSourceState, sourceIsLoading } from './mapSources';
 
 export interface AppState {
   auth: AuthState;
@@ -13,6 +15,14 @@ export interface AppState {
   mapSources: MapSourceState;
   dropdowns: DropDownsState;
 }
+
+export const isLoading = createSelector(
+  (AppState) => AppState,
+  nutsIsLoading,
+  sourceIsLoading,
+  selectMapIsLoading
+);
+
 export * from './auth';
 export * from './nuts';
 export * from '../eurostat/eurostat-state';

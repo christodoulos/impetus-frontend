@@ -14,10 +14,17 @@ export interface MapWhere {
     sizerank?: number;
   };
 }
-import { createAction, createReducer, props, on } from '@ngrx/store';
+import {
+  createAction,
+  createReducer,
+  props,
+  on,
+  createSelector,
+} from '@ngrx/store';
 import { AppState } from 'src/app/state';
 
 export interface MapState {
+  isLoading: boolean;
   style: string;
   bounds: number[][];
   bearing: number;
@@ -36,6 +43,7 @@ export interface MapState {
 }
 
 const MapInitialState: MapState = {
+  isLoading: false,
   style: 'mapbox://styles/mapbox/light-v10',
   bounds: [
     [-180, -85.0511],
@@ -60,6 +68,10 @@ const MapInitialState: MapState = {
 };
 
 // Map Actions
+
+export const mapload = createAction('[Map] Load');
+
+export const maploaded = createAction('[Map] Loaded');
 
 export const update = createAction(
   '[Map] Update',
@@ -149,6 +161,16 @@ export const toggleShadows = createAction('[Map] Toggle Shadows');
 
 export const mapReducer = createReducer(
   MapInitialState,
+  //   Map load action
+  on(mapload, (state) => ({
+    ...state,
+    isLoading: true,
+  })),
+  //   Map loaded action
+  on(maploaded, (state) => ({
+    ...state,
+    isLoading: false,
+  })),
   //   Map update action
   on(update, (state, action) => {
     const center = action.attrs['center'];
@@ -280,6 +302,11 @@ export const mapReducer = createReducer(
 // Map Selectors
 
 export const selectMapState = (state: AppState) => state.map;
+
+export const selectMapIsLoading = createSelector(
+  selectMapState,
+  (state: MapState) => state.isLoading
+);
 
 export const selectMapStyle = (state: AppState) => state.map.style;
 

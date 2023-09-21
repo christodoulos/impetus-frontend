@@ -8,19 +8,18 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { HttpClient } from '@angular/common/http';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { AppState, login, mapSourceUpdate, mapload, nutsUpdate } from './state';
+import { MapService } from './services/map.service';
+
 import { LeftSideBarComponent } from './layout/left-side-bar/left-side-bar.component';
 import { MapComponent } from './map/map.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
-import { Store } from '@ngrx/store';
-
-import { AppState, login, mapSourceUpdate, nutsUpdate } from './state';
-import { HttpClient } from '@angular/common/http';
-import { MapService } from './services/map.service';
-
-import * as $ from 'jquery';
 
 @Component({
   selector: 'app-root',
@@ -77,11 +76,7 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.store.dispatch(nutsUpdate({ level: 'nuts0' }));
-    this.store.dispatch(nutsUpdate({ level: 'nuts1' }));
-    this.store.dispatch(nutsUpdate({ level: 'nuts2' }));
-    this.store.dispatch(nutsUpdate({ level: 'nuts3' }));
-    this.store.dispatch(mapSourceUpdate({ source: 'hellinikonInnundation' }));
+    this.displatchStartupActions();
   }
 
   onAfterMapInit() {
@@ -138,5 +133,14 @@ export class AppComponent implements OnInit {
       'data-sidenav-size',
       this.dataSidenavSize
     );
+  }
+
+  displatchStartupActions() {
+    this.store.dispatch(mapload());
+    this.store.dispatch(nutsUpdate({ level: 'nuts0' }));
+    this.store.dispatch(nutsUpdate({ level: 'nuts1' }));
+    this.store.dispatch(nutsUpdate({ level: 'nuts2' }));
+    this.store.dispatch(nutsUpdate({ level: 'nuts3' }));
+    this.store.dispatch(mapSourceUpdate({ source: 'hellinikonInnundation' }));
   }
 }

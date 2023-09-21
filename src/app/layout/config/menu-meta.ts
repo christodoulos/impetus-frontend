@@ -40,6 +40,12 @@ export const MENU: MenuItem[] = [
     link: '/innovations/farmair',
     icon: 'ri-leaf-line',
   },
+  {
+    key: 'subsol',
+    label: 'Subsurface Water Solutions',
+    link: '/innovations/subsol',
+    icon: 'ri-water-flash-line',
+  },
   // Regional Services
   { key: 'regional_services', label: 'Regional Services', isTitle: true },
   {
