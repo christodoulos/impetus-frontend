@@ -41,6 +41,7 @@ export class MapToolbarComponent {
 
   showInfoModal(): void {
     switch (this.routeInfo) {
+      case 'about':
       case 'welcome':
         this.modalService.open(ModalWelcomeComponent, {
           size: 'lg',

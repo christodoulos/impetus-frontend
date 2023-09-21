@@ -1,7 +1,10 @@
 <div class="modal-header">
   <h4 class="modal-title" id="modalLabel">Digital Twins of Attica</h4>
-  <div *ngIf="isLoading$ | async" class="spinner-grow" role="status">
-    <span class="visually-hidden">Loading...</span>
+  <div *ngIf="isLoading$ | async" class="d-flex align-items-center">
+    <span>Loading data ... &nbsp;</span>
+    <div class="spinner-grow" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
   </div>
   <button
     *ngIf="!(isLoading$ | async)"

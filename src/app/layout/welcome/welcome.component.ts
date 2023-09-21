@@ -22,7 +22,6 @@ import { AppService, MapService } from '@atticadt/services';
   imports: [CommonModule],
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   map = this.mapService.map;
