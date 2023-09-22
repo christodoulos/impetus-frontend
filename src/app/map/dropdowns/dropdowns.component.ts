@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import {
   AppState,
+  isLoading,
   nutsIsLoading,
   selectMapIsLoading,
   updateFarmair,
@@ -40,6 +41,7 @@ export class MapDropdownsComponent implements OnInit {
   farmairCurrentDate = '';
   nutsIsLoading$ = this.store.select(nutsIsLoading);
   mapIsLoading$ = this.store.select(selectMapIsLoading);
+  isLoading$ = this.store.select(isLoading);
 
   heatmapMetrics = [
     { key: 'temperature', value: 'Temperature' },

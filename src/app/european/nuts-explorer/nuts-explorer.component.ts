@@ -57,7 +57,7 @@ export class NutsExplorerComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>, private mapService: MapService) {}
 
   ngOnInit(): void {
-    this.mapService.flyToEurope();
+    this.mapService.flyTo('europe');
     this.mapService.zeroExaggeration();
 
     this.subscriptions.push(

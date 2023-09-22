@@ -59,7 +59,7 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.mapService.flyToAttica();
+    this.mapService.flyTo('attica');
 
     // this.tb.terrain = false;
     this.mapService.zeroExaggeration();

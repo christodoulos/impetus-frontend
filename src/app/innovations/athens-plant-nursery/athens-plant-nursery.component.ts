@@ -31,8 +31,7 @@ export class AthensPlantNurseryComponent
   constructor(private mapService: MapService) {}
 
   ngOnInit(): void {
-    this.mapService.flyToAthensPlantNursery();
-
+    this.mapService.flyTo('athens-plant-nursery');
     this.map.addLayer(this.tankLayer);
   }
 

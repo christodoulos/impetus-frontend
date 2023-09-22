@@ -21,7 +21,7 @@ export class FarmairComponent implements OnInit, OnDestroy {
   constructor(private mapService: MapService, private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.mapService.flyToKokkotouVineyards();
+    this.mapService.flyTo('kokkotou-vineyards');
 
     this.subscription = this.farmairSelections$.subscribe((farmair) => {
       this.removeLayersAndSources();

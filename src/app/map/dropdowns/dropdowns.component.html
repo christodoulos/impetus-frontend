@@ -1,8 +1,13 @@
-<div class="align-items-center fs-6" [ngSwitch]="routeInfo">
-  <please-wait
-    [message]="'Map is transitioning'"
-    [waiting$]="mapIsLoading$"
-  ></please-wait>
+<please-wait
+  [message]="'Map is transitioning'"
+  [waiting$]="mapIsLoading$"
+></please-wait>
+
+<div
+  *ngIf="!(isLoading$ | async)"
+  class="align-items-center fs-6"
+  [ngSwitch]="routeInfo"
+>
   <ng-container *ngSwitchCase="'heatmaps'">
     <ng-template [ngTemplateOutlet]="heatmaps"></ng-template>
   </ng-container>
