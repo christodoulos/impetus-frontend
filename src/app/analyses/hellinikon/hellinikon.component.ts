@@ -11,6 +11,8 @@ import geoblaze from 'geoblaze';
 import proj4 from 'proj4';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { HellinikonLegendControl } from './hellinikon-legend';
+import { LngLat, LngLatLike } from 'mapbox-gl';
 
 type GeoJsonPointFeature = {
   type: 'Feature';
@@ -35,6 +37,10 @@ export class HellinikonComponent implements OnInit, OnDestroy {
   tb = this.mapService.tb;
 
   tif: any;
+  legend: HellinikonLegendControl | null = null;
+
+  legendWhere: LngLatLike = [0, 0];
+  legendDepth = 0;
 
   constructor(
     private mapService: MapService,
@@ -63,6 +69,12 @@ export class HellinikonComponent implements OnInit, OnDestroy {
         responseType: 'blob',
       })
     );
+
+    this.legend = new HellinikonLegendControl(
+      this.legendWhere,
+      this.legendDepth
+    );
+    this.map.addControl(this.legend, 'top-left');
 
     const _lnglatData = await fetch('/assets/lnglat_data.json');
     const lnglatData: { lng: number; lat: number; value: number }[] =
@@ -142,6 +154,7 @@ export class HellinikonComponent implements OnInit, OnDestroy {
     });
 
     if (features.length > 0) {
+      this.legendWhere = e.lngLat;
       const longitude = e.lngLat.lng;
       const latitude = e.lngLat.lat;
 
@@ -161,6 +174,9 @@ export class HellinikonComponent implements OnInit, OnDestroy {
 
       const value = await geoblaze.identify(georaster, [x, y]);
       console.log('GEOBLAZE VALUE', value);
+      this.legendDepth = value;
+
+      this.legend?.update(this.legendWhere, this.legendDepth);
     }
   };
 }
