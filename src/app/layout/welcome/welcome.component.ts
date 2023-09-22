@@ -15,6 +15,7 @@ import { AppState, shouldShowWelcomePins } from 'src/app/state';
 import { Subscription, distinctUntilChanged } from 'rxjs';
 
 import { AppService, MapService } from '@atticadt/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
@@ -27,6 +28,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   map = this.mapService.map;
   shouldShowWelcomePins$ = this.store.select(shouldShowWelcomePins);
   subscription: Subscription | undefined;
+  potentialRoute = '';
   pins = {
     type: 'geojson',
     data: {
@@ -41,6 +43,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             coordinates: [23.781372557061157, 37.988260208268386],
           },
           properties: {
+            route: 'innovations/athens-plant-nursery',
             title: 'Sewer Mining Technology',
             description: `<img src="/assets/images/apn.jpg" style="width:100%">
             <h6>Athens Plant Nursery</h6>
@@ -64,6 +67,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             coordinates: [23.89076532854162, 38.12430221183547],
           },
           properties: {
+            route: 'innovations/farmair',
             title: 'Plant Stress Detection',
             description: `<img src="/assets/images/farmair-drone.png" style="width:100%">
               <h6>farmAIr @Kokkotou Vineyards</h6>
@@ -83,6 +87,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             coordinates: [23.73508263685423, 37.87729612062206],
           },
           properties: {
+            route: 'analyses/hellinikon',
             title: 'Flood Risk Assessment',
             description:
               '<strong>Hellinikon Development</strong><p>Incididunt laboris consequat culpa do labore labore eiusmod aute duis nisi labore. Non sit minim fugiat qui. Tempor adipisicing enim est minim irure id mollit incididunt ex ad sit reprehenderit sit. Excepteur proident consequat ut esse adipisicing pariatur. Dolore sunt nisi irure dolor enim ipsum enim minim eu consectetur proident. Adipisicing est consectetur dolore consequat velit do adipisicing consequat. Non excepteur nostrud cupidatat sint id id veniam.</p>',
@@ -138,7 +143,11 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
       properties: {},
     },
   };
-  constructor(private mapService: MapService, private store: Store<AppState>) {}
+  constructor(
+    private mapService: MapService,
+    private store: Store<AppState>,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.mapService.flyToAttica();
@@ -162,6 +171,8 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
       // Copy coordinates array.
       const coordinates = e.features[0].geometry.coordinates.slice();
       const description = e.features[0].properties.description;
+      // Be prepared for a route change.
+      this.potentialRoute = e.features[0].properties.route;
 
       // Ensure that if the map is zoomed out such that multiple
       // copies of the feature are visible, the popup appears
@@ -179,6 +190,11 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.map.getCanvas().style.cursor = '';
       popup.remove();
     });
+
+    this.map.on('click', () => {
+      popup.remove();
+      this.router.navigateByUrl(this.potentialRoute);
+    });
   }
 
   ngAfterViewInit(): void {
@@ -194,6 +210,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.map.removeLayer('points');
     this.map.removeLayer('places');
     this.map.removeSource('pins');
+    this.map.off('mouseenter', 'places', () => {});
+    this.map.off('mouseleave', 'places', () => {});
+    this.map.off('click', () => {});
   }
 
   showPins() {

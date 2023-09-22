@@ -617,7 +617,7 @@ export class MapService {
       zoom: 9.097581678448197,
       pitch: 0,
       bearing: 0,
-      duration: 1000,
+      // duration: 2000,
       essential: true,
     });
   }
@@ -631,19 +631,23 @@ export class MapService {
       zoom: 3.3926060103197466,
       pitch: 0,
       bearing: 0,
-      duration: 1000,
+      // duration: 2000,
       essential: true,
     });
   }
 
   flyToAthensPlantNursery() {
+    this.store.dispatch(mapload());
     this.map.flyTo({
       center: [23.783535537759576, 37.986796706691095],
       zoom: 16.777210158888213,
       bearing: 122.61132170386838,
       pitch: 81.0008753894744,
-      duration: 1000,
+      // duration: 2000,
       essential: true,
+    });
+    this.map.once('moveend', () => {
+      this.store.dispatch(maploaded());
     });
   }
 
@@ -653,7 +657,7 @@ export class MapService {
       zoom: 15.26,
       bearing: 46.8,
       pitch: 75.5,
-      duration: 1000,
+      // duration: 2000,
       essential: true,
     });
   }
@@ -664,7 +668,7 @@ export class MapService {
       zoom: 17,
       bearing: 90,
       pitch: 50,
-      duration: 1000,
+      // duration: 2000,
       essential: true,
     });
   }

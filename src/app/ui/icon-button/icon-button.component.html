@@ -1,3 +1,8 @@
-<button type="button" class="btn btn-light btn-sm fs-5" (click)="onClick()">
-  <i [ngClass]="icon" [title]="tooltip"></i>
+<button
+  type="button"
+  [ngbTooltip]="tooltip"
+  class="btn btn-light btn-sm fs-5"
+  (click)="onClick()"
+>
+  <i [ngClass]="icon"></i>
 </button>

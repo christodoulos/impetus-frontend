@@ -12,12 +12,14 @@ import { Store } from '@ngrx/store';
 import {
   AppState,
   nutsIsLoading,
+  selectMapIsLoading,
   updateFarmair,
   updateHeatmap,
   updateNuts,
 } from 'src/app/state';
 import { IconButtonComponent } from 'src/app/ui/icon-button/icon-button.component';
 import { MapService } from '@atticadt/services';
+import { PleaseWaitComponent } from 'src/app/ui/please-wait/please-wait.component';
 
 @Component({
   selector: 'map-dropdowns',
@@ -27,6 +29,7 @@ import { MapService } from '@atticadt/services';
     ReactiveFormsModule,
     SelectComponent,
     IconButtonComponent,
+    PleaseWaitComponent,
   ],
   templateUrl: './dropdowns.component.html',
   styleUrls: ['./dropdowns.component.scss'],
@@ -36,6 +39,7 @@ export class MapDropdownsComponent implements OnInit {
   farmairDates: { key: string; value: string }[] = [];
   farmairCurrentDate = '';
   nutsIsLoading$ = this.store.select(nutsIsLoading);
+  mapIsLoading$ = this.store.select(selectMapIsLoading);
 
   heatmapMetrics = [
     { key: 'temperature', value: 'Temperature' },
