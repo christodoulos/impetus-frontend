@@ -143,6 +143,13 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
       properties: {},
     },
   };
+
+  popup = new Popup({
+    closeButton: false,
+    closeOnClick: false,
+    maxWidth: '500px',
+  });
+
   constructor(
     private mapService: MapService,
     private mapPlacesService: MapPlacesService,
@@ -153,11 +160,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.mapPlacesService.flyTo('attica');
     // Create a popup, but don't add it to the map yet.
-    const popup = new Popup({
-      closeButton: false,
-      closeOnClick: false,
-      maxWidth: '500px',
-    });
+
     this.subscription = this.shouldShowWelcomePins$
       .pipe(distinctUntilChanged())
       .subscribe((show) => {
@@ -184,18 +187,15 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // Populate the popup and set its coordinates
       // based on the feature found.
-      popup.setLngLat(coordinates).setHTML(description).addTo(this.map);
+      this.popup.setLngLat(coordinates).setHTML(description).addTo(this.map);
     });
 
     this.map.on('mouseleave', 'places', () => {
       this.map.getCanvas().style.cursor = '';
-      popup.remove();
+      this.popup.remove();
     });
 
-    this.map.on('click', () => {
-      popup.remove();
-      this.router.navigateByUrl(this.potentialRoute);
-    });
+    this.map.on('dblclick', this.ondblclick);
   }
 
   ngAfterViewInit(): void {
@@ -211,10 +211,17 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.map.removeLayer('points');
     this.map.removeLayer('places');
     this.map.removeSource('pins');
+    // TODO: Remove event listeners like dblclick with a NAMED function.
     this.map.off('mouseenter', 'places', () => {});
     this.map.off('mouseleave', 'places', () => {});
-    this.map.off('click', () => {});
+    this.map.off('dblclick', this.ondblclick);
   }
+
+  ondblclick = (e: any) => {
+    e.preventDefault();
+    this.popup.remove();
+    this.router.navigateByUrl(this.potentialRoute);
+  };
 
   showPins() {
     this.map.addSource('pins', this.pins as AnySourceData);
