@@ -6,6 +6,7 @@ import { FeatureCollection } from 'src/app/interfaces/geojson';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState, selectFarmair } from 'src/app/state';
+import { MapPlacesService } from '@atticadt/services';
 
 @Component({
   selector: 'app-farmair',
@@ -18,10 +19,14 @@ export class FarmairComponent implements OnInit, OnDestroy {
   map = this.mapService.map;
   subscription: Subscription | null = null;
   farmairSelections$ = this.store.select(selectFarmair);
-  constructor(private mapService: MapService, private store: Store<AppState>) {}
+  constructor(
+    private mapService: MapService,
+    private mapPlacesService: MapPlacesService,
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit(): void {
-    this.mapService.flyTo('kokkotou-vineyards');
+    this.mapPlacesService.flyTo('kokkotou-vineyards');
 
     this.subscription = this.farmairSelections$.subscribe((farmair) => {
       this.removeLayersAndSources();

@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MapService } from 'src/app/services/map.service';
 
 import { AthensPlantNurseryLegendControl } from './athens-plant-nursery.legend';
+import { MapPlacesService } from '@atticadt/services';
 
 @Component({
   selector: 'app-athens-plant-nursery',
@@ -28,10 +29,13 @@ export class AthensPlantNurseryComponent
   @ViewChild('viewContainerRef', { read: ViewContainerRef })
   viewContainerRef!: ViewContainerRef;
 
-  constructor(private mapService: MapService) {}
+  constructor(
+    private mapService: MapService,
+    private mapPlacesService: MapPlacesService
+  ) {}
 
   ngOnInit(): void {
-    this.mapService.flyTo('athens-plant-nursery');
+    this.mapPlacesService.flyTo('athens-plant-nursery');
     this.map.addLayer(this.tankLayer);
   }
 

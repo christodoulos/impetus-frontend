@@ -17,6 +17,7 @@ import { FeatureCollection } from 'src/app/interfaces/geojson';
 import { MapService } from 'src/app/services/map.service';
 import { GeoJsonProperties } from 'geojson';
 import { NutsExplorerLegendControl } from './nuts-explorer.legend';
+import { MapPlacesService } from '@atticadt/services';
 
 @Component({
   selector: 'app-nuts-explorer',
@@ -54,10 +55,14 @@ export class NutsExplorerComponent implements OnInit, OnDestroy {
 
   nutsSelection$ = this.store.select(selectNuts);
 
-  constructor(private store: Store<AppState>, private mapService: MapService) {}
+  constructor(
+    private store: Store<AppState>,
+    private mapService: MapService,
+    private mapPlacesService: MapPlacesService
+  ) {}
 
   ngOnInit(): void {
-    this.mapService.flyTo('europe');
+    this.mapPlacesService.flyTo('europe');
     this.mapService.zeroExaggeration();
 
     this.subscriptions.push(

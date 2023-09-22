@@ -7,7 +7,11 @@ import { CustomLayerInterface, LngLatLike } from 'mapbox-gl';
 import { th } from 'date-fns/locale';
 
 import * as _ from 'lodash';
-import { GeoJsonService, MapSourcesService } from '@atticadt/services';
+import {
+  GeoJsonService,
+  MapPlacesService,
+  MapSourcesService,
+} from '@atticadt/services';
 import { Feature, FeatureCollection } from '@turf/turf';
 import { State } from '@ngrx/store';
 import { AppState } from 'src/app/state';
@@ -53,7 +57,8 @@ export class HellinikonComponent implements OnInit, OnDestroy {
   constructor(
     private mapService: MapService,
     private mapSourcesService: MapSourcesService,
-    private geojsonService: GeoJsonService
+    private geojsonService: GeoJsonService,
+    private mapPlacesService: MapPlacesService
   ) {}
 
   async ngOnInit() {
@@ -137,7 +142,7 @@ export class HellinikonComponent implements OnInit, OnDestroy {
     // $('#map').width(mapWidth);
     // $('#map').height(mapHeight);
 
-    this.mapService.flyTo('hellinikon');
+    this.mapPlacesService.flyTo('hellinikon');
 
     // create two three.js lights to illuminate the model
     // const directionalLight = new THREE.DirectionalLight(0xffffff);

@@ -14,7 +14,7 @@ import { Store } from '@ngrx/store';
 import { AppState, shouldShowWelcomePins } from 'src/app/state';
 import { Subscription, distinctUntilChanged } from 'rxjs';
 
-import { AppService, MapService } from '@atticadt/services';
+import { AppService, MapPlacesService, MapService } from '@atticadt/services';
 import { Router } from '@angular/router';
 
 @Component({
@@ -145,12 +145,13 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   constructor(
     private mapService: MapService,
+    private mapPlacesService: MapPlacesService,
     private store: Store<AppState>,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.mapService.flyTo('attica');
+    this.mapPlacesService.flyTo('attica');
     // Create a popup, but don't add it to the map yet.
     const popup = new Popup({
       closeButton: false,

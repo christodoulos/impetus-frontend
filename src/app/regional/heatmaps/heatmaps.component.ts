@@ -15,7 +15,11 @@ import { HeatmapsLegendControl } from './heatmaps-legend';
 import { Store } from '@ngrx/store';
 import { AppState, selectHeatmap } from 'src/app/state';
 
-import { MapService, HeatmapsService } from '@atticadt/services';
+import {
+  MapService,
+  HeatmapsService,
+  MapPlacesService,
+} from '@atticadt/services';
 
 import * as moment from 'moment';
 import * as interpolateHeatmapLayer from 'interpolateheatmaplayer';
@@ -55,11 +59,12 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
   constructor(
     private service: HeatmapsService,
     private mapService: MapService,
+    private mapPlacesService: MapPlacesService,
     private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
-    this.mapService.flyTo('attica');
+    this.mapPlacesService.flyTo('attica');
 
     // this.tb.terrain = false;
     this.mapService.zeroExaggeration();
