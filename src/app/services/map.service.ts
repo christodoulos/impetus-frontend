@@ -243,7 +243,7 @@ export class MapService {
       'hellilikon-flood',
       [23.728049, 37.871938],
       0, // elevation
-      'assets/glbs/flood.glb',
+      'assets/glbs/flood6.glb',
       { x: 1, y: 1, z: 0.34 }, // scale
       { x: 0, y: 0, z: 180 }, // rotation
       'bottom-left',
@@ -606,5 +606,21 @@ export class MapService {
 
   onDragEnd() {
     this.store.dispatch(MapState.setCenter({ center: this.getMapCenter() }));
+  }
+
+  show3DFlood() {
+    this.map.setLayoutProperty(
+      '3d-model-hellilikon-flood',
+      'visibility',
+      'visible'
+    );
+  }
+
+  hide3DFlood() {
+    this.map.setLayoutProperty(
+      '3d-model-hellilikon-flood',
+      'visibility',
+      'none'
+    );
   }
 }

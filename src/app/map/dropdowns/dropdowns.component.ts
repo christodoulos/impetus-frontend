@@ -153,6 +153,12 @@ export class MapDropdownsComponent implements OnInit {
       case 'terraindown':
         this.mapService.decExaggeration();
         break;
+      case 'floodon':
+        this.mapService.show3DFlood();
+        break;
+      case 'floodoff':
+        this.mapService.hide3DFlood();
+        break;
       default:
         break;
     }

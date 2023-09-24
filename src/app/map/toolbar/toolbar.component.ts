@@ -28,8 +28,14 @@ export class MapToolbarComponent {
       case 'save':
         this.mapService.downloadMap();
         break;
-      case 'resize':
+      case 'mapinfo':
         this.logMapDetails();
+        break;
+      case 'help':
+        this.modalService.open(ModalHelpComponent, {
+          size: 'lg',
+          centered: true,
+        });
         break;
       case 'info':
         this.showInfoModal();

@@ -12,7 +12,9 @@ import proj4 from 'proj4';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { HellinikonLegendControl } from './hellinikon-legend';
-import { LngLat, LngLatLike } from 'mapbox-gl';
+import { CustomLayerInterface, LngLat, LngLatLike, Marker } from 'mapbox-gl';
+
+declare var THREE: any;
 
 type GeoJsonPointFeature = {
   type: 'Feature';
@@ -39,18 +41,23 @@ export class HellinikonComponent implements OnInit, OnDestroy {
   tif: any;
   legend: HellinikonLegendControl | null = null;
 
+  threeDLayer: CustomLayerInterface | undefined;
+
   legendWhere: LngLatLike = [0, 0];
   legendDepth = 0;
+
+  marker = new Marker({ color: 'red' });
+  originalMaxZoom = this.map.getMaxZoom();
 
   constructor(
     private mapService: MapService,
     private mapSourcesService: MapSourcesService,
-    private geojsonService: GeoJsonService,
     private mapPlacesService: MapPlacesService,
     private http: HttpClient
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.map.setMaxZoom(18);
     this.mapPlacesService.flyTo('hellinikon-flood');
     this.mapSourcesService.addHellinikonInnundation();
     this.map.addLayer({
@@ -60,7 +67,7 @@ export class HellinikonComponent implements OnInit, OnDestroy {
       layout: {},
       paint: {
         'fill-color': '#add8e6', // blue color fill
-        'fill-opacity': 0.8,
+        'fill-opacity': 0.9,
       },
     });
 
@@ -70,10 +77,7 @@ export class HellinikonComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.legend = new HellinikonLegendControl(
-      this.legendWhere,
-      this.legendDepth
-    );
+    this.legend = new HellinikonLegendControl();
     this.map.addControl(this.legend, 'top-left');
 
     const _lnglatData = await fetch('/assets/lnglat_data.json');
@@ -118,32 +122,41 @@ export class HellinikonComponent implements OnInit, OnDestroy {
       data: geojson,
     });
 
-    this.map.addLayer({
-      id: 'point-layer',
-      type: 'circle',
-      source: 'point-data',
-      paint: {
-        'circle-color': {
-          property: 'flooddepth', // The property to base the gradient on
-          stops: [
-            [0, '#add8e6'], // Lowest depth, assign a color
-            [3.5, '#006994'], // Highest depth, assign a color
-          ],
+    this.map.addLayer(
+      {
+        id: 'point-layer',
+        type: 'circle',
+        source: 'point-data',
+        paint: {
+          'circle-color': {
+            property: 'flooddepth', // The property to base the gradient on
+            stops: [
+              [0, '#add8e6'], // Lowest depth, assign a color
+              [3, '#006994'], // Highest depth, assign a color
+            ],
+          },
+          'circle-radius': 3,
+          'circle-opacity': 0.9,
         },
-        'circle-radius': 3,
-        'circle-opacity': 0.8,
       },
-    });
+      '3d-buildings'
+    );
 
     this.map.on('dblclick', this.onDblClick);
+
+    this.glbFlood();
   }
 
   ngOnDestroy(): void {
+    this.map.removeLayer('3d-model-hellilikon-flood');
     this.map.removeLayer('hellinikon-innundation');
     this.map.removeLayer('point-layer');
     this.map.removeSource('hellinikon-innundation');
     this.map.removeSource('point-data');
     this.map.off('dblclick', this.onDblClick);
+    if (this.legend) this.map.removeControl(this.legend);
+    this.marker.remove();
+    this.map.setMaxZoom(this.originalMaxZoom);
   }
 
   onDblClick = async (e: any): Promise<void> => {
@@ -154,6 +167,7 @@ export class HellinikonComponent implements OnInit, OnDestroy {
     });
 
     if (features.length > 0) {
+      this.marker.setLngLat(e.lngLat).addTo(this.map);
       this.legendWhere = e.lngLat;
       const longitude = e.lngLat.lng;
       const latitude = e.lngLat.lat;
@@ -172,11 +186,25 @@ export class HellinikonComponent implements OnInit, OnDestroy {
 
       const georaster = await geoblaze.parse(this.tif);
 
-      const value = await geoblaze.identify(georaster, [x, y]);
+      const value = (await geoblaze.identify(georaster, [x, y])) as number[]; // for raster could have multiple bands
       console.log('GEOBLAZE VALUE', value);
-      this.legendDepth = value;
+      this.legendDepth = value[0];
 
-      this.legend?.update(this.legendWhere, this.legendDepth);
+      this.legend?.update(this.legendWhere as LngLat, this.legendDepth);
     }
   };
+
+  glbFlood() {
+    // GLB layer
+    this.threeDLayer = this.mapService.customLayers['hellilikon-flood'];
+    this.mapService.addLayer(this.threeDLayer);
+    // create two three.js lights to illuminate the model
+    const directionalLight = new THREE.DirectionalLight(0xffffff);
+    directionalLight.position.set(0, -70, 100).normalize();
+    this.tb.scene.add(directionalLight);
+
+    const directionalLight2 = new THREE.DirectionalLight(0xffffff);
+    directionalLight2.position.set(0, 70, 100).normalize();
+    this.tb.scene.add(directionalLight2);
+  }
 }

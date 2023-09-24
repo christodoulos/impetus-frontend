@@ -43,10 +43,13 @@ export class MapPlacesService {
         };
       case 'hellinikon-flood':
         return {
-          center: [23.73508263685423, 37.87729612062206] as LngLatLike,
-          zoom: 15.26,
-          bearing: 46.8,
-          pitch: 75.5,
+          center: {
+            lng: 23.74461986877813,
+            lat: 37.88288799683281,
+          },
+          zoom: 14.328319743919186,
+          pitch: 78.00000000000003,
+          bearing: 55.600000000000136,
         };
       case 'kokkotou-vineyards':
         return {
@@ -62,7 +65,7 @@ export class MapPlacesService {
 
   flyTo(place: string) {
     this.store.dispatch(mapload());
-    this.map.flyTo(this.places(place));
+    this.map.flyTo({ ...this.places(place), duration: 1000 });
     this.map.once('moveend', () => {
       this.store.dispatch(maploaded());
     });

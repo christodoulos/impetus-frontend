@@ -6,15 +6,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalWelcomeComponent } from 'src/app/modals/welcome/welcome.component';
 import { GeometryType } from 'src/app/interfaces/geojson';
 import { AnySourceData, Popup } from 'mapbox-gl';
 import { Store } from '@ngrx/store';
 import { AppState, shouldShowWelcomePins } from 'src/app/state';
 import { Subscription, distinctUntilChanged } from 'rxjs';
 
-import { AppService, MapPlacesService, MapService } from '@atticadt/services';
+import { MapPlacesService, MapService } from '@atticadt/services';
 import { Router } from '@angular/router';
 
 @Component({
@@ -89,8 +87,14 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
           properties: {
             route: 'analyses/hellinikon',
             title: 'Flood Risk Assessment',
-            description:
-              '<strong>Hellinikon Development</strong><p>Incididunt laboris consequat culpa do labore labore eiusmod aute duis nisi labore. Non sit minim fugiat qui. Tempor adipisicing enim est minim irure id mollit incididunt ex ad sit reprehenderit sit. Excepteur proident consequat ut esse adipisicing pariatur. Dolore sunt nisi irure dolor enim ipsum enim minim eu consectetur proident. Adipisicing est consectetur dolore consequat velit do adipisicing consequat. Non excepteur nostrud cupidatat sint id id veniam.</p>',
+            description: `<strong>Hydrodynamic Analysis</strong>
+              <p>A hydraulic model plays a significant role in hydrodynamic analysis by simulating how water
+                flows within rivers, channels, and floodplains. It acts like a digital river simulator that
+                helps engineers and stakeholders understand complex hydrodynamic processes
+                without physically being on-site. It considers factors like river shape, slope,
+                roughness, and inflow hydrographs to predict how water moves, where it might
+                flood, and how fast it will flow during various conditions, such as storms or changes
+                in the river's structure and geometry.</p>`,
           },
         },
         {
