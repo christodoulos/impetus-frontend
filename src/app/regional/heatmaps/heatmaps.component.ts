@@ -75,13 +75,13 @@ export class HeatmapsComponent implements OnInit, OnDestroy {
       this.tpoly = polygon(data.geometry.coordinates[0]);
 
       this.subscription = this.heatmapSelection$.subscribe((metric) => {
-        console.log('HEATMAPS', metric);
+        // console.log('HEATMAPS', metric);
         this.service.getHeatmap(metric).subscribe((data) => {
           this.clearOldData(data);
-          console.log(data);
+          // console.log(data);
           this.removeLayersAndSources();
           const properties = data.properties;
-          console.log(properties);
+          // console.log(properties);
           if (properties) {
             this.timeOfObservation = properties['TimeOfObservation'];
             this.unit = properties['FeatureUnit'];

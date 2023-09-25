@@ -24,7 +24,6 @@ export class MapToolbarComponent {
   constructor(private mapService: MapService, private modalService: NgbModal) {}
 
   onClick(id: string): void {
-    console.log(id);
     switch (id) {
       case 'save':
         this.mapService.downloadMap();
@@ -42,7 +41,6 @@ export class MapToolbarComponent {
         this.showInfoModal();
         break;
       default:
-        console.log(id);
         break;
     }
   }

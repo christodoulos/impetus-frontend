@@ -33,7 +33,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.routeInfo$.subscribe((info) => {
       this.routeInfo = info;
-      console.log('ROUTEINFO CHANGE', this.routeInfo);
+      // console.log('ROUTEINFO CHANGE', this.routeInfo);
     });
   }
 

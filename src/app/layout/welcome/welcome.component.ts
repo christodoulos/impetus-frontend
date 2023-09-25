@@ -80,8 +80,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           properties: {
             route: 'analyses/hellinikon',
-            title: 'Flood Risk Assessment',
-            description: `<strong>Hydrodynamic Analysis</strong>
+            title: 'Flood Assessment Anlysis',
+            description: `<img src="/assets/images/flood.png" style="width:100%">
+            <h6>Flood Assessment Anlysis</h6>
               <p>A hydraulic model plays a significant role in hydrodynamic analysis by simulating how water
                 flows within rivers, channels, and floodplains. It acts like a digital river simulator that
                 helps engineers and stakeholders understand complex hydrodynamic processes
@@ -100,9 +101,24 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             coordinates: [23.927596535047954, 37.88231031893016],
           },
           properties: {
-            title: 'Advanced Sewer Mining',
-            description:
-              '<strong>Markopoulo Municipality</strong><p>Anim sit aliqua incididunt id ea et minim laboris excepteur. Et consequat proident duis do elit mollit amet. Cillum ad ea ad duis laborum. Qui pariatur voluptate fugiat est mollit ullamco veniam tempor commodo consequat culpa ad. Enim proident mollit aute proident Lorem ipsum tempor amet deserunt ex officia esse quis. Duis sit fugiat ad consequat Lorem velit duis aute velit tempor velit.</p>',
+            title: 'Advanced Sewer Mining Application',
+            description: `<img src="/assets/images/markopoulo.jpg" style="width:100%">
+            <h6>Advanced Sewer Mining Application</h6>
+            <p>The <em>Advanced Sewer Mining application</em> is essentially a treatment plant in a
+            container, which, <strong>at the most energy efficient way</strong>, is able to extract wastewater from
+            the local sewers that run under an urban environment, the Municipality of
+            Markopoulo, treat it directly on site and produce high quality reused water at the
+            point of demand, suitable for irrigation of green areas, groundwater recharge and
+            other urban uses.</p>
+            <p>
+            Through the circular, distributed and flexible Sewer Mining technology, we intent to
+            test energy efficiency schemes in order to achieve further reduction of energy needs
+            and solve more holistically a more generic problem of all the cities and towns that
+            face water scarcity issues due to population growth and urbanisation, the economic
+            crisis and of course climate change, leading to a reduction of water availability and
+            deterioration of water quality.
+            </p>
+            `,
           },
         },
         {
@@ -116,8 +132,25 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
           properties: {
             route: 'innovations/subsol',
             title: 'Controlled Environment Agriculture solution',
-            description:
-              '<strong>Attica Green, Spata</strong><p>Laboris et consectetur aliquip ut aliqua ut ipsum minim aliqua eiusmod. Nostrud consectetur aliqua duis labore aliqua dolore exercitation veniam cupidatat exercitation velit. Dolor veniam cupidatat excepteur nisi. Cupidatat nulla magna magna ea et laborum commodo officia do ipsum dolore fugiat excepteur.</p>',
+            description: `<img src="/assets/images/alagro.png" style="width:100%">
+            <h6>Controlled Environment Agriculture solution</h6>
+            <p>
+            <em>Controlled Environmental Agriculture (CEA) solutions</em> refer to agricultural
+            systems where crops or fruits are cultivated in indoor environments (greenhouses),
+            where with the use of the appropriate equipment the crop microclimate is monitored
+            and regulated to: </p>
+            <ul>
+            <li>optimize water and fertilizer efficiency;</li>
+            <li>reduce the energy consumption;</li>
+            <li>attain similar and if possible better-quality crop parameters.</li>
+            </ul>
+            <p>In the framework of IMPETUS, we selected the pilot site of the Attica Green
+            agricultural enterprise, in a peri-urban area with many environmental constraints
+            (high salinity water, close to the airport), in which a series of greenhouses are closely
+            monitored in order to increase resources efficiency and in general increase the
+            resilience and sustainability of the Attica’s agricultural sector and adjacent natural
+            habitats of the region.</p>
+            `,
           },
         },
         {

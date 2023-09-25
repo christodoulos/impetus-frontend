@@ -54,7 +54,7 @@ export const routes: Routes = [
   {
     path: 'analyses/hellinikon',
     data: {
-      title: 'Flood Risk Analysis',
+      title: 'Flood Assesment Analysis',
       info: 'hellinikon',
     },
     loadComponent: () =>

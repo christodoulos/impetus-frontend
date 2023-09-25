@@ -437,7 +437,7 @@ export class MapService {
     const terrainElevation = this.map.queryTerrainElevation(where, {
       exaggerated: true,
     });
-    console.log(`Map elevation at ${where} is ${terrainElevation} meters`);
+    // console.log(`Map elevation at ${where} is ${terrainElevation} meters`);
 
     return new Promise((resolve) => {
       const options = {

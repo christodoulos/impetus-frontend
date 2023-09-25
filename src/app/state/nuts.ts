@@ -86,7 +86,7 @@ export const nuts3 = createSelector(
 @Injectable()
 export class NutsEffects {
   constructor(private actions$: Actions, private service: GeoJsonService) {
-    console.log('NutsEffects constructor called');
+    // console.log('NutsEffects constructor called');
   }
 
   loadNuts$ = createEffect(() =>
