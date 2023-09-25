@@ -9,6 +9,7 @@ import { ModalHeatmapsComponent } from 'src/app/modals/heatmaps/heatmaps.compone
 import { ApnplcModalComponent } from 'src/app/modals/apnplc/apnplc.component';
 import { FarmairModalComponent } from 'src/app/modals/farmair/farmair.component';
 import { ModalHelpComponent } from 'src/app/modals/help/help.component';
+import { SubsolModalComponent } from 'src/app/modals/subsol/subsol.component';
 
 @Component({
   selector: 'map-toolbar',
@@ -74,6 +75,12 @@ export class MapToolbarComponent {
         break;
       case 'farmair':
         this.modalService.open(FarmairModalComponent, {
+          size: 'lg',
+          centered: true,
+        });
+        break;
+      case 'subsol':
+        this.modalService.open(SubsolModalComponent, {
           size: 'lg',
           centered: true,
         });

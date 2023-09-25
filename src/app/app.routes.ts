@@ -19,6 +19,17 @@ export const routes: Routes = [
       ).then((m) => m.AthensPlantNurseryComponent),
   },
   {
+    path: 'innovations/subsol',
+    data: {
+      title: 'Subsurface Water Solutions',
+      info: 'subsol',
+    },
+    loadComponent: () =>
+      import('./innovations/subsol/subsol.component').then(
+        (m) => m.SubsolComponent
+      ),
+  },
+  {
     path: 'innovations/farmair',
     data: {
       title: 'Plant Stress Detection',

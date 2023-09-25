@@ -58,6 +58,16 @@ export class MapPlacesService {
           bearing: 90,
           pitch: 50,
         };
+      case 'subsol':
+        return {
+          center: {
+            lng: 24.012554474407608,
+            lat: 38.14507806367553,
+          },
+          zoom: 15.190078803066923,
+          pitch: 75.49999999999982,
+          bearing: -43.199999999999875,
+        };
       default:
         return {};
     }

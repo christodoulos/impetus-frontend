@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GeometryType } from 'src/app/interfaces/geojson';
 import { AnySourceData, Popup } from 'mapbox-gl';
@@ -120,6 +114,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             coordinates: [23.911037590576747, 37.9402394070189],
           },
           properties: {
+            route: 'innovations/subsol',
             title: 'Controlled Environment Agriculture solution',
             description:
               '<strong>Attica Green, Spata</strong><p>Laboris et consectetur aliquip ut aliqua ut ipsum minim aliqua eiusmod. Nostrud consectetur aliqua duis labore aliqua dolore exercitation veniam cupidatat exercitation velit. Dolor veniam cupidatat excepteur nisi. Cupidatat nulla magna magna ea et laborum commodo officia do ipsum dolore fugiat excepteur.</p>',
@@ -135,6 +130,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           properties: {
             title: 'Subsurface Water Solutions',
+            route: 'innovations/subsol',
             description: `<img src="/assets/images/subsol.jpg" style="width:100%">
               <h6>Schinias, Marathon</h6>
               <p>Subsurface Water Solutions (SWS) are a novel approach combining management and technology to protect, enlarge and utilize fresh groundwater resources.</p>
