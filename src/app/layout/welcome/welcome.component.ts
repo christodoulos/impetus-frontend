@@ -64,10 +64,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             description: `<img src="/assets/images/farmair-drone.png" style="width:100%">
               <h6>farmAIr @Kokkotou Vineyards</h6>
               <p><img src="/assets/images/farmAIr.png" style="float:right;width:100px;" /></p> 
-              <p>Unlike what is currently available in the market, farmAIr technology (patented) uses thermal images and 
-              Artificial Intelligence to reveal Plant Stress before the onset of any symptom. farmAIr helps farmers and agronomists 
-              spot what they can’t see with the naked eye, be aware, and take all necessary precautions to help prevent any spread. 
-              farmAIr technology is currently available for vineyards, planning to gradually expand to virtually any plant with leaves.</p>`,
+              <p>FarmAIr technology (patented) uses thermal images and Artificial Intelligence to reveal Plant Stress before the onset of any symptom. FarmAIr helps farmers and agronomists spot what they cannot see with the naked eye, be aware, and take all necessary precautions to help prevent any spread. FarmAIr technology is currently available for vineyards, planning to gradually expand to virtually any plant with leaves.</p>`,
           },
         },
         {
@@ -80,7 +77,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           properties: {
             route: 'analyses/hellinikon',
-            title: 'Flood Assessment Anlysis',
+            title: 'Flood Assessment Analysis',
             description: `<img src="/assets/images/flood.png" style="width:100%">
             <h6>Flood Assessment Anlysis</h6>
               <p>A hydraulic model plays a significant role in hydrodynamic analysis by simulating how water

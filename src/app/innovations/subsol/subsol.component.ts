@@ -30,8 +30,11 @@ export class SubsolComponent implements OnInit, OnDestroy {
           type: 'Feature',
           properties: {
             title: 'Pumping Point',
-            description:
-              'Culpa mollit dolore proident Lorem nostrud consequat laborum velit est sint consectetur minim. Consequat eiusmod ea anim commodo excepteur nostrud eiusmod do culpa ullamco consectetur irure id. Esse aliquip consequat aliqua ullamco mollit cillum amet eu. Dolore do fugiat nostrud culpa qui. Id sunt dolor anim fugiat ea irure nulla exercitation.',
+            description: `
+            <img src="assets/images/subsol-pump.png" width="100%">
+            <h5>Pumping Point</h5>
+            <p>Karstic water is abstracted and transferred from Makaria springs to the treatment unit (about 1700m)</p>
+            `,
           },
           geometry: {
             type: GeometryType.Point,
@@ -42,9 +45,15 @@ export class SubsolComponent implements OnInit, OnDestroy {
           id: 'water-treatment-plant',
           type: 'Feature',
           properties: {
-            title: 'Water Treatment Plan',
-            description:
-              'Culpa mollit dolore proident Lorem nostrud consequat laborum velit est sint consectetur minim. Consequat eiusmod ea anim commodo excepteur nostrud eiusmod do culpa ullamco consectetur irure id. Esse aliquip consequat aliqua ullamco mollit cillum amet eu. Dolore do fugiat nostrud culpa qui. Id sunt dolor anim fugiat ea irure nulla exercitation.',
+            title: 'Water Treatment Plant',
+            description: `
+            <div class="d-flex justify-space-between">
+              <img src="assets/images/subsol-treat0.jpg" width="50%">
+              <img src="assets/images/subsol-treat1.png" width="50%">
+            </div>
+            <h5>Water Treatment Plant</h5>
+            <p>Brackish water is treated in a water treatment plant with novel hybrid pollution remediation techniques, including Reverse Osmosis (RO) and Advanced Oxidation Methods (AOPs) to produce water for recharging the upper alluvial aquifer.</p>
+            `,
           },
           geometry: {
             type: GeometryType.Point,
@@ -56,8 +65,11 @@ export class SubsolComponent implements OnInit, OnDestroy {
           type: 'Feature',
           properties: {
             title: 'Injection Point',
-            description:
-              'Culpa mollit dolore proident Lorem nostrud consequat laborum velit est sint consectetur minim. Consequat eiusmod ea anim commodo excepteur nostrud eiusmod do culpa ullamco consectetur irure id. Esse aliquip consequat aliqua ullamco mollit cillum amet eu. Dolore do fugiat nostrud culpa qui. Id sunt dolor anim fugiat ea irure nulla exercitation.',
+            description: `
+            <img src="assets/images/subsol-inj.png" width="100%">
+            <h5>Injection Point</h5>
+            <p>The artificial recharge site, consists of four wells, three vertical and one horizontal, to address saltwater intrusion and improve groundwater quality.</p>
+            `,
           },
           geometry: {
             type: GeometryType.Point,
@@ -128,7 +140,7 @@ export class SubsolComponent implements OnInit, OnDestroy {
       source: 'flow-scheme',
       id: 'line-background',
       paint: {
-        'line-color': 'yellow',
+        'line-color': '#183efa',
         'line-width': 6,
         'line-opacity': 0.4,
       },
@@ -138,7 +150,7 @@ export class SubsolComponent implements OnInit, OnDestroy {
       source: 'flow-scheme',
       id: 'line-dashed',
       paint: {
-        'line-color': 'yellow',
+        'line-color': '#183efa',
         'line-width': 6,
         'line-dasharray': [0, 4, 3],
       },
