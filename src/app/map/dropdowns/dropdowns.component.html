@@ -121,4 +121,18 @@
       (buttonClick)="onClick($event)"
     ></icon-button>
   </div>
+
+  <form [formGroup]="hellinikonForm">
+    <div class="d-flex align-items-center gap-2">
+      <ui-select
+        [label]="'Select a layer'"
+        [selections]="hellinikonLayers"
+        [tooltip]="'Select a layer.'"
+        formControlName="layer"
+      ></ui-select>
+      <div *ngIf="nutsIsLoading$ | async" class="spinner-grow" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </form>
 </ng-template>

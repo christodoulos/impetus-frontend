@@ -17,6 +17,7 @@ export interface DropDownsState {
     geojson: FeatureCollection;
   };
   nuts: string;
+  hellinikonLayer: string;
 }
 
 // dropdowns actions
@@ -43,6 +44,11 @@ export const updateNuts = createAction(
   props<{ nuts: string }>()
 );
 
+export const updateHellinikonLayer = createAction(
+  '[DropDowns] Update Hellinikon Layer',
+  props<{ hellinikonLayer: string }>()
+);
+
 export const dropdownsInitialState: DropDownsState = {
   heatmap: '',
   farmair: {
@@ -52,6 +58,7 @@ export const dropdownsInitialState: DropDownsState = {
     geojson: {} as FeatureCollection,
   },
   nuts: '',
+  hellinikonLayer: '',
 };
 
 export const dropdownsReducer = createReducer(
@@ -67,6 +74,10 @@ export const dropdownsReducer = createReducer(
   on(updateNuts, (state, action) => ({
     ...state,
     nuts: action.nuts,
+  })),
+  on(updateHellinikonLayer, (state, action) => ({
+    ...state,
+    hellinikonLayer: action.hellinikonLayer,
   }))
 );
 
@@ -87,4 +98,9 @@ export const selectFarmair = createSelector(
 export const selectNuts = createSelector(
   selectDropdownsState,
   (state: DropDownsState) => state.nuts
+);
+
+export const selectHellinikonLayer = createSelector(
+  selectDropdownsState,
+  (state: DropDownsState) => state.hellinikonLayer
 );

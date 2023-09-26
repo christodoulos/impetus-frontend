@@ -16,6 +16,7 @@ import {
   selectMapIsLoading,
   updateFarmair,
   updateHeatmap,
+  updateHellinikonLayer,
   updateNuts,
 } from 'src/app/state';
 import { IconButtonComponent } from 'src/app/ui/icon-button/icon-button.component';
@@ -98,6 +99,14 @@ export class MapDropdownsComponent implements OnInit {
     nutsLevel: new FormControl('', Validators.required),
   });
 
+  hellinikonLayers = [
+    { key: 'depth', value: 'Flood Depth Layer' },
+    { key: 'velocity', value: 'Velocity Layer' },
+  ];
+  hellinikonForm = new FormGroup({
+    layer: new FormControl('', Validators.required),
+  });
+
   constructor(
     private readonly http: HttpClient = inject(HttpClient),
     private store: Store<AppState>,
@@ -131,6 +140,12 @@ export class MapDropdownsComponent implements OnInit {
 
     this.nutsForm.controls.nutsLevel.valueChanges.subscribe((value) => {
       this.store.dispatch(updateNuts({ nuts: value ?? '' }));
+    });
+
+    this.hellinikonForm.controls.layer.valueChanges.subscribe((value) => {
+      this.store.dispatch(
+        updateHellinikonLayer({ hellinikonLayer: value ?? '' })
+      );
     });
   }
 
