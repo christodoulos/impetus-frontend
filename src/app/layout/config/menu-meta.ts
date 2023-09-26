@@ -58,7 +58,7 @@ export const MENU: MenuItem[] = [
   { key: 'analysis_services', label: 'Analysis Services', isTitle: true },
   {
     key: 'hellinikon',
-    label: 'Flood Assessment Analysis',
+    label: 'Flood Risk Analysis',
     link: '/analyses/hellinikon',
     icon: 'ri-flood-line',
   },

@@ -77,9 +77,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
           },
           properties: {
             route: 'analyses/hellinikon',
-            title: 'Flood Assessment Analysis',
+            title: 'Flood Risk Analysis',
             description: `<img src="/assets/images/flood.png" style="width:100%">
-            <h6>Flood Assessment Anlysis</h6>
+            <h6>Flood Risk Analysis</h6>
               <p>A hydraulic model plays a significant role in hydrodynamic analysis by simulating how water
                 flows within rivers, channels, and floodplains. It acts like a digital river simulator that
                 helps engineers and stakeholders understand complex hydrodynamic processes
