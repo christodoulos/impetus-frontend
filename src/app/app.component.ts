@@ -9,8 +9,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { HttpClient } from '@angular/common/http';
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
 import { AppState, login, mapSourceUpdate, mapload, nutsUpdate } from './state';
 import { MapService } from './services/map.service';
@@ -20,6 +18,7 @@ import { MapComponent } from './map/map.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { TopbarComponent } from './layout/topbar/topbar.component';
 import { ModalsService } from './services';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -43,39 +42,20 @@ export class AppComponent implements OnInit {
   dataLayoutPosition = 'fixed';
   dataSidenavSize = 'default';
 
-  user: SocialUser | undefined;
-  loggedIn = false;
-
   @ViewChild('mapComponent', { read: ElementRef }) mapComponentRef!: ElementRef;
 
   constructor(
     private renderer: Renderer2,
     private modalsService: ModalsService,
-    private authService: SocialAuthService,
     private mapService: MapService,
     private store: Store<AppState>,
-    private http: HttpClient
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.applyTheme();
 
     this.modalsService.showAbout();
-
-    this.authService.authState.subscribe((user) => {
-      if (user) {
-        console.log(user);
-        const { idToken } = user;
-        this.http
-          .post('https://backend.atticadt.uwmh.eu/api/auth/google-login', {
-            idToken,
-          })
-          .subscribe((res) => {
-            console.log(res);
-          });
-        this.store.dispatch(login({ user }));
-      }
-    });
 
     this.displatchStartupActions();
   }
