@@ -9,8 +9,9 @@ import { ModalsService } from '../services/modals.service';
   styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit {
-  constructor(private modalService: ModalsService) {}
+  constructor(private modalsService: ModalsService) {}
   ngOnInit(): void {
-    this.modalService.showAbout();
+    console.log('AboutComponent ngOnInit');
+    this.modalsService.showAbout();
   }
 }

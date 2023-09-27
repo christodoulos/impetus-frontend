@@ -11,20 +11,14 @@ import { SubsolModalComponent } from '../modals/subsol/subsol.component';
   providedIn: 'root',
 })
 export class ModalsService {
-  firstTimeAbout = true;
-
   constructor(private modalService: NgbModal) {}
 
   showAbout() {
-    if (this.firstTimeAbout) {
-      this.firstTimeAbout = false;
-      this.modalService.open(ModalAboutComponent, {
-        size: 'lg',
-        centered: true,
-        backdrop: 'static',
-      });
-      this.firstTimeAbout = false;
-    }
+    this.modalService.open(ModalAboutComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: 'static',
+    });
   }
 
   showHelp() {

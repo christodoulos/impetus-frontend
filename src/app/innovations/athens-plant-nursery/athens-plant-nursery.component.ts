@@ -37,6 +37,36 @@ export class AthensPlantNurseryComponent
   ngOnInit(): void {
     this.mapPlacesService.flyTo('athens-plant-nursery');
     // this.map.addLayer(this.tankLayer);
+
+    this.map.loadImage('/assets/images/apn-sb.png', (error, image) => {
+      if (error) throw error;
+      this.map.addImage('apn', image as any);
+
+      this.map.addLayer({
+        id: 'layer-with-image',
+        type: 'symbol',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                properties: {},
+                geometry: {
+                  type: 'Point',
+                  coordinates: [23.781372557061157, 37.988260208268386], // replace with your coordinates
+                },
+              },
+            ],
+          },
+        },
+        layout: {
+          'icon-image': 'apn',
+          // add more layout properties if needed
+        },
+      });
+    });
   }
 
   ngAfterViewInit(): void {
@@ -49,5 +79,8 @@ export class AthensPlantNurseryComponent
   ngOnDestroy(): void {
     // this.map.removeLayer(this.tankLayer.id);
     if (this.legend) this.map.removeControl(this.legend);
+    this.map.removeLayer('layer-with-image');
+    // this.map.removeImage('apn');
+    this.map.removeSource('layer-with-image');
   }
 }
