@@ -6,3 +6,4 @@ export * from './geojson.service';
 export * from './athens-plant-nursery.service';
 export * from './heatmaps.service';
 export * from './modals.service';
+export * from './route-data.service';

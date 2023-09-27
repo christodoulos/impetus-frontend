@@ -24,7 +24,7 @@ export class AthensPlantNurseryComponent
 {
   map = this.mapService.map;
   legend: AthensPlantNurseryLegendControl | null = null;
-  tankLayer = this.mapService.customLayers['plant-nursery'];
+  // tankLayer = this.mapService.customLayers['plant-nursery'];
 
   @ViewChild('viewContainerRef', { read: ViewContainerRef })
   viewContainerRef!: ViewContainerRef;
@@ -36,7 +36,7 @@ export class AthensPlantNurseryComponent
 
   ngOnInit(): void {
     this.mapPlacesService.flyTo('athens-plant-nursery');
-    this.map.addLayer(this.tankLayer);
+    // this.map.addLayer(this.tankLayer);
   }
 
   ngAfterViewInit(): void {
@@ -47,7 +47,7 @@ export class AthensPlantNurseryComponent
   }
 
   ngOnDestroy(): void {
-    this.map.removeLayer(this.tankLayer.id);
+    // this.map.removeLayer(this.tankLayer.id);
     if (this.legend) this.map.removeControl(this.legend);
   }
 }

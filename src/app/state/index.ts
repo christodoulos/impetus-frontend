@@ -27,6 +27,6 @@ export * from './auth';
 export * from './nuts';
 export * from '../eurostat/eurostat-state';
 export * from './map';
-export * from './router';
+// export * from './router';
 export * from './dropdowns';
 export * from './mapSources';

@@ -75,7 +75,7 @@ export class MapPlacesService {
 
   flyTo(place: string) {
     this.store.dispatch(mapload());
-    this.map.flyTo({ ...this.places(place), duration: 1000 });
+    this.map.flyTo({ ...this.places(place), duration: 3000 });
     this.map.once('moveend', () => {
       this.store.dispatch(maploaded());
     });

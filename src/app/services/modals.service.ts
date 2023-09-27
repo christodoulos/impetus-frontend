@@ -18,13 +18,11 @@ export class ModalsService {
   showAbout() {
     if (this.firstTimeAbout) {
       this.firstTimeAbout = false;
-      this.modalService
-        .open(ModalAboutComponent, {
-          size: 'lg',
-          centered: true,
-          backdrop: 'static',
-        })
-        .result.then((result) => {});
+      this.modalService.open(ModalAboutComponent, {
+        size: 'lg',
+        centered: true,
+        backdrop: 'static',
+      });
       this.firstTimeAbout = false;
     }
   }

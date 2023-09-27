@@ -7,7 +7,7 @@ import {
   AppState,
   mapload,
   maploaded,
-  shouldShowWelcomePins,
+  // shouldShowWelcomePins,
 } from 'src/app/state';
 import { Subscription, distinctUntilChanged } from 'rxjs';
 
@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
 })
 export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   map = this.mapService.map;
-  shouldShowWelcomePins$ = this.store.select(shouldShowWelcomePins);
+  // shouldShowWelcomePins$ = this.store.select(shouldShowWelcomePins);
   subscription: Subscription | undefined;
   potentialRoute = '';
   pins = {
@@ -197,13 +197,14 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mapPlacesService.flyTo('attica');
     // Create a popup, but don't add it to the map yet.
 
-    this.subscription = this.shouldShowWelcomePins$
-      .pipe(distinctUntilChanged())
-      .subscribe((show) => {
-        if (show) {
-          this.showPins();
-        }
-      });
+    // this.subscription = this.shouldShowWelcomePins$
+    //   .pipe(distinctUntilChanged())
+    //   .subscribe((show) => {
+    //     if (show) {
+    //       this.showPins();
+    //     }
+    //   });
+    this.showPins();
     this.map.on('mouseenter', 'places', (e: any) => {
       // Change the cursor style as a UI indicator.
       this.map.getCanvas().style.cursor = 'pointer';
@@ -236,15 +237,15 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.map.on('load', () => {
-      this.showPins();
-    });
+    // this.map.on('load', () => {
+    //   this.showPins();
+    // });
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    // if (this.subscription) {
+    //   this.subscription.unsubscribe();
+    // }
     this.map.removeLayer('points');
     this.map.removeLayer('places');
     this.map.removeSource('pins');

@@ -54,8 +54,7 @@ export class AppComponent implements OnInit {
     private authService: SocialAuthService,
     private mapService: MapService,
     private store: Store<AppState>,
-    private http: HttpClient,
-    private router: Router
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -63,7 +62,6 @@ export class AppComponent implements OnInit {
 
     this.modalsService.showAbout();
 
-    this.router.navigate(['/']);
     this.authService.authState.subscribe((user) => {
       if (user) {
         console.log(user);

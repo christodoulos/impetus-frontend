@@ -13,11 +13,12 @@ import {
   name,
   photoUrl,
   logout,
-  getRouteData,
+  // getRouteData,
 } from 'src/app/state';
 import { getRouterSelectors } from '@ngrx/router-store';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs';
+import { RouteDataService } from '@atticadt/services';
 
 @Component({
   selector: 'app-topbar',
@@ -32,16 +33,14 @@ export class TopbarComponent {
   photoUrl$ = this.store.select(photoUrl);
   email$ = this.store.select(email);
 
-  routeTitle$ = this.store.select(getRouteData).pipe(
-    map((data) => {
-      return data?.['title'];
-    })
-  );
+  routeData$ = this.routeDataService.routeData$;
+  routeTitle$ = this.routeData$.pipe(map((data) => data?.['title']));
 
   constructor(
     private renderer: Renderer2,
     private authService: SocialAuthService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private routeDataService: RouteDataService
   ) {}
 
   onButtonClick() {

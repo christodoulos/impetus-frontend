@@ -51,12 +51,12 @@ export const appConfig: ApplicationConfig = {
       'eurostat-metadata': eurostatMetadataReducer,
       map: mapReducer,
       mapSources: mapSourceReducer,
-      router: routerReducer,
+      // router: routerReducer,
       dropdowns: dropdownsReducer,
     }),
-    provideRouterStore({
-      serializer: CustomSerializer,
-    }),
+    // provideRouterStore({
+    //   serializer: CustomSerializer,
+    // }),
     provideEffects([NutsEffects, MapSourceEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states

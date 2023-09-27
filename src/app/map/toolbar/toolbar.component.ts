@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { IconButtonComponent } from 'src/app/ui/icon-button/icon-button.component';
 
 import { ModalsService, MapService } from '@atticadt/services';
