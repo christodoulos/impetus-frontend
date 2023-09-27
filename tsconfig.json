@@ -22,7 +22,8 @@
     "lib": ["ES2022", "dom"],
     "types": ["node"],
     "paths": {
-      "@atticadt/services": ["src/app/services"]
+      "@atticadt/services": ["src/app/services"],
+      "@atticadt/modals": ["src/app/modals"]
     },
     "allowSyntheticDefaultImports": true
   },

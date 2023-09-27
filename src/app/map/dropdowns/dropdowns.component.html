@@ -83,45 +83,6 @@
 </ng-template>
 
 <ng-template #hellinikon>
-  <div class="d-flex align-items-center gap-1">
-    <icon-button
-      [icon]="'mdi mdi-stairs-up'"
-      [tooltip]="'Flood up'"
-      [id]="'floodup'"
-      (buttonClick)="onClick($event)"
-    ></icon-button>
-    <icon-button
-      [icon]="'mdi mdi-stairs-down'"
-      [tooltip]="'Flood down'"
-      [id]="'flooddown'"
-      (buttonClick)="onClick($event)"
-    ></icon-button>
-    <icon-button
-      [icon]="'mdi mdi-slope-uphill'"
-      [tooltip]="'Terrain up'"
-      [id]="'terrainup'"
-      (buttonClick)="onClick($event)"
-    ></icon-button>
-    <icon-button
-      [icon]="'mdi mdi-slope-downhill'"
-      [tooltip]="'Terrain down'"
-      [id]="'terraindown'"
-      (buttonClick)="onClick($event)"
-    ></icon-button>
-    <icon-button
-      [icon]="'mdi mdi-image-outline'"
-      [tooltip]="'3D Flood on'"
-      [id]="'floodon'"
-      (buttonClick)="onClick($event)"
-    ></icon-button>
-    <icon-button
-      [icon]="'mdi mdi-image-off-outline'"
-      [tooltip]="'3D Flood off'"
-      [id]="'floodoff'"
-      (buttonClick)="onClick($event)"
-    ></icon-button>
-  </div>
-
   <form [formGroup]="hellinikonForm">
     <div class="d-flex align-items-center gap-2">
       <ui-select

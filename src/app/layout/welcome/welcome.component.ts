@@ -3,7 +3,12 @@ import { CommonModule } from '@angular/common';
 import { GeometryType } from 'src/app/interfaces/geojson';
 import { AnySourceData, Popup } from 'mapbox-gl';
 import { Store } from '@ngrx/store';
-import { AppState, shouldShowWelcomePins } from 'src/app/state';
+import {
+  AppState,
+  mapload,
+  maploaded,
+  shouldShowWelcomePins,
+} from 'src/app/state';
 import { Subscription, distinctUntilChanged } from 'rxjs';
 
 import { MapPlacesService, MapService } from '@atticadt/services';
@@ -188,6 +193,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(mapload());
     this.mapPlacesService.flyTo('attica');
     // Create a popup, but don't add it to the map yet.
 
@@ -226,6 +232,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.map.on('dblclick', this.ondblclick);
+    this.store.dispatch(maploaded());
   }
 
   ngAfterViewInit(): void {

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalWelcomeComponent } from '../modals/welcome/welcome.component';
+import { ModalsService } from '../services/modals.service';
 
 @Component({
   standalone: true,
@@ -10,12 +9,8 @@ import { ModalWelcomeComponent } from '../modals/welcome/welcome.component';
   styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit {
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: ModalsService) {}
   ngOnInit(): void {
-    this.modalService.open(ModalWelcomeComponent, {
-      size: 'lg',
-      centered: true,
-      backdrop: 'static',
-    });
+    this.modalService.showAbout();
   }
 }

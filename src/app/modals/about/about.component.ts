@@ -6,13 +6,12 @@ import { AppState, isLoading } from 'src/app/state';
 import { PleaseWaitComponent } from 'src/app/ui/please-wait/please-wait.component';
 
 @Component({
-  selector: 'modal-welcome',
   standalone: true,
   imports: [CommonModule, PleaseWaitComponent],
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.scss'],
+  templateUrl: './about.component.html',
+  styleUrls: ['./about.component.scss'],
 })
-export class ModalWelcomeComponent {
+export class ModalAboutComponent {
   isLoading$ = this.store.select(isLoading);
   constructor(public modal: NgbActiveModal, private store: Store<AppState>) {}
 }

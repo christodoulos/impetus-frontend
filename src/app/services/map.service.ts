@@ -217,7 +217,8 @@ export class MapService {
       });
     });
     this.map.on('load', async () => {
-      await this.onMapLoad();
+      // await this.onMapLoad();
+      this.store.dispatch(maploaded());
     });
 
     return this.map;
@@ -228,29 +229,29 @@ export class MapService {
   }
 
   async onMapLoad() {
-    await this.glbLayer(
-      'plant-nursery',
-      [23.781372557061157, 37.988260208268386],
-      71.76, // elevation
-      'assets/glbs/tank.glb',
-      { x: 0.5, y: 0.5, z: 0.5 }, // scale
-      { x: 180, y: 90, z: 270 }, // rotation
-      'center',
-      true, // modelCastShadow
-      'Sewer Mining Technology'
-    );
-    await this.glbLayer(
-      'hellilikon-flood',
-      [23.728049, 37.871938],
-      0, // elevation
-      'assets/glbs/flood6.glb',
-      { x: 1, y: 1, z: 0.34 }, // scale
-      { x: 0, y: 0, z: 180 }, // rotation
-      'bottom-left',
-      true, // modelCastShadow
-      ''
-    );
-    this.store.dispatch(maploaded());
+    // await this.glbLayer(
+    //   'plant-nursery',
+    //   [23.781372557061157, 37.988260208268386],
+    //   71.76, // elevation
+    //   'assets/glbs/tank.glb',
+    //   { x: 0.5, y: 0.5, z: 0.5 }, // scale
+    //   { x: 180, y: 90, z: 270 }, // rotation
+    //   'center',
+    //   true, // modelCastShadow
+    //   'Sewer Mining Technology'
+    // );
+    // await this.glbLayer(
+    //   'hellilikon-flood',
+    //   [23.728049, 37.871938],
+    //   0, // elevation
+    //   'assets/glbs/flood6.glb',
+    //   { x: 1, y: 1, z: 0.34 }, // scale
+    //   { x: 0, y: 0, z: 180 }, // rotation
+    //   'bottom-left',
+    //   true, // modelCastShadow
+    //   ''
+    // );
+    // this.store.dispatch(maploaded());
   }
 
   downloadMap() {
