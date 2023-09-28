@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './app.guards';
 
 export const routes: Routes = [
   {
@@ -41,6 +42,7 @@ export const routes: Routes = [
       ),
   },
   {
+    canActivate: [AuthGuard],
     path: 'regional/meteorological-heatmaps',
     data: {
       title: 'Meteorological Heatmaps',

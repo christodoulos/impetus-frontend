@@ -4,3 +4,4 @@ export * from './farmair/farmair.component';
 export * from './heatmaps/heatmaps.component';
 export * from './help/help.component';
 export * from './subsol/subsol.component';
+export * from './not-loggedin/not-loggedin.component';

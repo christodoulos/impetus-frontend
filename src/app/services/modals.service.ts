@@ -6,6 +6,7 @@ import { ModalHeatmapsComponent } from '../modals/heatmaps/heatmaps.component';
 import { ApnplcModalComponent } from '../modals/apnplc/apnplc.component';
 import { FarmairModalComponent } from '../modals/farmair/farmair.component';
 import { SubsolModalComponent } from '../modals/subsol/subsol.component';
+import { ModalNotLoggedinComponent } from '../modals/not-loggedin/not-loggedin.component';
 
 @Injectable({
   providedIn: 'root',
@@ -52,6 +53,13 @@ export class ModalsService {
   showSubsol() {
     this.modalService.open(SubsolModalComponent, {
       size: 'lg',
+      centered: true,
+    });
+  }
+
+  showNotLoggedIn() {
+    this.modalService.open(ModalNotLoggedinComponent, {
+      size: 'sm',
       centered: true,
     });
   }

@@ -19,6 +19,7 @@ import { getRouterSelectors } from '@ngrx/router-store';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { map } from 'rxjs';
 import { RouteDataService } from '@atticadt/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
@@ -40,7 +41,8 @@ export class TopbarComponent {
     private renderer: Renderer2,
     private authService: SocialAuthService,
     private store: Store<AppState>,
-    private routeDataService: RouteDataService
+    private routeDataService: RouteDataService,
+    private router: Router
   ) {}
 
   onButtonClick() {
@@ -64,5 +66,6 @@ export class TopbarComponent {
   signOut(): void {
     this.authService.signOut();
     this.store.dispatch(logout());
+    this.router.navigate(['/']);
   }
 }
