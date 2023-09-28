@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modalLabel">Digital Twins of Attica</h4>
+  <h4 class="modal-title" id="modalLabel">Attica Digital Twins</h4>
   <please-wait [message]="'Loading data'" [waiting$]="isLoading$"></please-wait>
   <button
     *ngIf="!(isLoading$ | async)"
@@ -12,6 +12,7 @@
 <div class="modal-body">
   <div class="row">
     <div class="col-lg-8 col-12 d-flex flex-column gap-1">
+      <h5>About</h5>
       <p>
         A Regional Digital Twin (DT) for climate adaptation and green business
         development is been implemented in the Attica region in Greece, in the
