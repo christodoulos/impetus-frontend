@@ -38,13 +38,14 @@ export class AthensPlantNurseryComponent
     this.mapPlacesService.flyTo('athens-plant-nursery');
     // this.map.addLayer(this.tankLayer);
 
-    this.map.loadImage('/assets/images/apn-sb.png', (error, image) => {
+    this.map.loadImage('/assets/images/apn-b.jpg', (error, image) => {
       if (error) throw error;
       this.map.addImage('apn', image as any);
 
       this.map.addLayer({
         id: 'layer-with-image',
         type: 'symbol',
+        minzoom: 17,
         source: {
           type: 'geojson',
           data: {

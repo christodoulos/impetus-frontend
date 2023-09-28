@@ -37,7 +37,7 @@ export class MapPlacesService {
       case 'athens-plant-nursery':
         return {
           center: [23.783535537759576, 37.986796706691095] as LngLatLike,
-          zoom: 16.777210158888213,
+          zoom: 17,
           bearing: 122.61132170386838,
           pitch: 81.0008753894744,
         };
