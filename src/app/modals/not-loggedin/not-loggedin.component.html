@@ -1,12 +1,14 @@
-<div class="modal-header">
-  <h4 class="modal-title" id="modalLabel">Restricted Content</h4>
+<div class="modal-header bg-danger text-bg-danger">
+  <h4 class="modal-title d-flex gap-1 align-items-center" id="modalLabel">
+    <i class="ri-lock-line"></i>Restricted Content
+  </h4>
   <button
     type="button"
-    class="btn-close"
+    class="btn-close btn-close-white"
     aria-label="Close"
     (click)="modal.dismiss('Cross click')"
   ></button>
 </div>
 <div class="modal-body">
-  <p>This service is restricted to authorized users.</p>
+  <p>This service is restricted to authorized users only.</p>
 </div>
