@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
 
     this.modalsService.showAbout();
 
-    this.displatchStartupActions();
+    this.dispatchStartupActions();
   }
 
   onAfterMapInit() {
@@ -116,8 +116,7 @@ export class AppComponent implements OnInit {
     );
   }
 
-  displatchStartupActions() {
-    this.store.dispatch(mapload());
+  dispatchStartupActions() {
     this.store.dispatch(nutsUpdate({ level: 'nuts0' }));
     this.store.dispatch(nutsUpdate({ level: 'nuts1' }));
     this.store.dispatch(nutsUpdate({ level: 'nuts2' }));

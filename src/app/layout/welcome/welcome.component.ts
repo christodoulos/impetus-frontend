@@ -1,15 +1,7 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GeometryType } from 'src/app/interfaces/geojson';
 import { AnySourceData, Popup } from 'mapbox-gl';
-import { Store } from '@ngrx/store';
-import {
-  AppState,
-  mapload,
-  maploaded,
-  // shouldShowWelcomePins,
-} from 'src/app/state';
-import { Subscription, distinctUntilChanged } from 'rxjs';
 
 import { MapPlacesService, MapService } from '@atticadt/services';
 import { Router } from '@angular/router';
@@ -21,10 +13,8 @@ import { Router } from '@angular/router';
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss'],
 })
-export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WelcomeComponent implements OnInit, OnDestroy {
   map = this.mapService.map;
-  // shouldShowWelcomePins$ = this.store.select(shouldShowWelcomePins);
-  subscription: Subscription | undefined;
   potentialRoute = '';
   pins = {
     type: 'geojson',
@@ -167,10 +157,8 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
             title: 'Subsurface Water Solutions',
             route: 'innovations/subsol',
             description: `<img src="/assets/images/subsol.jpg" style="width:100%">
-              <h6>Schinias, Marathon</h6>
-              <p>Subsurface Water Solutions (SWS) are a novel approach combining management and technology to protect, enlarge and utilize fresh groundwater resources.</p>
-              <p>In coastal areas, decentralized SWS can be implemented through an aquifer storage and recovery configuration to address seawater intrusion and over-abstraction of groundwater. </p>
-              <p>SWS make use of the subsurface’s potential to store water and it is distinguished by new well designs and configurations as well as new management features to precisely control the fresh groundwater resources. SWS are adaptable to changing environmental and socio-economic conditions.</p>
+              <h6>Subsurface Water Solutions</h6>
+              <p>Subsurface Water Solutions (SWS) are a novel approach combining management and technology to protect, enlarge and utilize fresh groundwater resources. In Schinias (Marathon), we have tested an SWS configuration coupled with novel pollution remediation techniques, including Reverse Osmosis (RO) and Advanced Oxidation Methods (AOPs) to utilize deeper groundwater resources from karstic coastal aquifers, brackish groundwater treatment and groundwater recharge with infiltration in coastal aquifers to address a widespread problem in the Mediterranean: saltwater intrusion.</p>
               `,
           },
         },
@@ -188,22 +176,12 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private mapService: MapService,
     private mapPlacesService: MapPlacesService,
-    private store: Store<AppState>,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(mapload());
     this.mapPlacesService.flyTo('attica');
-    // Create a popup, but don't add it to the map yet.
 
-    // this.subscription = this.shouldShowWelcomePins$
-    //   .pipe(distinctUntilChanged())
-    //   .subscribe((show) => {
-    //     if (show) {
-    //       this.showPins();
-    //     }
-    //   });
     this.showPins();
     this.map.on('mouseenter', 'places', (e: any) => {
       // Change the cursor style as a UI indicator.
@@ -233,19 +211,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.map.on('dblclick', this.ondblclick);
-    this.store.dispatch(maploaded());
-  }
-
-  ngAfterViewInit(): void {
-    // this.map.on('load', () => {
-    //   this.showPins();
-    // });
   }
 
   ngOnDestroy(): void {
-    // if (this.subscription) {
-    //   this.subscription.unsubscribe();
-    // }
     this.map.removeLayer('points');
     this.map.removeLayer('places');
     this.map.removeSource('pins');
