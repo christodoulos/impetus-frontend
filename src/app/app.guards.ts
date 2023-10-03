@@ -40,7 +40,7 @@ export class AuthGuard implements CanActivate {
         if (!loggedIn) {
           // Display your message here
           this.modalsService.showNotLoggedIn();
-          this.router.navigate(['/']);
+          this.router.navigate(['']);
           return false;
         }
         return true;

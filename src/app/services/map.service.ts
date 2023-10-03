@@ -49,6 +49,8 @@ export class MapService {
   map!: Map;
   tb: any;
 
+  mapLoaded = false;
+
   customLayers: { [id: string]: CustomLayerInterface } = {};
   threeDModels: { [id: string]: any } = {};
 

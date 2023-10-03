@@ -81,7 +81,7 @@ export class AthensPlantNurseryComponent
     // this.map.removeLayer(this.tankLayer.id);
     if (this.legend) this.map.removeControl(this.legend);
     this.map.removeLayer('layer-with-image');
-    // this.map.removeImage('apn');
+    this.map.removeImage('apn');
     this.map.removeSource('layer-with-image');
   }
 }

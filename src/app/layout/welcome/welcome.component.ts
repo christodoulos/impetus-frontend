@@ -182,7 +182,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.mapPlacesService.flyTo('attica');
 
-    // this.showPins();
+    if (this.mapService.mapLoaded) this.showPins();
     this.map.on('mouseenter', 'places', (e: any) => {
       // Change the cursor style as a UI indicator.
       this.map.getCanvas().style.cursor = 'pointer';
@@ -215,14 +215,15 @@ export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.map.on('load', () => {
+      this.mapService.mapLoaded = true;
       this.showPins();
     });
   }
 
   ngOnDestroy(): void {
-    this.map.removeLayer('points');
-    this.map.removeLayer('places');
-    this.map.removeSource('pins');
+    if (this.map.getLayer('points')) this.map.removeLayer('points');
+    if (this.map.getLayer('places')) this.map.removeLayer('places');
+    if (this.map.getSource('pins')) this.map.removeSource('pins');
     // TODO: Remove event listeners like dblclick with a NAMED function.
     this.map.off('mouseenter', 'places', () => {});
     this.map.off('mouseleave', 'places', () => {});
