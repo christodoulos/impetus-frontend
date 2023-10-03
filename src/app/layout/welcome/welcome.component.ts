@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GeometryType } from 'src/app/interfaces/geojson';
 import { AnySourceData, Popup } from 'mapbox-gl';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss'],
 })
-export class WelcomeComponent implements OnInit, OnDestroy {
+export class WelcomeComponent implements OnInit, AfterViewInit, OnDestroy {
   map = this.mapService.map;
   potentialRoute = '';
   pins = {
@@ -182,7 +182,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mapPlacesService.flyTo('attica');
 
-    this.showPins();
+    // this.showPins();
     this.map.on('mouseenter', 'places', (e: any) => {
       // Change the cursor style as a UI indicator.
       this.map.getCanvas().style.cursor = 'pointer';
@@ -211,6 +211,12 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     });
 
     this.map.on('dblclick', this.ondblclick);
+  }
+
+  ngAfterViewInit(): void {
+    this.map.on('load', () => {
+      this.showPins();
+    });
   }
 
   ngOnDestroy(): void {

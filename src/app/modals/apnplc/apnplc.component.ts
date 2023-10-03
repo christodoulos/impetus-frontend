@@ -4,6 +4,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataTablesModule } from 'angular-datatables';
 
 import * as moment from 'moment';
+import { Store } from '@ngrx/store';
+import { AppState, loggedIn } from 'src/app/state';
 
 function formatDecimal(data: number, type: any, row: any) {
   return data.toFixed(2);
@@ -162,5 +164,7 @@ export class ApnplcModalComponent {
     ],
     responsive: true,
   };
-  constructor(public modal: NgbActiveModal) {}
+
+  loggedIn$ = this.store.select(loggedIn);
+  constructor(public modal: NgbActiveModal, private store: Store<AppState>) {}
 }

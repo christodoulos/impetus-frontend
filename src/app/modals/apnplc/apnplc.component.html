@@ -42,11 +42,20 @@
 
   <h5>Latest PLC metrics</h5>
 
-  <div class="table-responsive">
+  <div class="table-responsive" *ngIf="!(loggedIn$ | async)">
     <table
       datatable
       [dtOptions]="dtOptions"
       class="table dt-responsive nowrap w-100 fs-6"
     ></table>
   </div>
+
+  <p *ngIf="loggedIn$ | async">
+    <em>
+      <strong
+        >Your account is not authorized to access the latest PLC
+        metrics.</strong
+      >
+    </em>
+  </p>
 </div>

@@ -35,11 +35,20 @@ export class MapPlacesService {
           bearing: 0,
         };
       case 'athens-plant-nursery':
+        // return {
+        //   center: [23.783535537759576, 37.986796706691095] as LngLatLike,
+        //   zoom: 17,
+        //   bearing: 122.61132170386838,
+        //   pitch: 81.0008753894744,
+        // };
         return {
-          center: [23.783535537759576, 37.986796706691095] as LngLatLike,
-          zoom: 17,
-          bearing: 122.61132170386838,
+          center: {
+            lng: 23.783465732874987,
+            lat: 37.987325140560074,
+          },
+          zoom: 17.142665187929293,
           pitch: 81.0008753894744,
+          bearing: 122.61132170386838,
         };
       case 'hellinikon-flood':
         return {
